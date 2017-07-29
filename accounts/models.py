@@ -15,6 +15,6 @@ class accountsin(models.Model):
 	#remark=models.CharField(max_length=200)
 	#staff=models.CharField(max_length=50)
 	def __str__(self):
-		return 'reciept : %s service  fees: %s' %(self.reciept, self.service_fees)
+		return self.reciept +  ' ' + str(self.service_fees)
 
  

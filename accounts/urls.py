@@ -2,5 +2,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-	url(r'^$', views.index, name='index')
+	#/accounts/
+	url(r'^$', views.index, name='index'),
+	#/accounts/1
+	url(r'^(?P<reciept_id>[0-9]+)/$', views.detail, name='detail'),
 ] 

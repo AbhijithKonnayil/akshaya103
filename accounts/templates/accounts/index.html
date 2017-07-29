@@ -1,0 +1,11 @@
+<ul/>
+	
+	{% for reciept in allReciept %}
+	<li>
+		<h3>
+			<a href="/accounts/{{reciept.id}}/" >{{reciept.reciept}}</a>
+		</h3>
+	</li>
+	
+	{% endfor %}
+</ul>
