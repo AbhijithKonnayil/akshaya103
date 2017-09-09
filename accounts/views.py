@@ -1,13 +1,13 @@
 from django.shortcuts import render
-from accounts.models import accountsIn
-from django.http import Http404, HttpResponse
+from accounts.models import accountsIn, recieptDetails
+from django.http import Http404, HttpResponseRedirect
 from .forms import accountsInForm
 # Create your views here.
 
 def index(request):
 	html = ''
 	allReciept=accountsIn.objects.all()
-	context = {		'allReciept': allReciept,		}
+	context = {'allReciept': allReciept,}
 	
 	return render(request, 'accounts/index.html',context)
 
@@ -19,6 +19,8 @@ def detail(request, reciept_id):
 	return render(request, 'accounts/details.html',{'accountsIn':reciept.id})
 
 def accountsEntry(request):
+	allReciept = accountsIn.objects.all()
+	reciept = recieptDetails.objects.all()
 	if request.method =='POST':
 		form = accountsInForm(request.POST)
 		if form.is_valid():
@@ -34,9 +36,9 @@ def accountsEntry(request):
 			data.total_fees = data.payment_fees+data.service_fees
 			data.remark = form.cleaned_data['remark']
 			data.save()
-			return HttpResponse('thanks')
+			return HttpResponseRedirect('entry')
 
 	else:
 		form = accountsInForm()
-		return render(request, 'accounts/accountsEntry.html', {'form':form})
+	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept})
 

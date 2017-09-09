@@ -1,9 +1,12 @@
 from django import forms
+from accounts.models import recieptDetails
 
-reciept_types = (
-	('aadhar','Aadhar'),
-	('egrats','E Grants')
-	)
+#set the choices (select options) of the reciept
+reciept_types=()
+choice = recieptDetails.objects.all()
+for a in choice:
+	d=(str(a.reciept_title),str(a.reciept_title))
+	reciept_types=reciept_types+(d,)
 
 class accountsInForm(forms.Form):
 	reciept=forms.CharField(max_length=100, widget=forms.Select(choices=reciept_types))
@@ -15,4 +18,3 @@ class accountsInForm(forms.Form):
 	password=forms.CharField(max_length=50)
 	contact_no=forms.CharField(max_length=10)
 	remark=forms.CharField(max_length=200)
-	

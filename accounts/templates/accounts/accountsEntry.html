@@ -1,8 +1,69 @@
-Accounts Entry Form
+Accounts Entry Form<br>
+<table border =1>
+<tr>
+<td>Date</td>
+<td>Time</td>
+<td>Reciept</td>
+<td>Bank Account</td>
+<td>Payment Fees</td>
+<td>Service Fees</td>
+<td>Customer Name</td>
+<td>Username</td>
+<td>Password</td>
+<td>Contact No</td>
+<td>Total Fees</td>
+<td>Remark</td>
+<td>Staff</td>
+</tr>
+{% for reciept in allReciept %}
+<tr>
+<td>{{reciept.date}}</td>
+<td>{{reciept.time}}</td>
+<td>{{reciept.reciept}}</td>
+<td>{{reciept.bank_acc}}</td>
+<td>{{reciept.payment_fees}}</td>
+<td>{{reciept.service_fees}}</td>
+<td>{{reciept.customer_name}}</td>
+<td>{{reciept.username}}</td>
+<td>{{reciept.password}}</td>
+<td>{{reciept.contact_no}}</td>
+<td>{{reciept.total_fees}}</td>
+<td>{{reciept.remark}}</td>
+<td>{{reciept.staff}}</td>
+</tr>
+
+{% endfor %}
+</table>
+
 <form action='' method='post'>
 {% csrf_token %}
-{{form.as_p}}
+{{form.reciept.label_tag}}
+{{form.reciept}}
+<br>
+{{form.bank_acc.label_tag}}
+{{form.bank_acc}}
+<br>
+{{form.payment_fees.label_tag}}
+{{form.payment_fees}}
+<br>
+{{form.service_fees.label_tag}}
+<!--{{form.service}}-->
+<input type="number" name="service_fees" step="any" required id="id_service_fees" />
+<br>
+{{form.customer_name.label_tag}}
+{{form.customer_name}}
+<br>
+{{form.username.label_tag}}
+{{form.username}}
+<br>
+{{form.password.label_tag}}
+{{form.password}}
+<br>
+{{form.contact_no.label_tag}}
+{{form.contact_no}}
+<br>
+{{form.remark.label_tag}}
+{{form.remark}}
+<br>
 <input type="submit">
 </form>
-
-Total = {}

@@ -21,9 +21,11 @@ class accountsIn(models.Model):
 		return self.reciept +  ' ' + str(self.service_fees)
 
 class recieptDetails(models.Model):
-		reciept_title = models.CharField(max_length=50)
-		def __str__(self):
-			return self.reciept_title
+	reciept_title = models.CharField(max_length=50)
+	ass_bank_acc = models.CharField(max_length=50, null=True)
+	service_fees = models.FloatField(max_length=10, null=True)
+	def __str__(self):
+		return self.reciept_title
 
 
 class accountsInForm(ModelForm):
