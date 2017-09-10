@@ -1,4 +1,41 @@
-Accounts Entry Form<br>
+<head>
+<script type="text/javascript">
+function myFunction() 
+{
+    var x = document.getElementById('{{form.reciept.id_for_label}}').value;
+    var y = ""
+    var js_reciept_title = [""];
+    var js_reciept_service_fees = [""];
+    var js_reciept_ass_bank_acc = [""];
+   
+
+    
+    {% for r in recieptDetails %}
+
+    js_reciept_title.push('{{r.reciept_title}}');
+    js_reciept_service_fees.push({{r.service_fees}});
+    js_reciept_ass_bank_acc.push('{{r.ass_bank_acc}}');
+   
+ 	{% endfor %} 
+    var i;
+    for(i=1;i<=js_reciept_title.length;i++)
+    {	
+    	if(x==js_reciept_title[i])
+    	{
+    	document.getElementById('{{form.service_fees.id_for_label}}').value = js_reciept_service_fees[i];	
+    	document.getElementById('{{form.bank_acc.id_for_label}}').value = js_reciept_ass_bank_acc[i];	
+    	}
+    }
+
+
+
+}
+
+</script>
+</head>
+Accounts Entry Form
+<br>
+
 <table border =1>
 <tr>
 <td>Date</td>
@@ -31,7 +68,17 @@ Accounts Entry Form<br>
 <td>{{reciept.remark}}</td>
 <td>{{reciept.staff}}</td>
 </tr>
-
+{% endfor %}
+</table>
+<br>
+<table border =1> 
+{% for q in recieptDetails %}
+<tr>
+<td>{{q.id}}</td>
+<td>{{q.reciept_title}}</td>
+<td>{{q.service_fees}}</td>
+<td>{{q.ass_bank_acc}}</td>
+</tr>
 {% endfor %}
 </table>
 
@@ -67,3 +114,4 @@ Accounts Entry Form<br>
 <br>
 <input type="submit">
 </form>
+

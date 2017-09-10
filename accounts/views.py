@@ -39,6 +39,6 @@ def accountsEntry(request):
 			return HttpResponseRedirect('entry')
 
 	else:
-		form = accountsInForm()
-	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept})
+		form = accountsInForm(initial={'reciept':('Others','Others')})
+	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept,})
 

@@ -9,7 +9,7 @@ for a in choice:
 	reciept_types=reciept_types+(d,)
 
 class accountsInForm(forms.Form):
-	reciept=forms.CharField(max_length=100, widget=forms.Select(choices=reciept_types))
+	reciept=forms.ChoiceField(reciept_types, widget = forms.Select(attrs = {'onchange' : "myFunction();",}))
 	bank_acc=forms.CharField(max_length=50)
 	payment_fees=forms.FloatField()
 	service_fees=forms.FloatField()

@@ -25,7 +25,7 @@ class recieptDetails(models.Model):
 	ass_bank_acc = models.CharField(max_length=50, null=True)
 	service_fees = models.FloatField(max_length=10, null=True)
 	def __str__(self):
-		return self.reciept_title
+		return self.reciept_title 
 
 
 class accountsInForm(ModelForm):
