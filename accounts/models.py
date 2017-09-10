@@ -15,22 +15,41 @@ class accountsIn(models.Model):
 	password=models.CharField(max_length=50, blank=True)
 	contact_no=models.CharField(max_length=10, blank=False, null=True)
 	total_fees=models.FloatField()
-	remark=models.CharField(max_length=200)
+	remark=models.CharField(max_length=200,blank=True)
 	staff=models.CharField(max_length=50)
 	def __str__(self):
 		return self.reciept +  ' ' + str(self.service_fees)
 
 class recieptDetails(models.Model):
 	reciept_title = models.CharField(max_length=50)
-	ass_bank_acc = models.CharField(max_length=50, null=True)
-	service_fees = models.FloatField(max_length=10, null=True)
+	ass_bank_acc = models.CharField(max_length=50, null=True,blank=True)
+	service_fees = models.FloatField(max_length=10, null=True,blank=True)
 	def __str__(self):
 		return self.reciept_title 
 
+class bankAccountDetails(models.Model):
+	bank_name = models.CharField(max_length=50,)
+	bank_branch = models.CharField(max_length=50,)
+	bank_acc_no = models.CharField(max_length=15,)
+	acc_holder = models.CharField(max_length=50,)
+	acc_holder_contactno = models.CharField(max_length=10,)
+	balance = models.FloatField()
+	def __str__(self):
+		return self.bank_name
+
+## << MODEL FORMS >>##
 
 class accountsInForm(ModelForm):
 	class Meta:
 		model = accountsIn
 		fields = ('reciept','bank_acc','payment_fees','service_fees','customer_name','username','password','contact_no','total_fees','remark')
 
-	
+class recieptDetailsForm(ModelForm):
+	class Meta:
+		model = recieptDetails
+		fields = ('reciept_title','ass_bank_acc','service_fees')
+
+class bankAccountDetailsForm(ModelForm):
+	class Meta:
+		model = bankAccountDetails
+		fields = ('bank_name','bank_branch','bank_acc_no','acc_holder','acc_holder_contactno','balance')

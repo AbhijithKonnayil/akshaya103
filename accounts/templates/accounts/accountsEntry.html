@@ -26,10 +26,15 @@ function myFunction()
     	document.getElementById('{{form.bank_acc.id_for_label}}').value = js_reciept_ass_bank_acc[i];	
     	}
     }
-
-
-
 }
+
+function findTotal()
+	{
+	
+	var x = parseFloat(document.getElementById('{{form.payment_fees.id_for_label}}').value);	
+	var y = parseFloat(document.getElementById('{{form.service_fees.id_for_label}}').value);	
+	document.getElementById('form_total').innerHTML = "Total Amount Rs " + (x+y) ;	
+	}
 
 </script>
 </head>
@@ -94,8 +99,7 @@ Accounts Entry Form
 {{form.payment_fees}}
 <br>
 {{form.service_fees.label_tag}}
-<!--{{form.service}}-->
-<input type="number" name="service_fees" step="any" required id="id_service_fees" />
+{{form.service_fees}}
 <br>
 {{form.customer_name.label_tag}}
 {{form.customer_name}}
@@ -108,6 +112,11 @@ Accounts Entry Form
 <br>
 {{form.contact_no.label_tag}}
 {{form.contact_no}}
+<br>
+
+<p id='form_total'>
+Total Amount Rs 0.00
+</p>
 <br>
 {{form.remark.label_tag}}
 {{form.remark}}

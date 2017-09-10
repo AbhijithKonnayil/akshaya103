@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from accounts.models import accountsIn, recieptDetails
+from accounts.models import accountsIn, recieptDetails, bankAccountDetails
 from django.http import Http404, HttpResponseRedirect
-from .forms import accountsInForm
+from .forms import accountsInForm, recieptDetailsForm, bankAccountDetailsForm
 # Create your views here.
 
 def index(request):
@@ -18,7 +18,7 @@ def detail(request, reciept_id):
 		raise Http404("Reciept does not exist")
 	return render(request, 'accounts/details.html',{'accountsIn':reciept.id})
 
-def accountsEntry(request):
+def accountsInEntry(request):
 	allReciept = accountsIn.objects.all()
 	reciept = recieptDetails.objects.all()
 	if request.method =='POST':
@@ -42,3 +42,33 @@ def accountsEntry(request):
 		form = accountsInForm(initial={'reciept':('Others','Others')})
 	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept,})
 
+def recieptDetailsEntry(request):
+	if request.method == 'POST':
+		form = recieptDetailsForm(request.POST)
+		if form.is_valid():
+			data = recieptDetails()
+			data.reciept_title = form.cleaned_data['reciept_title']
+			data.service_fees = form.cleaned_data['service_fees']
+			data.ass_bank_acc = form.cleaned_data['ass_bank_acc']
+			data.save()
+			return HttpResponseRedirect('entry')
+	else:
+		form = recieptDetailsForm()
+	return render(request,'accounts/recieptDetailsEntry.html',{'form':form,})
+
+def bankAccountDetailsEntry(request):
+	if request.method == 'POST':
+		form = bankAccountDetailsForm(request.POST)
+		if form.is_valid():
+			data = bankAccountDetails()
+			data.bank_name = form.cleaned_data['bank_name']
+			data.bank_branch = form.cleaned_data['bank_branch']
+			data.acc_holder = form.cleaned_data['acc_holder']
+			data.bank_acc_no = form.cleaned_data['bank_acc_no']
+			data.acc_holder_contactno = form.cleaned_data['acc_holder_contactno']
+			data.balance = form.cleaned_data['balance']
+			data.save()
+			return HttpResponseRedirect('add')
+	else:
+		form = bankAccountDetailsForm()
+	return render(request,'accounts/bankAccountDetailsEntry.html',{'form':form,})
