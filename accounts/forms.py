@@ -17,10 +17,10 @@ for a in bank_choice:
 
 
 class accountsInForm(forms.Form):
-	reciept=forms.ChoiceField(reciept_types, widget = forms.Select(attrs = {'onchange' : "myFunction();",}))
+	reciept=forms.ChoiceField(reciept_types, widget = forms.Select(attrs = {'onchange' : "myFunction();" "findTotal();",}))
 	bank_acc=forms.ChoiceField(banks,)
-	payment_fees=forms.FloatField()
-	service_fees=forms.FloatField(widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}))
+	payment_fees=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}))
+	service_fees=forms.FloatField(initial=0, widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}))
 	customer_name=forms.CharField(max_length=50)
 	username=forms.CharField(max_length=50)
 	password=forms.CharField(max_length=50)
@@ -30,7 +30,7 @@ class accountsInForm(forms.Form):
 class recieptDetailsForm(forms.Form):
 	reciept_title=forms.CharField(max_length=50)
 	service_fees=forms.FloatField()
-	ass_bank_acc=forms.CharField(max_length=50)
+	ass_bank_acc=forms.ChoiceField(banks, widget = forms.Select())
 
 class bankAccountDetailsForm(forms.Form):
 	bank_name = forms.CharField(max_length=50,)

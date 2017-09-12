@@ -43,6 +43,7 @@ Accounts Entry Form
 
 <table border =1>
 <tr>
+<td>Transation ID</td>
 <td>Date</td>
 <td>Time</td>
 <td>Reciept</td>
@@ -59,6 +60,7 @@ Accounts Entry Form
 </tr>
 {% for reciept in allReciept %}
 <tr>
+<td>{{reciept.id}}</td>
 <td>{{reciept.date}}</td>
 <td>{{reciept.time}}</td>
 <td>{{reciept.reciept}}</td>
