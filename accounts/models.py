@@ -3,6 +3,7 @@ from django.forms import ModelForm
 import datetime
 from django.utils.timezone import now
 
+
 class accountsIn(models.Model):
 	date=models.DateField(default=datetime.date.today)
 	time=models.DateTimeField(auto_now_add=True)
@@ -21,7 +22,8 @@ class accountsIn(models.Model):
 		return self.reciept +  ' ' + str(self.service_fees)
 
 class recieptDetails(models.Model):
-	reciept_title = models.CharField(max_length=50)
+	reciept_title = models.CharField(max_length=50,)
+	ass_bank_acc = models.CharField(max_length=50,)
 	ass_bank_acc = models.CharField(max_length=50, null=True,blank=True)
 	service_fees = models.FloatField(max_length=10, null=True,blank=True)
 	def __str__(self):

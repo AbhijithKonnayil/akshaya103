@@ -11,7 +11,7 @@ urlpatterns = [
 	url(r'^entry$', views.accountsInEntry, name='accountsInEntry'),
 
 	#accounts/recieptDetails/entry
-	url(r'^recieptDetails/entry$', views.recieptDetailsEntry, name='recieptDetailsEntry'),
+	url(r'^recieptDetails/add$', views.recieptDetailsEntry, name='recieptDetailsEntry'),
 
 	#accounts/bankDetails/add
 	url(r'^bankDetails/add$', views.bankAccountDetailsEntry, name='bankAccountDetailsEntry'),

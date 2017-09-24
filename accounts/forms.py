@@ -18,7 +18,7 @@ for a in bank_choice:
 
 class accountsInForm(forms.Form):
 	reciept=forms.ChoiceField(reciept_types, widget = forms.Select(attrs = {'onchange' : "myFunction();" "findTotal();",}))
-	bank_acc=forms.ChoiceField(banks,)
+	bank_acc=forms.ChoiceField(reciept_types,)
 	payment_fees=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}))
 	service_fees=forms.FloatField(initial=0, widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}))
 	customer_name=forms.CharField(max_length=50)
