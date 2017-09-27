@@ -18,13 +18,14 @@ def detail(request, reciept_id):
 		raise Http404("Reciept does not exist")
 	return render(request, 'accounts/details.html',{'accountsIn':reciept.id})
 
-def accountsInEntry(request):
-	allReciept = accountsIn.objects.all()
+def accountsInEntry(request,date):
+	allReciept = accountsIn.objects.all().filter(date=date).order_by('id')
 	reciept = recieptDetails.objects.all()
 	if request.method =='POST':
 		form = accountsInForm(request.POST)
 		if form.is_valid():
 			data = accountsIn()
+			data.date = date
 			data.reciept = form.cleaned_data['reciept']
 			data.bank_acc = form.cleaned_data['bank_acc']
 			data.payment_fees = form.cleaned_data['payment_fees']
@@ -35,8 +36,9 @@ def accountsInEntry(request):
 			data.contact_no = form.cleaned_data['contact_no']
 			data.total_fees = data.payment_fees+data.service_fees
 			data.remark = form.cleaned_data['remark']
+			data.staff = request.user
 			data.save()
-			return HttpResponseRedirect('entry')
+			return HttpResponseRedirect(date)
 
 	else:
 		form = accountsInForm(initial={'reciept':('Others','Others')})

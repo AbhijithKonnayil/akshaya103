@@ -11,4 +11,6 @@ urlpatterns = [
 	url(r'^logout/$',logout, {'template_name':'staffmanagement/logout.html'}),
 	#/staffs
 	url(r'^staffs/$', views.dashboard, name='dashboard'),
+	#/date
+	url(r'^date/$', views.selectDate, name='date'),
 ]

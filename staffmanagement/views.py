@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from staffmanagement.models import staffDetails
 from django.http import Http404, HttpResponseRedirect
-from .forms import staffDetailsForm, staffRegForm
+from .forms import staffDetailsForm, staffRegForm, dateSelectionForm
 from django.contrib.auth.models import User
+import datetime
+from django.utils.timezone import now
 
 # Create your views here.
 def staffManagement(request):
+	allUsers = User.objects.all()
 	if request.method == 'POST':
 		form = staffRegForm(request.POST)
 		if form.is_valid():
@@ -31,9 +34,20 @@ def staffManagement(request):
 		return HttpResponseRedirect('add')
 	else:
 		form = staffRegForm()
-	return render(request,'staffmanagement/staffDetailsEntry.html',{'form':form,})
+	return render(request,'staffmanagement/staffDetailsEntry.html',{'form':form,'allUsers':allUsers})
 
 
 def dashboard(request):
 
 	return render(request,'staffmanagement/dashboard.html')
+
+def selectDate(request):
+	if request.method == 'POST':
+		form = dateSelectionForm(request.POST)
+		if form.is_valid():
+			d=form.cleaned_data['date']
+			return render(request,'staffmanagement/dashboard.html',{'form':form,'date':d})
+	#else:
+	form = dateSelectionForm()
+	return render(request,'staffmanagement/dateselect.html',{'form':form,})
+

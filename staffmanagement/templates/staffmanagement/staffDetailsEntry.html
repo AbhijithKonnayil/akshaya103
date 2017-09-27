@@ -1,5 +1,35 @@
+Staff Management
+<br>
 <form action='' method ="POST">
 {% csrf_token %}
 {{form.as_p}}
 <input type='submit'>
 </form>
+<table border=1>
+<tr>
+<td>Si No</td>
+<td>User ID</td>
+<td>First Name</td>
+<td>Second Name</td>
+<td>Username</td>
+<td>Email</td>
+<td>Designation</td>
+<td></td>
+</tr>
+{% for user in allUsers %}
+<tr>
+<td>{{forloop.counter}}</td>
+<td>{{user.id}}</td>
+<td>{{user.first_name}}</td>
+<td>{{user.last_name}}</td>
+<td>{{user.username}}</td>
+<td>{{user.email}}</td>
+{% if user.is_superuser %}
+	<td>Admin</td>
+{% else %}
+	<td>Staff</td>
+{% endif %}
+<td>edit</td>
+</tr>
+{% endfor %}
+</table>

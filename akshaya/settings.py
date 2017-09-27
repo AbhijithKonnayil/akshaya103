@@ -122,4 +122,4 @@ DATE_INOUT_FORMATS = ('%d-%m-%Y')
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL="/staffmanagement/staffs"
+LOGIN_REDIRECT_URL="/staffmanagement/date"

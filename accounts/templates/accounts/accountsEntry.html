@@ -38,11 +38,13 @@ function findTotal()
 
 </script>
 </head>
+<a href="/staffmanagement/logout">Logout</a>
 Accounts Entry Form
 <br>
 
 <table border =1>
 <tr>
+<td>Si No</td>
 <td>Transation ID</td>
 <td>Date</td>
 <td>Time</td>
@@ -58,8 +60,9 @@ Accounts Entry Form
 <td>Remark</td>
 <td>Staff</td>
 </tr>
-{% for reciept in allReciept %}
+{% for reciept in allReciept.reverse %}
 <tr>
+<td>{{forloop.revcounter}}</td>
 <td>{{reciept.id}}</td>
 <td>{{reciept.date}}</td>
 <td>{{reciept.time}}</td>
