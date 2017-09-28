@@ -42,7 +42,7 @@ def accountsInEntry(request,date):
 
 	else:
 		form = accountsInForm(initial={'reciept':('Others','Others')})
-	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept,})
+	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept,'date':date})
 
 def recieptDetailsEntry(request):
 	if request.method == 'POST':
@@ -74,3 +74,17 @@ def bankAccountDetailsEntry(request):
 	else:
 		form = bankAccountDetailsForm()
 	return render(request,'accounts/bankAccountDetailsEntry.html',{'form':form,})
+
+def closeAccounts(request,date):
+	accounts = accountsIn.objects.all().filter(date=date)
+	reciepts = recieptDetails.objects.all()
+	individual_sum = 0
+	all_staff_sum = 0
+	for account in accounts:
+		all_staff_sum+=account.total_fees
+		if account.staff == request.user.username:
+
+			individual_sum+=account.total_fees
+
+	context={'total_fees':all_staff_sum,'individual_sum': individual_sum,'date': date,}
+	return render(request,'accounts/closeaccounts.html',context)	

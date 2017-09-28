@@ -19,7 +19,7 @@ admin
 {% elif user.is_staff %}
 staff
 <br>
-<a href="/accounts/entry"> Accounts </a>
+<a href="/accounts/entry/{{date|date:"Y-m-d"}}"> Accounts </a>
 
 {% endif %}
 <br>

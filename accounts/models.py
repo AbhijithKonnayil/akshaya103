@@ -21,6 +21,17 @@ class accountsIn(models.Model):
 	def __str__(self):
 		return self.reciept +  ' ' + str(self.service_fees)
 
+class accountsOut(models.Model):
+	date=models.DateField(default=datetime.date.today)
+	time=models.DateTimeField(auto_now_add=True)
+	reciept=models.CharField(max_length=100)
+	bank_acc=models.CharField(max_length=50,blank=True)
+	charge=models.FloatField(blank=False)
+	remark=models.CharField(max_length=200,blank=True)
+	staff=models.CharField(max_length=50)
+	def __str__(self):
+		return self.reciept +  ' ' + str(self.charge)	
+
 class recieptDetails(models.Model):
 	reciept_title = models.CharField(max_length=50,)
 	ass_bank_acc = models.CharField(max_length=50,)
