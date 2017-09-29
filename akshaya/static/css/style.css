@@ -31,6 +31,7 @@
 	text-align: center;
 	height : 400px;
 	color: ffffff;
+	margin-top: 200px;
 }
 #footer
 {
@@ -69,6 +70,25 @@
 	color: #ffffff;
 	text-decoration: none;
 }
+
+.dashboard
+{
+	background-color: #ffffff;
+	height: 150px;
+	text-align: center;
+	color:#ffffff;
+	margin-left: 0	px;
+	padding-bottom: 1px;
+	padding-top: 120px;
+}
+
+
+.dashboard-item:hover a
+{
+	background-color: fff000;
+	height:500px;
+}
+
 body
 {
 	background-image: url("../img/bg.jpg");

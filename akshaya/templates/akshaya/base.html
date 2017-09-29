@@ -20,68 +20,26 @@
 		{% if user.is_authenticated %}
 
 <!-- Displays the menu items for the admin -->
-			{% if user.is_superuser %}	
-				
-				<div id="company_name"  class="col-sm-4">
+					
+				<div id="company_name"  class="col-sm-8">
 					<br>
 					<h1>Akshaya KL103</h1>
 					<h4>Database Management System</h4>
 				</div>
 				
 				<div class="col-sm-1  menu-item">
-					<a href="/accounts/entry/{{date|date:"Y-m-d"}}">Income Accounts</a>
+					<a href="/staffmanagement/staffs/{{date}}">Dashboard</a>
 				</div>
 
 				<div class="col-sm-1  menu-item">
-					<a href="/accounts/outentry/{{date|date:"Y-m-d"}}">Expense Accounts</a>
-				</div>
-
-				<div class="col-sm-1  menu-item">
-					<a href="/staffmanagement/staffs/add">Staff Management</a>
-				</div>
-
-				<div class="col-sm-1  menu-item">
-					<a href="/accounts/bankDetails/add">Bank Accounts</a>
-				</div>
-				
-				<div class="col-sm-1  menu-item">
-					<a href="/accounts/recieptDetails/add">Receipts</a>
-				</div>
-				
-
-				<div class="col-sm-1  menu-item">
-					<a href="/admin">Admin Panel</a>
+					<a href="/admin" target="blank">Admin Panel</a>
 				</div>
 
 				<div class="col-sm-1 menu-item">
 					<a href="/staffmanagement/logout">Logout</a>
 				</div>
 
-<!-- display the menu items for staff -->
-			{% elif user.is_staff %}
-				<div id="company_name"  class="col-sm-7">
-					<br>
-					<h1>Akshaya KL103</h1>
-					<h4>Database Management System</h4>
-				</div>
-				
-				<div class="col-sm-1  menu-item">
-					<a href="/accounts/entry/{{date|date:"Y-m-d"}}">Income Accounts</a>
-				</div>
-
-				<div class="col-sm-1  menu-item">
-					<a href="/accounts/outentry/{{date|date:"Y-m-d"}}">Expense Accounts</a>
-				</div>
-
-				<div class="col-sm-1  menu-item">
-					<a href="/admin">Admin Panel</a>
-				</div>
-
-				<div class="col-sm-1 menu-item">
-					<a href="/staffmanagement/logout">Logout</a>
-				</div>
-			{% endif %}
-
+		
 <!-- if staff is not logged in (no menu items)-->
 		{% else %}
 		
@@ -90,16 +48,22 @@
 			<h1>Akshaya KL103</h1>
 			<h4>Database Management System</h4>
 		</div>
+
 <!-- end of if in menu item -->		
 		{% endif %}
-
 
 	</div>
 	</center>
 	</nav>
-	
-	{% block body %}
-	{% endblock%}
+	{% if user.is_authenticated %}
+
+		{% block body %}
+		{% endblock %}
+	{% else %}
+		{% block login %}
+
+		{% endblock %}
+	{% endif %}
 
 
 	<!--Footer Section -->
