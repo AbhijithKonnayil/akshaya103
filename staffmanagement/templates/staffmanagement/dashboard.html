@@ -1,27 +1,39 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
 DASH BOARD
 
 <p>
 Hello !
 {{user.username}}
 <br>
+<p>{{date}}</p>
 {% if user.is_superuser %}
 admin
 <br>
-<p>{{date}}</p>
-<a href="/accounts/entry/{{date|date:"Y-m-d"}}"> Accounts </a>
-<br>
-<a href="/accounts/bankDetails/add">Bank Details </a>
-<br>
-<a href="/accounts/recieptDetails/add">Reciept Details </a>
-<br>
-<a href="/staffmanagement/staffs/add">Staff Management </a>
 
+<div class="col-sm-1 dashboard">
+					<a href="/accounts/entry/{{date}}">{{date}}Income Accounts</a>
+</div>
+
+<div class=" col-sm-1 dashboard-item" >
+<a href="/accounts/outentry/{{date}}">Expendeture Accounts </a>
+</div></p>
+<div class="col-sm-1 dashboard-item" >
+<a href="/accounts/bankDetails/add">Bank Details </a>
+</div>
+<div class="col-sm-1 dashboard-item" >
+<a href="/accounts/recieptDetails/add">Reciept Details </a>
+</div>
+<div class="col-sm-1 dashboard-item" >
+<a href="/staffmanagement/staffs/add">Staff Management </a>
+</div>
 {% elif user.is_staff %}
 staff
-<br>
+<div class="col-sm-1 dashboard-item" >
 <a href="/accounts/entry/{{date|date:"Y-m-d"}}"> Accounts </a>
-
+</div>
 {% endif %}
-<br>
-<a href="/staffmanagement/logout">Logout</a>
-</p>
+
+{% endblock %}

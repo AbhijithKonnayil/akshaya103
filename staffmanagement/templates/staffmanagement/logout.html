@@ -1,3 +1,9 @@
-logout !!
+{% extends 'base.html' %}
+{% block head %}
+<meta http-equiv="refresh" content="3; URL='/staffmanagement/login'">
+{% endblock %}
 
-<a href="/staffmanagement/login">Login</a>
+{% block login %}
+You have logout !<br>
+<a href="staffmanagement/login">LOGIN </a>
+{% endblock%}

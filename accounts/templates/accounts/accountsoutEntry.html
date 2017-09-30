@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script type="text/javascript">
+
+function findTotal()
+	{
+	
+	var x = parseFloat(document.getElementById('{{form.charge.id_for_label}}').value);	
+	document.getElementById('form_total').innerHTML = "Total Amount Rs " + (x) ;	
+	}
+
+</script>
+{%endblock %}
+
+
+
+{% block body %}
+
+Accounts Entry Form
+<br>
+<table border =1>
+<tr>
+<td>Si No</td>
+<td>Transation ID</td>
+<td>Date</td>
+<td>Time</td>
+<td>Reciept</td>
+<td>Bank Account</td>
+<td>Charge</td>
+<td>Remark</td>
+<td>Staff</td>
+</tr>
+{% for reciept in allReciept.reverse %}
+<tr>
+<td>{{forloop.revcounter}}</td>
+<td>{{reciept.id}}</td>
+<td>{{reciept.date}}</td>
+<td>{{reciept.time}}</td>
+<td>{{reciept.reciept}}</td>
+<td>{{reciept.bank_acc}}</td>
+<td>{{reciept.charge}}</td>
+<td>{{reciept.remark}}</td>
+<td>{{reciept.staff}}</td>
+</tr>
+{% endfor %}
+</table>
+<br>
+<table border =1> 
+{% for q in recieptDetails %}
+<tr>
+<td>{{q.id}}</td>
+<td>{{q.reciept_title}}</td>
+<td>{{q.service_fees}}</td>
+<td>{{q.ass_bank_acc}}</td>
+</tr>
+{% endfor %}
+</table>
+
+<form action='' method='post'>
+{% csrf_token %}
+{{form.reciept.label_tag}}
+{{form.reciept}}
+<br>
+{{form.bank_acc.label_tag}}
+{{form.bank_acc}}
+<br>
+{{form.charge.label_tag}}
+{{form.charge}}
+<br>
+
+<p id='form_total'>
+Total Amount Rs 0.00
+</p>
+<br>
+{{form.remark.label_tag}}
+{{form.remark}}
+<br>
+<input type="submit">
+<a href="/accounts/close/{{date}}">Close Accounts</a>
+</form>
+
+{% endblock %}

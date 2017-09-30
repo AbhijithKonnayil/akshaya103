@@ -1,0 +1,76 @@
+{{static}}
+#logo
+{
+	background-image: url("../img/logo.png");
+	background-color: #ffffff;
+	background-size:contain;
+	width: 150px;
+	height:150px;
+}
+
+#company_name
+{	
+	background-color: #ffffff;
+	position: relative;
+	color: #0000ff;
+	text-align: left;
+	height: 150px;
+}
+#body-container
+{
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+#login-box
+{
+	vertical-align: middle;
+	width: 350px;
+	background-color: rgba(255,255,255,0.1);
+	text-align: center;
+	height : 400px;
+	color: ffffff;
+}
+#footer
+{
+	position: absolute;
+	bottom: 0;
+	background-color: #cccccc;
+	height: 150;
+	text-align: center;
+	padding-top: 20px;
+	vertical-align: baseline;
+}
+
+.menu-item
+{
+	background-color: #ffffff;
+	height: 150px;
+	text-align: center;
+	color:#ffffff;
+	margin-left: 0	px;
+	padding-bottom: 1px;
+	padding-top: 120px;
+}
+.menu-item: a
+{
+	text-decoration: none;
+	color: #0000ff;
+	display: block;
+}
+.menu-item:hover
+{
+	background-color: #0000ff;
+
+}
+.menu-item:hover a
+{
+	color: #ffffff;
+	text-decoration: none;
+}
+body
+{
+	background-image: url("../img/bg.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}

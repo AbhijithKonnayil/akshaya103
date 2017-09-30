@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block body %}
 Staff Management
 <br>
 <form action='' method ="POST">
@@ -26,10 +29,13 @@ Staff Management
 <td>{{user.email}}</td>
 {% if user.is_superuser %}
 	<td>Admin</td>
-{% else %}
+{% elif user.is_staff %}
 	<td>Staff</td>
+{% else %}
+	<td></td>
 {% endif %}
 <td>edit</td>
 </tr>
 {% endfor %}
 </table>
+{% endblock %}

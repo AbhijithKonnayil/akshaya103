@@ -39,3 +39,9 @@ class bankAccountDetailsForm(forms.Form):
 	acc_holder = forms.CharField(max_length=50,)
 	acc_holder_contactno = forms.CharField(max_length=10,)
 	balance = forms.FloatField()
+
+class accountsOutForm(forms.Form):
+	reciept=forms.CharField(max_length=50)
+	bank_acc=forms.ChoiceField(banks,)
+	charge=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}))
+	remark=forms.CharField(max_length=200)	

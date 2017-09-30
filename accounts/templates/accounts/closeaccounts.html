@@ -1,3 +1,27 @@
-Total Collection of {{date}} is <h1>{{total_fees}}</h1>
+{% extends 'base.html' %}
+{% block head %}
+<script type="text/javascript">
+	var allstaffNet = {{all_staff_accountsin_sum}} - {{all_staff_accountsout_sum}}
+	var individualstaffNet = {{individual_accountsin_sum}} - {{individual_accountsout_sum}}
+</script>
+{% endblock %}
+
+{% block body %}
 <br>
-Amount Collected by {{user.first_name}} : {{individual_sum}}
+Total Collection of {{date}} is <h1>{{all_staff_accountsin_sum}}</h1>
+Total Expendeture of {{date}} is <h1>{{all_staff_accountsout_sum}}</h1>
+
+Net Collection is 	<h1>
+						<script type="text/javascript">
+							document.write(allstaffNet);
+						</script>
+					</h1>
+<br>
+Amount Collected by {{user.first_name}} : <h3>{{individual_accountsin_sum}}</h3>
+Amount Spend by {{user.first_name}} : <h3>{{individual_accountsout_sum}}</h3>
+Net Collection by {{user.first_name}} is 	<h3>
+												<script type="text/javascript">
+													document.write(individualstaffNet);
+												</script>
+											</h3>
+{% endblock %}

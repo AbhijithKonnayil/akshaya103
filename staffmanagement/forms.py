@@ -20,6 +20,7 @@ class staffRegForm(forms.Form):
 	mob = forms.CharField(max_length=10)
 	address = forms.CharField(max_length=100)
 
+DATE_INPUT_FORMATS = ('%Y-%m-%d')
 class dateSelectionForm(forms.Form):
-	date = forms.DateField(widget=forms.SelectDateWidget(),initial=datetime.date.today)
+	date = forms.DateField(widget=forms.SelectDateWidget(),initial=datetime.date.today,)
 	

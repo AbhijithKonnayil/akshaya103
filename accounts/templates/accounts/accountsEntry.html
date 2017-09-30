@@ -1,4 +1,5 @@
-<head>
+{% extends 'base.html' %}
+{% block head %}
 <script type="text/javascript">
 function myFunction() 
 {
@@ -37,7 +38,9 @@ function findTotal()
 	}
 
 </script>
-</head>
+{% endblock %}
+
+{% block body %}
 <a href="/staffmanagement/logout">Logout</a>
 Accounts Entry Form
 <br>
@@ -130,3 +133,4 @@ Total Amount Rs 0.00
 <a href="/accounts/close/{{date}}">Close Accounts</a>
 </form>
 
+{% endblock %}

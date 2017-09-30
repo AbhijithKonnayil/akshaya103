@@ -56,6 +56,10 @@ class accountsInForm(ModelForm):
 	class Meta:
 		model = accountsIn
 		fields = ('reciept','bank_acc','payment_fees','service_fees','customer_name','username','password','contact_no','total_fees','remark')
+class accountsOutForm(ModelForm):
+	class Meta:
+		model = accountsOut
+		fields = ('reciept','bank_acc','charge','remark')
 
 class recieptDetailsForm(ModelForm):
 	class Meta:

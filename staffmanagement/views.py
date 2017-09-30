@@ -3,7 +3,9 @@ from staffmanagement.models import staffDetails
 from django.http import Http404, HttpResponseRedirect
 from .forms import staffDetailsForm, staffRegForm, dateSelectionForm
 from django.contrib.auth.models import User
-import datetime
+from datetime import datetime
+from django.utils.dateformat import DateFormat
+from django.utils import formats
 from django.utils.timezone import now
 
 # Create your views here.
@@ -23,7 +25,7 @@ def staffManagement(request):
 			if form.cleaned_data['designation'] == 'admin':
 				staff = User.objects.create_superuser(username, email, password)
 			else:
-				staff = User.objects.create_user(username, email, password)
+				staff = User.objects.create_user(username, email, password,is_staff=True)
 			staff.first_name = first_name
 			staff.last_name = last_name
 			staff.save()
@@ -37,9 +39,9 @@ def staffManagement(request):
 	return render(request,'staffmanagement/staffDetailsEntry.html',{'form':form,'allUsers':allUsers})
 
 
-def dashboard(request):
+def dashboard(request,date):
 
-	return render(request,'staffmanagement/dashboard.html')
+	return render(request,'staffmanagement/dashboard.html',{'date':date})
 
 def selectDate(request):
 	if request.method == 'POST':
