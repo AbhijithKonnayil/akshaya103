@@ -9,7 +9,7 @@ from django.utils import formats
 from django.utils.timezone import now
 
 # Create your views here.
-def staffManagement(request):
+def staffManagement(request,date):
 	allUsers = User.objects.all()
 	if request.method == 'POST':
 		form = staffRegForm(request.POST)
@@ -33,10 +33,10 @@ def staffManagement(request):
 			staffD.address = address
 			staffD.mob = mob
 			#staffD.save()
-		return HttpResponseRedirect('add')
+		return HttpResponseRedirect('./')
 	else:
 		form = staffRegForm()
-	return render(request,'staffmanagement/staffDetailsEntry.html',{'form':form,'allUsers':allUsers})
+	return render(request,'staffmanagement/staffDetailsEntry.html',{'form':form,'allUsers':allUsers,'date':date})
 
 
 def dashboard(request,date):
@@ -48,7 +48,8 @@ def selectDate(request):
 		form = dateSelectionForm(request.POST)
 		if form.is_valid():
 			d=form.cleaned_data['date']
-			return render(request,'staffmanagement/dashboard.html',{'form':form,'date':d})
+			da = d.strftime("%Y-%m-%d")
+			return render(request,'staffmanagement/dashboard.html',{'form':form,'date':da})
 	#else:
 	form = dateSelectionForm()
 	return render(request,'staffmanagement/dateselect.html',{'form':form,})

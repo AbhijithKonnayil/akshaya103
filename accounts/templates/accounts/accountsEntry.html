@@ -41,27 +41,80 @@ function findTotal()
 {% endblock %}
 
 {% block body %}
-<a href="/staffmanagement/logout">Logout</a>
 Accounts Entry Form
 <br>
-
-<table border =1>
+<form action='' method='post'>
+    {% csrf_token %}
+    <div class="col-sm-2">
+        {{form.reciept.label_tag}}
+        {{form.reciept}}
+    </div>
+    <div class="col-sm-2">
+        {{form.bank_acc.label_tag}}
+        {{form.bank_acc}}
+    </div>
+    <div class="col-sm-2">
+        {{form.payment_fees.label_tag}}
+        {{form.payment_fees}}
+    </div>
+    <div class="col-sm-2">
+        {{form.service_fees.label_tag}}
+        {{form.service_fees}}
+    </div>
+    <div class="col-sm-2">
+        {{form.customer_name.label_tag}}
+        {{form.customer_name}}
+    </div>
+    <div class="col-sm-2">
+        {{form.username.label_tag}}
+        {{form.username}}
+    </div>
+    <div class="col-sm-2">
+        {{form.password.label_tag}}
+        {{form.password}}
+    </div>
+    <div class="col-sm-2">
+        {{form.contact_no.label_tag}}
+        {{form.contact_no}}
+    </div>
+    <div class="col-sm-2">
+        <p id='form_total'>
+        Total Amount Rs 0.00
+        </p>
+    </div>
+    <div class="col-sm-2">
+        {{form.remark.label_tag}}
+        {{form.remark}}
+    </div>
+    <div class="col-sm-2">
+        <input type="submit">
+    </div>
+    <div class="col-sm-2">
+        <a href="/accounts/close/{{date}}">Close Accounts</a>
+    </div>
+</form>
+{% if allReciept.count > 10 %}
+<div class="data-table overflowy">
+{% else %}
+<div class="data-table">
+{% endif %}
+<table border=1>
 <tr>
-<td>Si No</td>
-<td>Transation ID</td>
-<td>Date</td>
-<td>Time</td>
-<td>Reciept</td>
-<td>Bank Account</td>
-<td>Payment Fees</td>
-<td>Service Fees</td>
-<td>Customer Name</td>
-<td>Username</td>
-<td>Password</td>
-<td>Contact No</td>
-<td>Total Fees</td>
-<td>Remark</td>
-<td>Staff</td>
+<th>Si No</th>
+<th>Transation ID</th>
+<th>Date</th>
+<th>Time</th>
+<th>Reciept</th>
+<th>Bank Account</th>
+<th>Payment Fees</th>
+<th>Service Fees</th>
+<th>Customer Name</th>
+<th>Username</th>
+<th>Password</th>
+<th>Contact No</th>
+<th>Total Fees</th>
+<th>Remark</th>
+<th>Staff</th>
 </tr>
 {% for reciept in allReciept.reverse %}
 <tr>
@@ -81,56 +134,12 @@ Accounts Entry Form
 <td>{{reciept.remark}}</td>
 <td>{{reciept.staff}}</td>
 </tr>
+
 {% endfor %}
 </table>
-<br>
-<table border =1> 
-{% for q in recieptDetails %}
-<tr>
-<td>{{q.id}}</td>
-<td>{{q.reciept_title}}</td>
-<td>{{q.service_fees}}</td>
-<td>{{q.ass_bank_acc}}</td>
-</tr>
-{% endfor %}
-</table>
-
-<form action='' method='post'>
-{% csrf_token %}
-{{form.reciept.label_tag}}
-{{form.reciept}}
-<br>
-{{form.bank_acc.label_tag}}
-{{form.bank_acc}}
-<br>
-{{form.payment_fees.label_tag}}
-{{form.payment_fees}}
-<br>
-{{form.service_fees.label_tag}}
-{{form.service_fees}}
-<br>
-{{form.customer_name.label_tag}}
-{{form.customer_name}}
-<br>
-{{form.username.label_tag}}
-{{form.username}}
-<br>
-{{form.password.label_tag}}
-{{form.password}}
-<br>
-{{form.contact_no.label_tag}}
-{{form.contact_no}}
+</div>
 <br>
 
-<p id='form_total'>
-Total Amount Rs 0.00
-</p>
-<br>
-{{form.remark.label_tag}}
-{{form.remark}}
-<br>
-<input type="submit">
-<a href="/accounts/close/{{date}}">Close Accounts</a>
-</form>
+
 
 {% endblock %}

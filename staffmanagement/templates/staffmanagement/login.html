@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
-{% block login %}
+{% block body %}
+{% if user.is_authenticated %}
+<meta http-equiv="refresh" content="0; URL='/staffmanagement/date'">
+{% else %}
 <center>
 <div id="login-box">
 	<form method='POST'>
@@ -10,4 +13,5 @@
 	</form>
 </div>
 </center>
+{% endif %}
 {% endblock%}

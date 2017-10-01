@@ -1,4 +1,10 @@
 {{static}}
+#header
+{
+	position: absolute;
+	top:0;
+	
+}
 #logo
 {
 	background-image: url("../img/logo.png");
@@ -28,8 +34,19 @@
 	width: 350px;
 	background-color: rgba(255,255,255,0.1);
 	text-align: center;
-	height : 400px;
+	height : 300px;
 	color: ffffff;
+	margin-top: 100px;
+	padding-top: 100px;
+}
+#login-box input
+{
+	background-color: transparent;
+	color: #ffffff;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	border-color: #ffffff;
 }
 #footer
 {
@@ -68,6 +85,51 @@
 	color: #ffffff;
 	text-decoration: none;
 }
+.dashboard-item
+{
+	background-color: #dddddd;
+	height: 150px;
+	width: 200px;
+	margin-left: 5px;
+	margin-top: 50px;
+	float: left;
+}
+.body-content
+{
+	width:100%;
+	margin-top: 150px;
+}
+div.data-table
+{
+	border: 1;
+	background-color: #transparent;
+	height:500px;
+	width: 100%;
+}
+
+.data-table table
+{
+	width:100%;
+	text-align: center;
+}
+.data-table tr
+{
+	height: 30px;
+}
+
+.data-table tr:nth-child(even)
+{
+	background-color: #aaaaaa;
+}
+.data-table tr:nth-child(odd)
+{
+	background-color: #bbbbbb;
+}
+.overflowy
+{
+	overflow-y:scroll;
+}
+
 body
 {
 	background-image: url("../img/bg.jpg");

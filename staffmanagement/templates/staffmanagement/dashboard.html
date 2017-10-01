@@ -4,36 +4,34 @@
 
 DASH BOARD
 
-<p>
-Hello !
-{{user.username}}
-<br>
-<p>{{date}}</p>
 {% if user.is_superuser %}
-admin
-<br>
 
-<div class="col-sm-1 dashboard">
-					<a href="/accounts/entry/{{date}}">{{date}}Income Accounts</a>
+<center>
+<div class="dashboard-item">
+<a href="/accounts/entry/{{date}}">Income Accounts</a>
 </div>
 
-<div class=" col-sm-1 dashboard-item" >
-<a href="/accounts/outentry/{{date}}">Expendeture Accounts </a>
-</div></p>
-<div class="col-sm-1 dashboard-item" >
-<a href="/accounts/bankDetails/add">Bank Details </a>
+<div class="dashboard-item" >	
+<a href="/accounts/outentry/{{date}}">Expense Accounts </a>
 </div>
-<div class="col-sm-1 dashboard-item" >
-<a href="/accounts/recieptDetails/add">Reciept Details </a>
+<div class="dashboard-item" >
+<a href="/accounts/bankDetails/add/{{date}}">Bank Details </a>
 </div>
-<div class="col-sm-1 dashboard-item" >
-<a href="/staffmanagement/staffs/add">Staff Management </a>
+<div class="dashboard-item" >
+<a href="/accounts/recieptDetails/add/{{date}}">Reciept Details </a>
+</div>
+<div class="dashboard-item" >
+<a href="/staffmanagement/staffs/add/{{date}}">Staff Management </a>
 </div>
 {% elif user.is_staff %}
-staff
 <div class="col-sm-1 dashboard-item" >
-<a href="/accounts/entry/{{date|date:"Y-m-d"}}"> Accounts </a>
+<a href="/accounts/entry/{{date}}">Income Accounts </a>
 </div>
+
+<div class="dashboard-item" >	
+<a href="/accounts/outentry/{{date}}">Expense Accounts </a>
+</div>
+</center>
 {% endif %}
 
 {% endblock %}

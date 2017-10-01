@@ -38,14 +38,14 @@ def accountsInEntry(request,date):
 			data.remark = form.cleaned_data['remark']
 			data.staff = request.user
 			data.save()
-			return HttpResponseRedirect(date)
+			return HttpResponseRedirect('./')
 
 	else:
 		form = accountsInForm(initial={'reciept':('Others','Others')})
 	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept,'date':date})
 
 def accountsOutEntry(request,date):
-	allReciept = accountsOut.objects.all().filter(date=date.order_by('id')
+	allReciept = accountsOut.objects.all().filter(date=date).order_by('id')
 	#reciept = recieptDetails.objects.all()
 	if request.method =='POST':
 		form = accountsOutForm(request.POST)
@@ -58,13 +58,13 @@ def accountsOutEntry(request,date):
 			data.remark = form.cleaned_data['remark']
 			data.staff = request.user
 			data.save()
-			return HttpResponseRedirect(date)
+			return HttpResponseRedirect('./')
 
 	else:
 		form = accountsOutForm()
 	return render(request, 'accounts/accountsoutEntry.html',{'form':form, 'allReciept':allReciept, 'date':date})
 
-def recieptDetailsEntry(request):
+def recieptDetailsEntry(request,date):
 	if request.method == 'POST':
 		form = recieptDetailsForm(request.POST)
 		if form.is_valid():
@@ -73,12 +73,12 @@ def recieptDetailsEntry(request):
 			data.service_fees = form.cleaned_data['service_fees']
 			data.ass_bank_acc = form.cleaned_data['ass_bank_acc']
 			data.save()
-			return HttpResponseRedirect('entry')
+			return HttpResponseRedirect('./')
 	else:
 		form = recieptDetailsForm()
-	return render(request,'accounts/recieptDetailsEntry.html',{'form':form,})
+	return render(request,'accounts/recieptDetailsEntry.html',{'form':form,'date':date})
 
-def bankAccountDetailsEntry(request):
+def bankAccountDetailsEntry(request,date):
 	if request.method == 'POST':
 		form = bankAccountDetailsForm(request.POST)
 		if form.is_valid():
@@ -90,10 +90,10 @@ def bankAccountDetailsEntry(request):
 			data.acc_holder_contactno = form.cleaned_data['acc_holder_contactno']
 			data.balance = form.cleaned_data['balance']
 			data.save()
-			return HttpResponseRedirect('add')
+			return HttpResponseRedirect('./')
 	else:
 		form = bankAccountDetailsForm()
-	return render(request,'accounts/bankAccountDetailsEntry.html',{'form':form,})
+	return render(request,'accounts/bankAccountDetailsEntry.html',{'form':form,'date':date})
 
 def closeAccounts(request,date):
 	accountsin = accountsIn.objects.all().filter(date=date)

@@ -1,6 +1,67 @@
 {% load static %}
 <html>
 	<head>
+	<script type="text/javascript">
+	function checkDate()
+	{
+	alert("Select Date");
+	}
+
+	function displayDate()
+	{	
+		var day,month,year;
+		var date = new Date();
+		switch(date.getDay())
+		{
+			case 0 : day="Sunday";
+					break;
+			case 1 : day="Monday";
+					break;
+			case 2 : day="Tuesday";
+					break;
+			case 3 : day="Wednesday";
+					break;
+			case 4 : day="Thrusday";
+					break;
+			case 5 : day="Friday";
+					break;
+			case 6 : day="Saturday";
+					break;
+		}
+
+		switch(date.getMonth())
+		{
+			case 0 : month="January";
+					break;
+			case 1 : month="February";
+					break;
+			case 2 : month="March";
+					break;
+			case 3 : month="April";
+					break;
+			case 4 : month="May";
+					break;
+			case 5 : month="June";
+					break;
+			case 6 : month="July";
+					break;
+			case 7 : month="August";
+					break;
+			case 8 : month="September";
+					break;
+			case 9 : month="October";
+					break;
+			case 10 : month="November";
+					break;
+			case 11 : month="December";
+					break;
+
+		}
+
+		document.write(month+" "+ date.getDate() +"," +date.getFullYear()+ "<br>"+ day  );
+	}
+
+	</script>
 	<link rel="stylesheet" type="text/css" href ="{% static 'css/bootstrap/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href ="{% static 'css/style.css' %}">
 	<title>Akshaya KL103</title>
@@ -9,61 +70,79 @@
 	</head>
 <body>
 	<!--Header Section -->
-	<nav>
-	<center>
-	<div id="container">
+	<div id="header" class="col-sm-12">
 		
 		<div id="logo"  class="col-sm-1">
 
 		</div>
 
-		{% if user.is_authenticated %}
+	{% if user.is_authenticated %}
 
 <!-- Displays the menu items for the admin -->
 					
-				<div id="company_name"  class="col-sm-8">
-					<br>
-					<h1>Akshaya KL103</h1>
-					<h4>Database Management System</h4>
-				</div>
+		<div id="company_name"  class="col-sm-8">
+			<br>
+			<div class="col-sm-3">
+				<h1>Akshaya KL103</h1>
+				<h4>Database Management System</h4>
+				<h5>Hello ! {{user.first_name}}</h5>
+					
+			</div>
+			<div class="col-sm-1">
+			<script type="text/javascript">
+				displayDate();
+				</script>
+			</div>
+			
+		</div>
+			
+
+		<div class="col-sm-1  menu-item">
+		{% if date is None %}
 				
-				<div class="col-sm-1  menu-item">
-					<a href="/staffmanagement/staffs/{{date}}">Dashboard</a>
-				</div>
+			<a href="" onclick="checkDate()" >Dashboard</a>
+		{% else %}					
+			<a href="/staffmanagement/staffs/{{date}}">Dashboard</a>
+		{% endif %}
+		</div>
 
-				<div class="col-sm-1  menu-item">
-					<a href="/admin" target="blank">Admin Panel</a>
-				</div>
+		<div class="col-sm-1  menu-item">
+			<a href="/admin" target="blank">Admin Panel</a>
+		</div>
 
-				<div class="col-sm-1 menu-item">
-					<a href="/staffmanagement/logout">Logout</a>
-				</div>
+		<div class="col-sm-1 menu-item">
+			<a href="/staffmanagement/logout">Logout</a>
+		</div>
 
 		
 <!-- if staff is not logged in (no menu items)-->
-		{% else %}
+	{% else %}
 		
 		<div id="company_name"  class="col-sm-11">
-			<br>
+			<div class="col-sm-3">
 			<h1>Akshaya KL103</h1>
 			<h4>Database Management System</h4>
+			</div>
+
+			<div class="col-sm-1">
+				<script type="text/javascript">
+				displayDate();
+				</script>
+			</div>
+
 		</div>
 
 <!-- end of if in menu item -->		
-		{% endif %}
+	{% endif %}
 
 	</div>
-	</center>
-	</nav>
-	{% if user.is_authenticated %}
-
+	<br>
+	<div class="body-content col-sm-12">
+	<center>
 		{% block body %}
 		{% endblock %}
-	{% else %}
-		{% block login %}
-
-		{% endblock %}
-	{% endif %}
+	</center>
+	</div>
 
 
 	<!--Footer Section -->

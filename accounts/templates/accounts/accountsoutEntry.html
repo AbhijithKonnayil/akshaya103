@@ -18,7 +18,35 @@ function findTotal()
 {% block body %}
 
 Accounts Entry Form
+
+<form action='' method='post'>
+{% csrf_token %}
+{{form.reciept.label_tag}}
+{{form.reciept}}
 <br>
+{{form.bank_acc.label_tag}}
+{{form.bank_acc}}
+<br>
+{{form.charge.label_tag}}
+{{form.charge}}
+<br>
+
+<p id='form_total'>
+Total Amount Rs 0.00
+</p>
+<br>
+{{form.remark.label_tag}}
+{{form.remark}}
+<br>
+<input type="submit">
+<a href="/accounts/close/{{date}}">Close Accounts</a>
+</form>
+
+{% if allReciept.count > 10 %}
+<div class="data-table overflowy">
+{% else %}
+<div class="data-table">
+{% endif %}
 <table border =1>
 <tr>
 <td>Si No</td>
@@ -56,28 +84,5 @@ Accounts Entry Form
 </tr>
 {% endfor %}
 </table>
-
-<form action='' method='post'>
-{% csrf_token %}
-{{form.reciept.label_tag}}
-{{form.reciept}}
-<br>
-{{form.bank_acc.label_tag}}
-{{form.bank_acc}}
-<br>
-{{form.charge.label_tag}}
-{{form.charge}}
-<br>
-
-<p id='form_total'>
-Total Amount Rs 0.00
-</p>
-<br>
-{{form.remark.label_tag}}
-{{form.remark}}
-<br>
-<input type="submit">
-<a href="/accounts/close/{{date}}">Close Accounts</a>
-</form>
-
+</div>
 {% endblock %}
