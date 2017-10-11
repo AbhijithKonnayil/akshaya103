@@ -34,7 +34,6 @@ class accountsOut(models.Model):
 
 class recieptDetails(models.Model):
 	reciept_title = models.CharField(max_length=50,)
-	ass_bank_acc = models.CharField(max_length=50,)
 	ass_bank_acc = models.CharField(max_length=50, null=True,blank=True)
 	service_fees = models.FloatField(max_length=10, null=True,blank=True)
 	def __str__(self):
@@ -47,6 +46,7 @@ class bankAccountDetails(models.Model):
 	acc_holder = models.CharField(max_length=50,)
 	acc_holder_contactno = models.CharField(max_length=10,)
 	balance = models.FloatField()
+	
 	def __str__(self):
 		return self.bank_name
 
