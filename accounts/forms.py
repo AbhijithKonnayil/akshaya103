@@ -1,6 +1,6 @@
 from django import forms
 from accounts.models import recieptDetails, bankAccountDetails
-
+import datetime
 #set the choices (select options) of the reciept
 reciept_types=()
 reciept_choice = recieptDetails.objects.all()
@@ -13,7 +13,6 @@ bank_choice = bankAccountDetails.objects.all()
 for a in bank_choice:
 	d=(str(a.bank_name),str(a.bank_name))
 	banks=banks+(d,)
-
 
 
 class accountsInForm(forms.Form):
@@ -30,15 +29,13 @@ class accountsInForm(forms.Form):
 class recieptDetailsForm(forms.Form):
 	reciept_title=forms.CharField(max_length=50)
 	service_fees=forms.FloatField()
-	ass_bank_acc=forms.ChoiceField(banks, widget = forms.Select())
+	fees_associated = forms.ChoiceField(required=True, initial='no' ,choices=[('yes','Yes'),('no','No')], widget=forms.RadioSelect(attrs ={'onchange':"printAssBanks();"}))
+	ass_bank_acc=forms.ChoiceField(banks, widget = forms.Select(attrs={'class':"display-none"}))
 
 class bankAccountDetailsForm(forms.Form):
 	bank_name = forms.CharField(max_length=50,)
-	bank_branch = forms.CharField(max_length=50,)
-	bank_acc_no = forms.CharField(max_length=15,)
-	acc_holder = forms.CharField(max_length=50,)
-	acc_holder_contactno = forms.CharField(max_length=10,)
-	balance = forms.FloatField()
+	opening_balance = forms.FloatField()
+	opening_balance_date = forms.DateField(widget=forms.SelectDateWidget(),initial=datetime.date.today,)
 
 class accountsOutForm(forms.Form):
 	reciept=forms.CharField(max_length=50)

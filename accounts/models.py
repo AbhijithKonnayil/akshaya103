@@ -41,11 +41,8 @@ class recieptDetails(models.Model):
 
 class bankAccountDetails(models.Model):
 	bank_name = models.CharField(max_length=50,)
-	bank_branch = models.CharField(max_length=50,)
-	bank_acc_no = models.CharField(max_length=15,)
-	acc_holder = models.CharField(max_length=50,)
-	acc_holder_contactno = models.CharField(max_length=10,)
-	balance = models.FloatField()
+	opening_balance = models.FloatField(max_length=10, blank=False,null=True,)
+	opening_balance_date = models.DateField()
 	
 	def __str__(self):
 		return self.bank_name
@@ -56,6 +53,7 @@ class accountsInForm(ModelForm):
 	class Meta:
 		model = accountsIn
 		fields = ('reciept','bank_acc','payment_fees','service_fees','customer_name','username','password','contact_no','total_fees','remark')
+
 class accountsOutForm(ModelForm):
 	class Meta:
 		model = accountsOut
@@ -66,7 +64,8 @@ class recieptDetailsForm(ModelForm):
 		model = recieptDetails
 		fields = ('reciept_title','ass_bank_acc','service_fees')
 
-class bankAccountDetailsForm(ModelForm):
+"""class bankAccountDetailsForm(ModelForm):
 	class Meta:
 		model = bankAccountDetails
-		fields = ('bank_name','bank_branch','bank_acc_no','acc_holder','acc_holder_contactno','balance')
+		fields = ('bank_name',)
+		"""

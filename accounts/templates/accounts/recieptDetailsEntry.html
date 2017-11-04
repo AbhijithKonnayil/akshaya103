@@ -1,9 +1,41 @@
 {% extends 'base.html' %}
+{% block head %}
+<script type="text/javascript">
+	function printAssBanks()
+	{
+		//document.getElementsByName('{{form.fees_associated.html_name}}')[0].checked.value;
+		var fees_associated = document.querySelector('input[name="{{form.fees_associated.html_name}}"]:checked').value;
+		if(fees_associated=="yes")
+		{
+		document.getElementById('ass_banks').innerHTML='Associated Bank Account:';
+		document.getElementById('{{form.ass_bank_acc.id_for_label}}').style.display='block';
+		}
+		if(fees_associated=="no")
+		{
+		document.getElementById('ass_banks').innerHTML='';
+		document.getElementById('{{form.ass_bank_acc.id_for_label}}').style.display='none';
+		}
+	}
+</script>
+{% endblock %}
+
 {% block body %}
 Receipt Details Entry
 <form action="" method = "POST">
 {% csrf_token %}
-{{form.as_p}}
+{{form.reciept_title.label_tag}}
+{{form.reciept_title}}
+<br>
+{{form.service_fees.label_tag}}
+{{form.service_fees}}
+<br>
+{{form.fees_associated.label_tag}}
+{{form.fees_associated}}
+<br>
+<div id="ass_banks">
+	
+</div>
+{{form.ass_bank_acc}}
 <input type ="submit">
 </form>
 {% endblock %}

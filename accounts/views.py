@@ -84,11 +84,7 @@ def bankAccountDetailsEntry(request,date):
 		if form.is_valid():
 			data = bankAccountDetails()
 			data.bank_name = form.cleaned_data['bank_name']
-			data.bank_branch = form.cleaned_data['bank_branch']
-			data.acc_holder = form.cleaned_data['acc_holder']
-			data.bank_acc_no = form.cleaned_data['bank_acc_no']
-			data.acc_holder_contactno = form.cleaned_data['acc_holder_contactno']
-			data.balance = form.cleaned_data['balance']
+
 			data.save()
 			return HttpResponseRedirect('./')
 	else:

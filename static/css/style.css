@@ -99,6 +99,10 @@
 	width:100%;
 	margin-top: 150px;
 }
+.display-none
+{
+	display: none;
+}
 div.data-table
 {
 	border: 1;
@@ -135,4 +139,8 @@ body
 	background-image: url("../img/bg.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
+}
+form 
+{
+	color: #00ff56;
 }
