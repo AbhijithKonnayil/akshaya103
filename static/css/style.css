@@ -54,7 +54,9 @@
 {
 	position: absolute;
 	bottom: 0;
-	background-color: #cccccc;
+	background-color: #333;
+	font-size: 20px;
+	color: #aaa;
 	height: 150;
 	text-align: center;
 	padding-top: 20px;
@@ -84,22 +86,23 @@ margin: auto;
 .menu-item
 {
 	background-color: #ffffff;
-	height: 150px;
 	text-align: center;
 	color:#ffffff;
-	margin-left: 0	px;
-	padding-bottom: 1px;
-	padding-top: 120px;
+	margin-left: 0px;
+	font-size: 20px;
+	height: 150px;
 }
-.menu-item: a
-{
+.menu-item a
+{	padding: 120px 1px 0px;
 	text-decoration: none;
 	color: #0000ff;
 	display: block;
+	
 }
 .menu-item:hover
 {
 	background-color: #0000ff;
+
 
 }
 .menu-item:hover a
@@ -109,12 +112,24 @@ margin: auto;
 }
 .dashboard-item
 {
-	background-color: #dddddd;
-	height: 150px;
-	width: 200px;
-	margin-left: 5px;
-	margin-top: 50px;
+	margin: 10px;
+	width: 250px;
 	float: left;
+	
+}
+.dashboard-item a
+{
+	display: block;
+	background-color: #36c;
+	color: #FFF;
+	text-decoration: none;
+	padding: 75px 0px;
+	font-size: 25px;
+}
+.dashboard-item a:hover
+{
+	background-color: #FFF;
+	color: #36c;
 }
 .body-content
 {

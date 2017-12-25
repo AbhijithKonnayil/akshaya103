@@ -5,7 +5,7 @@ from django.utils.timezone import now
 from django.contrib.auth.models import User
 
 class bankAccountDetails(models.Model):
-	bank_name = models.CharField(max_length=50,null=False)
+	bank_name = models.CharField(max_length=50,null=False,unique=True)
 	opening_balance = models.FloatField(max_length=10, blank=False,null=False, default=0)
 	opening_balance_date = models.DateField(default=datetime.date.today,null=False, blank=False)
 	
