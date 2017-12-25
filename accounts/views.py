@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from accounts.models import accountsIn, accountsOut, recieptDetails, bankAccountDetails
+from accounts.models import accountsIn, accountsOut, bankAccountDetails, recieptDetail
 from django.http import Http404, HttpResponseRedirect
 from .forms import accountsInForm, accountsOutForm, recieptDetailsForm, bankAccountDetailsForm
+
+#from django.conf.urls import media
 # Create your views here.
 
 def index(request):
@@ -19,8 +21,9 @@ def detail(request, reciept_id):
 	return render(request, 'accounts/details.html',{'accountsIn':reciept.id})
 
 def accountsInEntry(request,date):
+	bankAccDetails = bankAccountDetails.objects.all()
 	allReciept = accountsIn.objects.all().filter(date=date).order_by('id')
-	reciept = recieptDetails.objects.all()
+	reciept =recieptDetail.objects.all()
 	if request.method =='POST':
 		form = accountsInForm(request.POST)
 		if form.is_valid():
@@ -38,15 +41,16 @@ def accountsInEntry(request,date):
 			data.remark = form.cleaned_data['remark']
 			data.staff = request.user
 			data.save()
+
 			return HttpResponseRedirect('./')
 
 	else:
-		form = accountsInForm(initial={'reciept':('Others','Others')})
-	return render(request, 'accounts/accountsEntry.html',{'form':form, 'allReciept':allReciept, 'recieptDetails' : reciept,'date':date})
+		form = accountsInForm()
+	return render(request, 'accounts/accountsEntry.html',{'form':form, 'recieptDetail' : reciept,'allReciept':allReciept,'date':date,'bankDetails':bankAccDetails})
 
 def accountsOutEntry(request,date):
 	allReciept = accountsOut.objects.all().filter(date=date).order_by('id')
-	#reciept = recieptDetails.objects.all()
+	reciept = recieptDetail.objects.all()
 	if request.method =='POST':
 		form = accountsOutForm(request.POST)
 		if form.is_valid():
@@ -68,15 +72,17 @@ def recieptDetailsEntry(request,date):
 	if request.method == 'POST':
 		form = recieptDetailsForm(request.POST)
 		if form.is_valid():
-			data = recieptDetails()
+			data = recieptDetail()
 			data.reciept_title = form.cleaned_data['reciept_title']
 			data.service_fees = form.cleaned_data['service_fees']
-			data.ass_bank_acc = form.cleaned_data['ass_bank_acc']
+			if form.cleaned_data['fees_associated']=='yes':
+				data.ass_bank_acc = form.cleaned_data['ass_bank_acc']
+				data.ass_fees = form.cleaned_data['ass_fees']
 			data.save()
 			return HttpResponseRedirect('./')
 	else:
 		form = recieptDetailsForm()
-	return render(request,'accounts/recieptDetailsEntry.html',{'form':form,'date':date})
+	return render(request,'accounts/recieptDetailsEntry.html',{'form':form,'date':date,})
 
 def bankAccountDetailsEntry(request,date):
 	if request.method == 'POST':
@@ -84,7 +90,8 @@ def bankAccountDetailsEntry(request,date):
 		if form.is_valid():
 			data = bankAccountDetails()
 			data.bank_name = form.cleaned_data['bank_name']
-
+			data.opening_balance = form.cleaned_data['opening_balance']
+			data.opening_balance_date = form.cleaned_data['opening_balance_date']
 			data.save()
 			return HttpResponseRedirect('./')
 	else:
@@ -94,7 +101,7 @@ def bankAccountDetailsEntry(request,date):
 def closeAccounts(request,date):
 	accountsin = accountsIn.objects.all().filter(date=date)
 	accountsout = accountsOut.objects.all().filter(date=date)
-	reciepts = recieptDetails.objects.all()
+	reciepts = recieptDetail.objects.all()
 	individual_accountsin_sum = 0
 	individual_accountsout_sum = 0
 	all_staff_sum_accountsin = 0

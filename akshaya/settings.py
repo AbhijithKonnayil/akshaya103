@@ -25,7 +25,7 @@ SECRET_KEY = '595$n%r5&ir+w7!)n@v6)2il=7z&&%=)+c7-nn%(l_p4r^ye3d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['172.20.0.117']
 
 
 # Application definition
@@ -125,3 +125,6 @@ STATIC_URL = '/static/'
 
 
 LOGIN_REDIRECT_URL="/staffmanagement/date"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT =os.path.join(BASE_DIR,'media')

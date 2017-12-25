@@ -12,6 +12,14 @@ class staffDetails(models.Model):
 	user = models.CharField(max_length=50,null=True)
 	mob = models.CharField(max_length=10,)
 	address = models.CharField(max_length=100)
+	profile_photo = models.ImageField(upload_to='',)
 
 	def __str__(self):
 		return self.user
+"""
+class staffDetailsForm(ModelForm):
+	class Meta:
+		model = staffDetails
+		fields = ('user','mob','address','profile_photo')
+
+"""

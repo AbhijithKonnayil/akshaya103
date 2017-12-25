@@ -4,6 +4,8 @@
 	position: absolute;
 	top:0;
 	
+	padding: 0px;
+	
 }
 #logo
 {
@@ -16,7 +18,7 @@
 
 #company_name
 {	
-	background-color: #ffffff;
+	background-color: #fff;
 	position: relative;
 	color: #0000ff;
 	text-align: left;
@@ -57,6 +59,26 @@
 	text-align: center;
 	padding-top: 20px;
 	vertical-align: baseline;
+}
+#data_form
+{
+	background-color: rgba(21,125,236,0.3);
+	height: inherit;
+	width: inherit;
+	display: block;
+	overflow: auto;
+	padding: 15px 0px;
+}
+#date
+{
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #fff;
+}
+#profile
+{
+margin: auto;
 }
 
 .menu-item
@@ -107,7 +129,7 @@ div.data-table
 {
 	border: 1;
 	background-color: #transparent;
-	height:500px;
+	height:200px;
 	width: 100%;
 }
 
@@ -133,14 +155,66 @@ div.data-table
 {
 	overflow-y:scroll;
 }
+.form_element
+{
+	height: px;
+	padding: 15px;
+}
+.form_element_fixed
+{
+	display: inline;
+	color: #fff;
+	float: right;
+}
 
+.form_element_fixed div
+{
+	display: inline-table;
+	float: right;
+	line-height: inherit;
+	vertical-align: middle;
+	
+}
+.page_title{
+	font-size: 30px;
+	color: #fff;
+}
+.close_account a
+{
+	color:#ED8515;
+}
+.close_account a:hover
+{
+	text-decoration: none;
+	color: 	#C64E00;
+}
+th
+{
+	text-align: center;
+	background-color: #333;
+	color: #fff;
+}
 body
 {
 	background-image: url("../img/bg.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
+	margin: 0px;
+	padding: 0px;
 }
 form 
 {
-	color: #00ff56;
+	color: #DDD;
+	font-size: 20px;
+
+}
+form input 
+{
+	color: #333;
+	font-size: 18px;
+}
+form select 
+{
+	color: #333;
+	font-size: 18px;
 }

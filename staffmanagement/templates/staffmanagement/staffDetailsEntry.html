@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block body %}
 Staff Management
 <br>
-<form action='' method ="POST">
+<form action='' method ="POST" enctype="multipart/form-data">
 {% csrf_token %}
-{{form.as_p}}
+{{form.as_table}}
 <input type='submit'>
 </form>
+<br>
 <table border=1>
 <tr>
 <td>Si No</td>
 <td>User ID</td>
+<td>Photo</td>
 <td>First Name</td>
 <td>Second Name</td>
 <td>Username</td>
@@ -19,10 +21,14 @@ Staff Management
 <td>Designation</td>
 <td></td>
 </tr>
-{% for user in allUsers %}
+{% for user,userDetails in userlist %}
 <tr>
 <td>{{forloop.counter}}</td>
 <td>{{user.id}}</td>
+{% if user.username == userDetails.user %}
+<td><img src="{{userDetails.profile_photo.url}}" width="100px" height="100px" alt='{{user.first_name}} pic'>
+<img src="https://lh3.googleusercontent.com/VT-PqxMMsA2wPy7kzmuKGDIzaA3AGuXKExqnfOfwTEy5AvLIMTranbfNGheRr457RD4=w300" width="100px" height="100px" alt='{{user.first_name}} pic'></td>
+{% endif %}
 <td>{{user.first_name}}</td>
 <td>{{user.last_name}}</td>
 <td>{{user.username}}</td>

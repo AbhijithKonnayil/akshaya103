@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
+<div class="page_title">
 Bank Account Details Entry
+</div>
+<br>
+
 <form action="" method="POST">
 {% csrf_token %}
 {{form.as_p}}

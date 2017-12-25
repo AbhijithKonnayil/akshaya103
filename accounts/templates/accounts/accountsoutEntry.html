@@ -7,7 +7,7 @@ function findTotal()
 	{
 	
 	var x = parseFloat(document.getElementById('{{form.charge.id_for_label}}').value);	
-	document.getElementById('form_total').innerHTML = "Total Amount Rs " + (x) ;	
+	document.getElementById('form_total').innerHTML = "Total Amount<br>Rs: " + (x) ;	
 	}
 
 </script>
@@ -16,48 +16,55 @@ function findTotal()
 
 
 {% block body %}
-
-Accounts Entry Form
-
-<form action='' method='post'>
-{% csrf_token %}
-{{form.reciept.label_tag}}
-{{form.reciept}}
+<div class="page_title">Accounts Entry Form</div>
 <br>
-{{form.bank_acc.label_tag}}
-{{form.bank_acc}}
+<div id="data_form">
+	<form action='' method='post'>
+	{% csrf_token %}
+		<div class="col-sm-2 form_element">
+			Reciept Title
+			<br>
+			{{form.reciept}}
+		</div>
+		<div class="col-sm-2 form_element ">
+			Bank Account
+			<br>
+			{{form.bank_acc}}
+		</div>
+		<div class="col-sm-2 form_element">
+			Charge
+			<br>
+			{{form.charge}}
+		</div>
+		<div class="col-sm-2 form_element" id='form_total'>
+			Total Amount<br>Rs: 0.00
+		</div>
+		<div class="col-sm-2 form_element">
+			<input type="submit">
+		</div>
+		<div class="col-sm-2 close_account form_element">
+			<a href="/accounts/close/{{date}}">Close Accounts</a>
+		</div>
+	</form>
+</div>
 <br>
-{{form.charge.label_tag}}
-{{form.charge}}
 <br>
-
-<p id='form_total'>
-Total Amount Rs 0.00
-</p>
-<br>
-{{form.remark.label_tag}}
-{{form.remark}}
-<br>
-<input type="submit">
-<a href="/accounts/close/{{date}}">Close Accounts</a>
-</form>
-
-{% if allReciept.count > 10 %}
+{% if allReciept.count > 6%}
 <div class="data-table overflowy">
 {% else %}
 <div class="data-table">
 {% endif %}
 <table border =1>
 <tr>
-<td>Si No</td>
-<td>Transation ID</td>
-<td>Date</td>
-<td>Time</td>
-<td>Reciept</td>
-<td>Bank Account</td>
-<td>Charge</td>
-<td>Remark</td>
-<td>Staff</td>
+<th>Si No</th>
+<th>Transation ID</th>
+<th>Date</th>
+<th>Time</th>
+<th>Reciept</th>
+<th>Bank Account</th>
+<th>Charge</th>
+<th>Remark</th>
+<th>Staff</th>
 </tr>
 {% for reciept in allReciept.reverse %}
 <tr>

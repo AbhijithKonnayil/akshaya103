@@ -19,6 +19,7 @@ class staffRegForm(forms.Form):
 	email = forms.CharField(max_length=50)
 	mob = forms.CharField(max_length=10)
 	address = forms.CharField(max_length=100)
+	profile_photo = forms.ImageField()
 
 class dateSelectionForm(forms.Form):
 	date = forms.DateField(widget=forms.SelectDateWidget(),initial=datetime.date.today,)

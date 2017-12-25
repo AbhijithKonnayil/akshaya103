@@ -1,7 +1,8 @@
-{% load static %}
+	{% load static %}
 <html>
 	<head>
 	<script type="text/javascript">
+		
 	function checkDate()
 	{
 	alert("Select Date");
@@ -58,8 +59,9 @@
 
 		}
 
-		document.write(month+" "+ date.getDate() +"," +date.getFullYear()+ "<br>"+ day  );
+		document.getElementById('date').innerHTML=(month+" "+ date.getDate() +"," +date.getFullYear()+ "<br>"+ day  );
 	}
+	displayDate();
 
 	</script>
 	<link rel="stylesheet" type="text/css" href ="{% static 'css/bootstrap/css/bootstrap.css' %}">
@@ -68,7 +70,7 @@
 	{% block head %}
 	{% endblock %}
 	</head>
-<body>
+<body onload="displayDate()">
 	<!--Header Section -->
 	<div id="header" class="col-sm-12">
 		
@@ -85,13 +87,17 @@
 			<div class="col-sm-3">
 				<h1>Akshaya KL103</h1>
 				<h4>Database Management System</h4>
-				<h5>Hello ! {{user.first_name}}</h5>
+				
 					
 			</div>
-			<div class="col-sm-1">
-			<script type="text/javascript">
-				displayDate();
-				</script>
+			<div class="col-sm-9">
+				<div id="date" >
+
+				</div>
+				<div id="profile">
+					<img src="{{userDetails.profile_photo.url}} width="80 px" height="80 px" ">
+					<h3>{{user.first_name}} {{user.last_name}}</h3>
+				</div>
 			</div>
 			
 		</div>
@@ -126,7 +132,7 @@
 
 			<div class="col-sm-1">
 				<script type="text/javascript">
-				displayDate();
+				
 				</script>
 			</div>
 

@@ -1,31 +1,48 @@
 {% extends 'base.html' %}
 {% block head %}
 <script type="text/javascript">
-function myFunction() 
+
+function myFunction()
 {
-    var x = document.getElementById('{{form.reciept.id_for_label}}').value;
-    var y = ""
+    var js_selected_reciept = document.getElementById('{{form.reciept.id_for_label}}').options[document.getElementById('{{form.reciept.id_for_label}}').selectedIndex].text;
+
     var js_reciept_title = [""];
     var js_reciept_service_fees = [""];
     var js_reciept_ass_bank_acc = [""];
-   
+    var js_reciept_ass_fees = [""];
 
-    
-    {% for r in recieptDetails %}
+    {% for r in recieptDetail %}
 
-    js_reciept_title.push('{{r.reciept_title}}');
-    js_reciept_service_fees.push({{r.service_fees}});
-    js_reciept_ass_bank_acc.push('{{r.ass_bank_acc}}');
+        js_reciept_title.push('{{r.reciept_title}}');
+        js_reciept_service_fees.push({{r.service_fees}});
+        js_reciept_ass_bank_acc.push('{{r.ass_bank_acc}}');
+        js_reciept_ass_fees.push({{r.ass_fees}});
    
- 	{% endfor %} 
+    {% endfor %} 
+    var js_bank_list =[""]
+    {% for s in bankDetails %}
+        js_bank_list.push('{{s.bank_name}}')
+    {% endfor %}
+
     var i;
     for(i=1;i<=js_reciept_title.length;i++)
-    {	
-    	if(x==js_reciept_title[i])
-    	{
-    	document.getElementById('{{form.service_fees.id_for_label}}').value = js_reciept_service_fees[i];	
-    	document.getElementById('{{form.bank_acc.id_for_label}}').value = js_reciept_ass_bank_acc[i];	
-    	}
+    {
+        if(js_selected_reciept == js_reciept_title[i])
+        {   
+            
+            if(js_reciept_ass_bank_acc[i] == 'None')
+            {
+            document.getElementById('hide').style.display='none';
+            }
+            else
+            {
+            document.getElementById('hide').style.display='block';
+            }
+            
+            document.getElementById('{{form.service_fees.id_for_label}}').value = js_reciept_service_fees[i];
+            document.getElementById('{{form.payment_fees.id_for_label}}').value = js_reciept_ass_fees[i];  
+            document.getElementById('{{form.bank_acc.id_for_label}}').value=js_bank_list.indexOf(js_reciept_ass_bank_acc[i]);
+        }
     }
 }
 
@@ -34,66 +51,90 @@ function findTotal()
 	
 	var x = parseFloat(document.getElementById('{{form.payment_fees.id_for_label}}').value);	
 	var y = parseFloat(document.getElementById('{{form.service_fees.id_for_label}}').value);	
-	document.getElementById('form_total').innerHTML = "Total Amount Rs " + (x+y) ;	
+	document.getElementById('form_total').innerHTML = "Rs. " + (x+y) ;	
 	}
-
 </script>
+
 {% endblock %}
 
 {% block body %}
-Accounts Entry Form
+<div class="page_title">Income Accounts Entry</div>
 <br>
-<form action='' method='post'>
-    {% csrf_token %}
-    <div class="col-sm-2">
-        {{form.reciept.label_tag}}
-        {{form.reciept}}
+<div id="data_form">
+    <form action='' method='post'>
+        {% csrf_token %}
+        <div class="col-sm-2 form_element">
+            Reciept Type
+            <br>
+            {{form.reciept}}
+        </div>
+        <div id='hide'>
+            <div class="col-sm-2 form_element" >
+                Bank Account
+                <br>
+                {{form.bank_acc}}
+            </div>
+            <div class="col-sm-2 form_element">
+                Payment Fees
+                <br>
+                {{form.payment_fees}}
+            </div>
+        </div>
+        <div class="col-sm-2 form_element">
+            Service Fees
+            <br>
+            {{form.service_fees}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Name
+            <br>
+            {{form.customer_name}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Username
+            <br>
+            {{form.username}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Password
+            <br>
+            {{form.password}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Contact No.
+            <br>
+            {{form.contact_no}}
+        </div>
+        
+        <div class="col-sm-2 form_element">
+            Remark
+            <br>
+            {{form.remark}}
+        </div>
+
+    <div class="col-sm-6 form_element_fixed">
+        
+        <div class="col-sm-3 form_element close_account">
+            <a href="/accounts/close/{{date}}"><b>Close Accounts</b></a>
+        </div>   
+        <div class="col-sm-3 form_element">
+            <input type="submit">
+        </div>
+
+        <div class="col-sm-3 form_element">
+            Total Amount 
+            <br>
+            <h3 id='form_total'>Rs. 0.00</h3>
+        </div>
+        
     </div>
-    <div class="col-sm-2">
-        {{form.bank_acc.label_tag}}
-        {{form.bank_acc}}
-    </div>
-    <div class="col-sm-2">
-        {{form.payment_fees.label_tag}}
-        {{form.payment_fees}}
-    </div>
-    <div class="col-sm-2">
-        {{form.service_fees.label_tag}}
-        {{form.service_fees}}
-    </div>
-    <div class="col-sm-2">
-        {{form.customer_name.label_tag}}
-        {{form.customer_name}}
-    </div>
-    <div class="col-sm-2">
-        {{form.username.label_tag}}
-        {{form.username}}
-    </div>
-    <div class="col-sm-2">
-        {{form.password.label_tag}}
-        {{form.password}}
-    </div>
-    <div class="col-sm-2">
-        {{form.contact_no.label_tag}}
-        {{form.contact_no}}
-    </div>
-    <div class="col-sm-2">
-        <p id='form_total'>
-        Total Amount Rs 0.00
-        </p>
-    </div>
-    <div class="col-sm-2">
-        {{form.remark.label_tag}}
-        {{form.remark}}
-    </div>
-    <div class="col-sm-2">
-        <input type="submit">
-    </div>
-    <div class="col-sm-2">
-        <a href="/accounts/close/{{date}}">Close Accounts</a>
-    </div>
-</form>
-{% if allReciept.count > 10 %}
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+{% if allReciept.count > 6 %}
 <div class="data-table overflowy">
 {% else %}
 <div class="data-table">
@@ -138,8 +179,5 @@ Accounts Entry Form
 {% endfor %}
 </table>
 </div>
-<br>
-
-
 
 {% endblock %}
