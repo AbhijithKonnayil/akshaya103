@@ -3,7 +3,8 @@
 <script type="text/javascript">
 
 function myFunction()
-{
+{   
+
     var js_selected_reciept = document.getElementById('{{form.reciept.id_for_label}}').options[document.getElementById('{{form.reciept.id_for_label}}').selectedIndex].text;
 
     var js_reciept_title = [""];
@@ -47,17 +48,49 @@ function myFunction()
 }
 
 function findTotal()
-	{
-	
+{
 	var x = parseFloat(document.getElementById('{{form.payment_fees.id_for_label}}').value);	
 	var y = parseFloat(document.getElementById('{{form.service_fees.id_for_label}}').value);	
-	document.getElementById('form_total').innerHTML = "Rs. " + (x+y) ;	
-	}
+	document.getElementById('form_total').innerHTML = "Rs. " + (x+y) ;
+    return x+y;
+}
+
+function creditField()
+{ 
+    if(document.getElementById('{{form.service_on_credit.id_for_label}}').checked==true)
+    {
+        document.getElementById('amount_paid').classList.remove('display-none');
+        document.getElementById('{{form.rec_amount.id_for_label}}').value=0;
+    }
+    else
+   {    
+        document.getElementById('{{form.rec_amount.id_for_label}}').value=findTotal();
+        document.getElementById('amount_paid').classList.add('display-none');     
+   }
+}
+
+function creditValidation()
+{
+   var total = findTotal();
+   var collected = document.getElementById('{{form.rec_amount.id_for_label}}').value;
+    if( collected > total)
+    {   
+        var balance = collected - total;
+        alert("Rs " + balance + "greater" );
+        document.getElementById('{{form.rec_amount.id_for_label}}').value=total;
+    }
+}
+
+
 </script>
 
 {% endblock %}
 
+
+
 {% block body %}
+{% if user.is_authenticated %}
+
 <div class="page_title">Income Accounts Entry</div>
 <br>
 <div id="data_form">
@@ -111,21 +144,71 @@ function findTotal()
             <br>
             {{form.remark}}
         </div>
+        <div class="col-sm-2 form_element ">
+        Service on Credit
+        <br>
+        {{form.service_on_credit}}
 
-    <div class="col-sm-6 form_element_fixed">
-        
-        <div class="col-sm-3 form_element close_account">
-            <a href="/accounts/close/{{date}}"><b>Close Accounts</b></a>
-        </div>   
-        <div class="col-sm-3 form_element">
-            <input type="submit">
+            
         </div>
+        <div id ="amount_paid" class="col-sm-2 form_element display-none">
+        Amount Paid
+        <br>
+        {{form.rec_amount}}
+        {{form.trans_id}}
+            
+        </div>
+    
+        <div class="col-sm-1 form_element_fixed close_account">
+        
+            <a href="/accounts/close/{{date}}"><b>Close Accounts</b></a>
+        </div> 
+        <div class="col-sm-1 form_element_fixed">
+             <br>
+            <input type="submit">
+        </div> 
 
-        <div class="col-sm-3 form_element">
+
+    <div class="col-sm-12 form_element_fixed">
+        
+
+        <div class="col-sm-1 form_element">
             Total Amount 
             <br>
-            <h3 id='form_total'>Rs. 0.00</h3>
+            <h3 id='form_total'class="form_element_fixed">Rs. 0.00</h3>
         </div>
+
+         <div class="col-sm-10 credit-table">
+         <table>
+                <tr>
+                    <th>Si No</th>
+                    <th>Transation ID</th>
+                    <th>Date</th>
+                    <th>Reciept</th>
+                    <th>Customer Name</th>
+                    <th>Contact No</th>
+                    <th>Total Fees</th>
+                    <th>Amount to Pay</th>
+                    <th>Remark</th>
+                    
+                </tr>
+                {% for credit in credit_list %}
+                <tr>
+                    <td>{{forloop.revcounter}}</td>
+                    <td><a href="../{{date}}/{{credit.id}}">{{credit.id}}</a></td>
+                    <td>{{credit.date}}</td>
+                    <td>{{credit.reciept}}</td>
+                    <td>{{credit.customer_name}}</td>
+                    <td>{{credit.contact_no}}</td>
+                    <td>{{credit.total_fees}}</td>
+                    <td>{{credit.amount_to_pay}}</td>
+                    <td>{{credit.remark}}</td>
+                </tr>
+                {% endfor %}
+         </table>
+         </div>
+       
+
         
     </div>
     </form>
@@ -155,7 +238,7 @@ function findTotal()
 <th>Contact No</th>
 <th>Total Fees</th>
 <th>Remark</th>
-<th>Staff</th>
+<th>Amount to Pay</th>
 </tr>
 {% for reciept in allReciept.reverse %}
 <tr>
@@ -173,11 +256,11 @@ function findTotal()
 <td>{{reciept.contact_no}}</td>
 <td>{{reciept.total_fees}}</td>
 <td>{{reciept.remark}}</td>
-<td>{{reciept.staff}}</td>
+<td>{{reciept.amount_to_pay}}</td>
 </tr>
 
 {% endfor %}
 </table>
 </div>
-
+{% endif %}
 {% endblock %}

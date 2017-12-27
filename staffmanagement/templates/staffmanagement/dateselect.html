@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
+
 {% block body %}
-<br>
-<div id="login-box">
-<form action='' method ='POST'>
-{% csrf_token %}
-{{form.as_p}}
-<input type="submit">
-<form>
-</form>
+
+	{% if user.is_authenticated %}
+		<br>
+		<div id="login-box">
+		<form action='' method ='POST'>
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit">
+		<form>
+	{% else %}
+
+		<div class="page_title">Access Denied !! <br> Login to continue..</div>
+	{% endif %}
+
 {% endblock %}

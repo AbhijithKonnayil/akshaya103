@@ -18,27 +18,39 @@
 {% endblock %}
 
 {% block body %}
-<img src="{{media}}">
-Receipt Details Entry
-<form action="" method = "POST">
-{% csrf_token %}
-{{form.reciept_title.label_tag}}
-{{form.reciept_title}}
-<br>
-{{form.service_fees.label_tag}}
-{{form.service_fees}}
-<br>
-{{form.fees_associated.label_tag}}
-{{form.fees_associated}}
-<br>
-<div id="ass_banks">
-{{form.ass_bank_acc.label_tag}}
-{{form.ass_bank_acc}}
-<br>
-{{form.ass_fees.label_tag}}
-{{form.ass_fees}}
-</div>
+{% if user.is_authenticated %}
 
-<input type ="submit">
-</form>
+	<div class="page_title">Receipt Details Entry</div>
+	<br>
+	<div id="data_form">
+		<form action="" method = "POST">
+		{% csrf_token %}
+		<div class="col-sm-2">
+		Reciept Title
+		{{form.reciept_title}}
+		</div>
+		<div class="col-sm-2">
+		Service Fees
+		{{form.service_fees}}
+		</div>
+		<div class="col-sm-2">
+		Fees Associated
+		{{form.fees_associated}}
+		</div>
+		<div id="ass_banks" class="col-sm-2">
+		Associated Bank
+		<br>
+		{{form.ass_bank_acc}}
+		</div>
+		<div class="col-sm-2" id="fees_associated_radio">
+		Associated Fees
+		{{form.ass_fees}}
+		</div>
+		<div class="col-sm-2"> 
+		<br>
+		<input type ="submit">
+		</div>
+		</form>
+	</div>
+{% endif %}
 {% endblock %}

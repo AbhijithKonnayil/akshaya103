@@ -70,7 +70,7 @@
 	{% block head %}
 	{% endblock %}
 	</head>
-<body onload="displayDate()">
+<body onload="displayDate(); set_trans_id();">
 	<!--Header Section -->
 	<div id="header" class="col-sm-12">
 		
@@ -89,19 +89,39 @@
 				<h4>Database Management System</h4>
 				
 					
-			</div>
-			<div class="col-sm-9">
+		</div>
+		<div class="col-sm-9">
 				<div id="date" >
 
 				</div>
-				<div id="profile">
-					<img src="{{userDetails.profile_photo.url}} width="80 px" height="80 px" ">
-					<h3>{{user.first_name}} {{user.last_name}}</h3>
+				<div id="profile" class="col-sm-12">
+					<div class="col-sm-4">
+						<img src="{{userDetails.profile_photo.url}} width="80 px" height="80 px" ">
+					</div>
+					<div class="col-sm-4">
+					<br>
+						<h3>{{user.first_name}} {{user.last_name}}</h3>
+						<br>
+						{% if user.is_superuser%}
+						<h4>Admin</h4>
+						{% elif user.is_staff %}
+						<h4>Staff</h4>
+						{% else %}
+						<h4></h4>
+						{% endif %}
+					</div>
 				</div>
-			</div>
-			
 		</div>
 			
+		</div>
+		<div class="col-sm-1 menu-item">
+			<a href="/staffmanagement/logout">Logout</a>
+		</div>	
+
+
+		<div class="col-sm-1  menu-item">
+			<a href="/admin" target="blank">Admin Panel</a>
+		</div>
 
 		<div class="col-sm-1  menu-item">
 		{% if date is None %}
@@ -112,13 +132,8 @@
 		{% endif %}
 		</div>
 
-		<div class="col-sm-1  menu-item">
-			<a href="/admin" target="blank">Admin Panel</a>
-		</div>
 
-		<div class="col-sm-1 menu-item">
-			<a href="/staffmanagement/logout">Logout</a>
-		</div>
+		
 
 		
 <!-- if staff is not logged in (no menu items)-->
@@ -130,10 +145,8 @@
 			<h4>Database Management System</h4>
 			</div>
 
-			<div class="col-sm-1">
-				<script type="text/javascript">
-				
-				</script>
+			<div class="col-sm-1 menu-item	">
+			<a href="/">Login</a>
 			</div>
 
 		</div>
@@ -145,8 +158,12 @@
 	<br>
 	<div class="body-content col-sm-12">
 	<center>
+	
 		{% block body %}
 		{% endblock %}
+		
+
+
 	</center>
 	</div>
 

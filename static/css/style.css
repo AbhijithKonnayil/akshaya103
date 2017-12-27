@@ -3,7 +3,7 @@
 {
 	position: absolute;
 	top:0;
-	
+	background-color: #fff;
 	padding: 0px;
 	
 }
@@ -80,7 +80,36 @@
 }
 #profile
 {
-margin: auto;
+margin: 0px;
+float: left;
+display: inline;
+
+}
+#profile img
+{
+	float: right;
+}
+#profile h3
+
+{	
+	margin-top: 30px;
+	padding: 10px;
+	display: inline;
+	vertical-align: middle;
+}
+#profile h4
+{
+	padding: 10px;
+	display: inline;
+}
+#fees_associated_radio
+{
+list-style-type: none;
+}
+#fees_associated_radio li
+{
+	display: inline;
+	padding: 0px 30px;
 }
 
 .menu-item
@@ -91,6 +120,7 @@ margin: auto;
 	margin-left: 0px;
 	font-size: 20px;
 	height: 150px;
+	float: right;
 }
 .menu-item a
 {	padding: 120px 1px 0px;
@@ -136,6 +166,12 @@ margin: auto;
 	width:100%;
 	margin-top: 150px;
 }
+.close_account
+{
+	color: #fff;
+	padding: 30px;
+	font-size: 20px;
+}
 .display-none
 {
 	display: none;
@@ -172,14 +208,17 @@ div.data-table
 }
 .form_element
 {
-	height: px;
-	padding: 15px;
+	height: 100px;
+	padding: 10px;
+	
 }
 .form_element_fixed
 {
 	display: inline;
 	color: #fff;
 	float: right;
+	height: 100px;
+	padding: 10px;
 }
 
 .form_element_fixed div
@@ -202,6 +241,29 @@ div.data-table
 {
 	text-decoration: none;
 	color: 	#C64E00;
+}
+.credit-table table
+{
+	width:100%
+	text-align: center;
+}
+.credit-table td
+{
+
+	padding: 5px 15px; 
+}
+.credit-table th
+{
+
+	padding: 10px 20px; 
+}
+.credit-table tr:nth-child(even)
+{
+	background-color: #fff;
+}
+.credit-table tr:nth-child(odd)
+{
+	background-color: #aaa;
 }
 th
 {

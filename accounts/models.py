@@ -34,6 +34,7 @@ class accountsIn(models.Model):
 	contact_no=models.CharField(max_length=10, blank=True, null=True)
 	total_fees=models.FloatField()
 	remark=models.CharField(max_length=200,blank=True)
+	amount_to_pay = models.FloatField(blank=True,null=True,default=0)
 	staff=models.CharField(max_length=50)
 	def __str__(self):
 		return "Transation ID : " + str(self.id)

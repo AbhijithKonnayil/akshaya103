@@ -6,7 +6,7 @@ import datetime
 
 
 class accountsInForm(forms.Form):
-	reciept=forms.ModelChoiceField(queryset=recieptDetail.objects.all(), widget = forms.Select(attrs = {'onchange' : "myFunction();" "findTotal();",}),required=True)
+	reciept=forms.ModelChoiceField(queryset=recieptDetail.objects.all(), widget = forms.Select(attrs = {'onchange' : "myFunction();" "findTotal();" "creditField();",}),required=True)
 	bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(),required=False)
 	payment_fees=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}),required=False)
 	service_fees=forms.FloatField(initial=0, widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}),required=True)
@@ -15,11 +15,18 @@ class accountsInForm(forms.Form):
 	password=forms.CharField(max_length=50,required=False)
 	contact_no=forms.CharField(max_length=10,required=False)
 	remark=forms.CharField(max_length=200,required=False)
+	service_on_credit = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs ={'onchange':"creditField();",}))
+	rec_amount = forms.FloatField(initial=0,required=False,widget = forms.TextInput(attrs={'onblur':"creditValidation();" "fillDummyValue();"}))
+	trans_id = forms.IntegerField(widget=forms.HiddenInput(),required=False,initial=-1)
+
+class accountsEditForm(forms.Form):
+	rec_amount = forms.FloatField(initial=0,required=False,widget = forms.TextInput(attrs={'onblur':"creditValidation()"}))
+	trans_id = forms.CharField(widget=forms.HiddenInput())
 
 class recieptDetailsForm(forms.Form):
 	reciept_title=forms.CharField(max_length=50,required=True)
 	service_fees=forms.FloatField(required=True)
-	fees_associated = forms.ChoiceField(required=True, initial='yes' ,choices=[('yes','Yes'),('no','No')], widget=forms.RadioSelect(attrs ={'onchange':"printAssBanks();",}))
+	fees_associated = forms.ChoiceField(required=True, initial='yes' ,choices=[('yes','Yes'),('no','No')], widget=forms.RadioSelect(attrs ={'onchange':"printAssBanks();",'id':"fees_associated_radio"}))
 	ass_bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(), widget = forms.Select(attrs={}),required=False)
 	ass_fees = forms.FloatField(required=False)
 

@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script type="text/javascript">
+function fillDummyValue()
+{
+document.getElementById('{{form.reciept.id_for_label}}').value='{{reciept}}';
+document.getElementById('{{form.bank_acc.id_for_label}}').value='{{bank_acc}}';
+document.getElementById('{{form.payment_fees.id_for_label}}').value={{payment_fees}};
+document.getElementById('{{form.service_fees.id_for_label}}').value={{service_fees}};
+document.getElementById('{{form.customer_name.id_for_label}}').value='{{customer_name}}';
+document.getElementById('{{form.contact_no.id_for_label}}').value='{{contact_no}}';
+document.getElementById('{{form.username.id_for_label}}').value='{{username}}';
+document.getElementById('{{form.password.id_for_label}}').value='{{password}}';
+document.getElementById('{{form.remark.id_for_label}}').value='{{remark}}';
+document.getElementById('{{form.service_fees.id_for_label}}').value='{{service_on_credit}}';
+document.getElementById('{{form.trans_id.id_for_label}}').value={{trans_id}};
+alert("ok");
+}
+function creditValidation()
+{
+   var total = {{rec_amount}}
+   var collected = document.getElementById('{{form.rec_amount.id_for_label}}').value;
+    if( collected > total)
+    {   
+        var balance = collected - total;
+        alert("Rs " + balance + "greater" );
+        document.getElementById('{{form.rec_amount.id_for_label}}').value=total;
+    }
+}
+
+
+</script>
+
+{% endblock %}
+
+{% block body %}
+{% if user.is_authenticated %}
+
+<div class="page_title">Credit Clearance</div>
+<br>
+<div id="data_form">
+    <form action='../' method='post'>
+        {% csrf_token %}
+        <div class="col-sm-2 form_element">
+            Reciept Type
+            <br>
+            {{reciept}}
+        </div>
+        <div id='hide'>
+            <div class="col-sm-2 form_element" >
+                Bank Account
+                <br>
+                {{bank_acc}}
+            </div>
+            <div class="col-sm-2 form_element">
+                Payment Fees
+                <br>
+                {{payment_fees}}
+            </div>
+        </div>
+        <div class="col-sm-2 form_element">
+            Service Fees
+            <br>
+            {{service_fees}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Name
+            <br>
+            {{customer_name}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Username
+            <br>
+            {{username}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Password
+            <br>
+            {{password}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Customer's Contact No.
+            <br>
+            {{contact_no}}
+        </div>
+        
+        <div class="col-sm-2 form_element">
+            Remark
+            <br>
+            {{remark}}
+        </div>
+        <div class="col-sm-2 form_element ">
+            Service on Credit
+            <br>
+            {{service_on_credit}}
+        </div>
+        <div class="col-sm-2 form_element">
+            Total Amount 
+            <br>
+            {{total_fees}}
+        </div>
+        <div id ="amount_paid" class="col-sm-2 form_element">
+            Amount to Pay
+            <br>
+            {{rec_amount}}
+        </div>
+        
+        <div class="col-sm-2 form_element_fixed close_account">
+        
+            <a href="/accounts/close/{{date}}"><b>Close Accounts</b></a>
+        </div> 
+        <div class="col-sm-2 form_element_fixed">
+             <br>
+            <input type="submit">
+        </div> 
+        <div class="col-sm-2 form_element form_element_fixed">
+            Amount Paid
+            <br>
+            {{form.rec_amount}}
+            {{form.trans_id}}
+        </div>
+    </form>
+</div>
+
+<div class="col-sm-10 credit-table">
+         <table>
+                <tr>
+                    <th>Si No</th>
+                    <th>Transation ID</th>
+                    <th>Date</th>
+                    <th>Reciept</th>
+                    <th>Customer Name</th>
+                    <th>Contact No</th>
+                    <th>Total Fees</th>
+                    <th>Amount to Pay</th>
+                    <th>Remark</th>
+                    
+                </tr>
+                {% for credit in credit_list %}
+                <tr>
+                    <td>{{forloop.revcounter}}</td>
+                    <td><a href="../{{credit.id}}">{{credit.id}}</a></td>
+                    <td>{{credit.date}}</td>
+                    <td>{{credit.reciept}}</td>
+                    <td>{{credit.customer_name}}</td>
+                    <td>{{credit.contact_no}}</td>
+                    <td>{{credit.total_fees}}</td>
+                    <td>{{credit.amount_to_pay}}</td>
+                    <td>{{credit.remark}}</td>
+                </tr>
+                {% endfor %}
+         </table>
+         </div>
+ 
+{{form.reciept}}
+{{form.bank_acc}}
+{{form.payment_fees}}
+{{form.service_fees}}
+{{form.customer_name}}
+{{form.contact_no}}
+{{form.username}}
+{{form.password}}
+{{form.remark}}
+{{form.service_fees}}
+<!--
+{{form.reciept.as_hidden}}
+{{form.bank_acc.as_hidden}}
+{{form.payment_fees.as_hidden}}
+{{form.service_fees.as_hidden}}
+{{form.customer_name.as_hidden}}
+{{form.contact_no.as_hidden}}
+{{form.username.as_hidden}}
+{{form.password.as_hidden}}
+{{form.remark.as_hidden}}
+{{form.service_fees.as_hidden}}
+-->
+
+{% endif %}
+{% endblock %}

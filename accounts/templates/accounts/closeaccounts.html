@@ -7,21 +7,49 @@
 {% endblock %}
 
 {% block body %}
+{% if user.is_authenticated %}
 <br>
-Total Collection of {{date}} is <h1>{{all_staff_accountsin_sum}}</h1>
-Total Expendeture of {{date}} is <h1>{{all_staff_accountsout_sum}}</h1>
-
-Net Collection is 	<h1>
+<div class="page_title">Close Accouonts</div>
+<br>
+<div class="col-sm-4 close_account">
+Total Collection of {{date}} is <h1>Rs. {{all_staff_accountsin_sum}}</h1>
+</div>
+<div class="col-sm-4 close_account">
+Total Expendeture of {{date}} is <h1>Rs. {{all_staff_accountsout_sum}}</h1>
+</div>
+<div class="col-sm-4 close_account">
+Net Collection is 	<h1>Rs. 
 						<script type="text/javascript">
 							document.write(allstaffNet);
 						</script>
-					</h1>
-<br>
-Amount Collected by {{user.first_name}} : <h3>{{individual_accountsin_sum}}</h3>
-Amount Spend by {{user.first_name}} : <h3>{{individual_accountsout_sum}}</h3>
-Net Collection by {{user.first_name}} is 	<h3>
+	
+				</h1>
+</div>
+
+<div class="col-sm-4 close_account"> 
+Amount Collected by {{user.first_name}} : <h3>Rs. {{individual_accountsin_sum}}</h3>
+</div>
+<div  class="col-sm-4 close_account">
+Amount Spend by {{user.first_name}} : <h3>Rs. {{individual_accountsout_sum}}</h3>
+</div>
+<div class="col-sm-4 close_account">
+Net Collection by {{user.first_name}} is 	<h3>Rs. 
 												<script type="text/javascript">
 													document.write(individualstaffNet);
 												</script>
 											</h3>
+</div>
+
+<div class="col-sm-6 close_account">
+Opening Balance
+
+{{openingBalance}}
+	
+</div>
+<div class="col-sm-6 close_account">
+Closing Balance
+{{closingBalance}}
+	
+</div>
+{% endif %}
 {% endblock %}
