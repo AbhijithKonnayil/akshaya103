@@ -5,6 +5,9 @@ urlpatterns = [
 	#accounts/close
 	url(r'^close/(?P<date>\d{4}-\d{2}-\d{2})/$', views.closeAccounts, name='closeAccounts'),
 
+	#/accounts/entry/{{date}}
+	url(r'^(?P<date>\d{4}-\d{2}-\d{2})/$', views.accountsView, name='accountsView'),
+
 	#accounts/entry
 	url(r'^entry/(?P<date>\d{4}-\d{2}-\d{2})/$', views.accountsInEntry, name='accountsInEntry'),
 

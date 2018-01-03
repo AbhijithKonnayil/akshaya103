@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
 
 {% block body %}
+{% if user.is_authenticated %}
 
-	{% if user.is_authenticated %}
-		<br>
-		<div id="login-box">
-		<form action='' method ='POST'>
-			{% csrf_token %}
-			{{form.as_p}}
-			<input type="submit">
-		<form>
-	{% else %}
-
+<div class="container-fluid">
+<center>
+	<div id="login-box" class="panel panel-primary">
+    	<div class="panel-heading">Select Date</div>
+        	<br>
+        	<form action='' method ='POST' class=" form-inline">
+        		{% csrf_token %}
+				<div class="input-group">
+					<span class=" input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        			{{form.date}}
+				</div>
+				<br>
+				<br>
+				<div class="container-fluid">
+        		<input type="submit" class="btn btn-success">
+        		</div>
+			</form>
+		</div>
+</center>
+</div>
+		
+{% else %}
 		<div class="page_title">Access Denied !! <br> Login to continue..</div>
-	{% endif %}
+{% endif %}
+
+
+
+
 
 {% endblock %}

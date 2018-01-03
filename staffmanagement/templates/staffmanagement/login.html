@@ -4,14 +4,35 @@
 {% if user.is_authenticated %}
 <meta http-equiv="refresh" content="0; URL='/staffmanagement/date'">
 {% else %}
+<div class="container-fluid">
 <center>
-<div id="login-box">
-	<form method='POST'>
-	{% csrf_token %}
-	{{form.as_p}}
-	<input type="submit" value ="Login">
-	</form>
-</div>
+	<div id="login-box" class="panel panel-primary">
+    	<div class="panel-heading">Login</div>
+        <br>
+        <form method='POST'>
+			{% csrf_token %}
+			{% if form.non_field_errors %}
+    		{% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</li>
+        	{% endfor %}
+    		{% endif %}
+			<div class="input-group">
+				<span class=" input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" name="username" autofocus required id="id_username" maxlength="254" class="form-control">
+			</div>	
+        <br>
+		<div class="input-group">
+		<span class=" input-group-addon"><i class="glyphicon glyphicon-lock"></i>
+		</span>
+		<input type="password" name="password" required id="id_password" class="form-control">
+		</div>
+        <br>
+        <div class="container-fluid">
+        <input type="submit" class="btn btn-success ">      
+        <div>
+        </form>
+	</div>
 </center>
+</div>
 {% endif %}
 {% endblock%}

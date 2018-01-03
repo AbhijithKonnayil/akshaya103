@@ -2,6 +2,7 @@
 
 {% block head %}
 <script type="text/javascript">
+
 function fillDummyValue()
 {
 document.getElementById('{{form.reciept.id_for_label}}').value='{{reciept}}';
@@ -15,11 +16,12 @@ document.getElementById('{{form.password.id_for_label}}').value='{{password}}';
 document.getElementById('{{form.remark.id_for_label}}').value='{{remark}}';
 document.getElementById('{{form.service_fees.id_for_label}}').value='{{service_on_credit}}';
 document.getElementById('{{form.trans_id.id_for_label}}').value={{trans_id}};
-alert("ok");
+
+
 }
 function creditValidation()
 {
-   var total = {{rec_amount}}
+   var total = {{amount_to_pay}}
    var collected = document.getElementById('{{form.rec_amount.id_for_label}}').value;
     if( collected > total)
     {   
@@ -39,91 +41,129 @@ function creditValidation()
 
 <div class="page_title">Credit Clearance</div>
 <br>
-<div id="data_form">
-    <form action='../' method='post'>
+<div class="container-fluid">
+<center>
+    <div id="form-box" class="panel panel-primary">
+        <div class="panel-heading">Reciepts</div>
+        <br>
+        <div class="row form-inline ">
+        
         {% csrf_token %}
-        <div class="col-sm-2 form_element">
-            Reciept Type
-            <br>
-            {{reciept}}
-        </div>
-        <div id='hide'>
-            <div class="col-sm-2 form_element" >
-                Bank Account
-                <br>
-                {{bank_acc}}
-            </div>
-            <div class="col-sm-2 form_element">
-                Payment Fees
-                <br>
-                {{payment_fees}}
-            </div>
-        </div>
-        <div class="col-sm-2 form_element">
-            Service Fees
-            <br>
-            {{service_fees}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Name
-            <br>
-            {{customer_name}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Username
-            <br>
-            {{username}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Password
-            <br>
-            {{password}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Contact No.
-            <br>
-            {{contact_no}}
-        </div>
-        
-        <div class="col-sm-2 form_element">
-            Remark
-            <br>
-            {{remark}}
-        </div>
-        <div class="col-sm-2 form_element ">
-            Service on Credit
-            <br>
-            {{service_on_credit}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Total Amount 
-            <br>
-            {{total_fees}}
-        </div>
-        <div id ="amount_paid" class="col-sm-2 form_element">
-            Amount to Pay
-            <br>
-            {{rec_amount}}
-        </div>
-        
-        <div class="col-sm-2 form_element_fixed close_account">
-        
-            <a href="/accounts/close/{{date}}"><b>Close Accounts</b></a>
-        </div> 
-        <div class="col-sm-2 form_element_fixed">
-             <br>
-            <input type="submit">
-        </div> 
-        <div class="col-sm-2 form_element form_element_fixed">
-            Amount Paid
-            <br>
-            {{form.rec_amount}}
-            {{form.trans_id}}
-        </div>
-    </form>
-</div>
+            
 
-<div class="col-sm-10 credit-table">
+
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">Reciept Title </span>
+                 <p class="form-control">{{reciept}} </p>
+            </div>
+
+        
+            <div id="hide_bank" class="input-group col-sm-2 hid">
+                <span class=" input-group-addon">Bank</span>
+               <p class="form-control">{{bank_acc}} </p>
+            </div>
+
+            <div id="hide_payment" class="input-group col-sm-2 hid">
+                <span class=" input-group-addon">Payment Fees</span>
+                <p class="form-control">{{payment_fees}} </p>
+            </div>
+          
+
+
+            <div class="input-group col-sm-2">
+            <span class=" input-group-addon">Service Fees
+            </span>
+            <p class="form-control">{{service_fees}} </p>
+            </div>
+            <div class="input-group col-sm-3">
+            <span class=" input-group-addon">Customer Name
+            </span>
+            <p class="form-control">{{customer_name}} </p>
+            </div>
+         
+            
+        
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">User Name
+                 </span>
+                <p class="form-control">{{username}} </p>
+            </div>
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">Password Name
+                </span>
+                <p class="form-control">{{password}} </p>
+            </div>
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">Contact No
+                </span>
+                <p class="form-control">{{contact_no}} </p>
+            </div>
+            
+                        
+            
+
+            <div class="input-group col-sm-3">
+                <span class=" input-group-addon">Remark
+                </span>
+                <p class="form-control">{{remark}} </p>
+            </div>
+
+    <form action="../" method="POST" class="">
+    {% csrf_token %}
+            
+            
+            <div class="col-sm-4">
+          
+            </div>
+         
+            <div id="btn-grp" class="col-sm-2">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><p>Total</p></div>
+                    <h4 id="form_total">Rs {{total_fees}}</h4>
+                </div>
+            </div>
+
+            <div id="btn-grp" class="col-sm-2">
+                <div class="panel panel-danger">
+                    <div class="panel-heading"><p>Amount to Pay</p></div>
+                    <h4 id="form_total">Rs {{amount_to_pay}}</h4>
+                </div>
+            </div>     
+         
+            <div class="col-sm-2">
+                <center>
+                <span class=" input-group-addon"><h4>Amount Paid</h4>
+                {{form.rec_amount}}
+                 {{form.trans_id}}
+                </span>
+                </center>
+                
+            </div>
+
+            <div id="btn-grp"  class="col-sm-2">
+                 <center>
+                     <input type="submit" class="btn btn-success">
+                    <a href="/accounts/close/{{date}}">
+                        <button class="btn btn-danger" type="button">Close Accounts</button>
+                    </a>
+                </center>
+            </div>
+
+
+    </from>
+        
+       
+    </div><!--form box-->
+    
+    
+    
+</center>
+
+<center>
+
+<div id="creditors-table" class="panel panel-danger ">
+        <div class="panel-heading ">Creditors List</div>
+          <div class="panel-body">
          <table>
                 <tr>
                     <th>Si No</th>
@@ -140,7 +180,7 @@ function creditValidation()
                 {% for credit in credit_list %}
                 <tr>
                     <td>{{forloop.revcounter}}</td>
-                    <td><a href="../{{credit.id}}">{{credit.id}}</a></td>
+                    <td><a href="../{{date}}/{{credit.id}}">{{credit.id}}</a></td>
                     <td>{{credit.date}}</td>
                     <td>{{credit.reciept}}</td>
                     <td>{{credit.customer_name}}</td>
@@ -151,19 +191,14 @@ function creditValidation()
                 </tr>
                 {% endfor %}
          </table>
-         </div>
- 
-{{form.reciept}}
-{{form.bank_acc}}
-{{form.payment_fees}}
-{{form.service_fees}}
-{{form.customer_name}}
-{{form.contact_no}}
-{{form.username}}
-{{form.password}}
-{{form.remark}}
-{{form.service_fees}}
-<!--
+
+
+
+
+          </div>
+          </div>
+</center>
+
 {{form.reciept.as_hidden}}
 {{form.bank_acc.as_hidden}}
 {{form.payment_fees.as_hidden}}
@@ -174,7 +209,7 @@ function creditValidation()
 {{form.password.as_hidden}}
 {{form.remark.as_hidden}}
 {{form.service_fees.as_hidden}}
--->
+
 
 {% endif %}
 {% endblock %}

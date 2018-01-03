@@ -1,38 +1,145 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% block head %}
+<script type="text/javascript">
+{% if not user_id %}
+	function confirmPassword()
+	{
+		
+		var password1 = document.getElementById('{{form.password.id_for_label}}').value;
+		var password2 = document.getElementById('{{form.confirm_password.id_for_label}}').value;
+		if (password1!=password2 && (password2!=""))
+		{
+			alert("Passwords dont match !!");
+			document.getElementById('{{form.password.id_for_label}}').value="";
+			document.getElementById('{{form.confirm_password.id_for_label}}').value="";
+		}
+		elseif 
+		{
+
+		}
+	{% endif %}	
+	
+	function confirmPassword2()
+	{
+		var password1 = document.getElementById('{{form.password.id_for_label}}').value;
+		var password2 = document.getElementById('{{form.confirm_password.id_for_label}}').value;
+		if(password2=="")
+		{
+			alert("Confirm Password Box Empty !!");
+		}
+	}
+</script>
+{% endblock %}
 {% block body %}
-Staff Management
+<div class="page_title">Staff Management</div>
 <br>
-<form action='' method ="POST" enctype="multipart/form-data">
-{% csrf_token %}
-{{form.as_table}}
-<input type='submit'>
-</form>
+<div class="container-fluid">
+<center>
+
+	<div id="form-box" class="panel panel-primary">
+	<div class="panel-heading">Staff Management</div>		
+	<div class="row">
+
+
+		<div id="data_form">
+{% if user_id %}
+	<form action='../' method ="POST" class="form-inline" enctype="multipart/form-data">
+{% else %}
+	<form action='' method ="POST"  class="form-inline" enctype="multipart/form-data">
+{% endif %}
+		{% csrf_token %}
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">First Name</span>
+			{{form.first_name}}
+			{{form.user_id}}
+		</div>
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">Last Name</span>
+			{{form.last_name}}
+		</div>
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">User Name</span>
+			{{form.username}}
+		</div>
+
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">Password</span>
+			{{form.password}}
+		</div>
+		<div class="col-sm-2 input-group">
+			{{form.confirm_password.error}}
+			<span class=" input-group-addon">Confirm Password</span>
+			{{form.confirm_password}}
+		</div>
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">E mail</span>
+			{{form.email}}
+		</div>
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">Designation</span>
+			{{form.designation}}
+		</div>
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">Contact No</span>
+			{{form.mob}}
+		</div>
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">Address</span>
+			{{form.address}}
+		</div>
+		<div class="col-sm-2 input-group">
+			<span class=" input-group-addon">Profile photo</span>
+			{{form.profile_photo}}
+		</div>
+		<div class="col-sm-10">
+			
+		</div>
+		<div class="col-sm-2" id="btn-grp">
+		<input type='submit' class="btn btn-success" onclick="confirmPassword2()">
+		</div>
+	</form>
+</div>
+
+	</div>
+	</div>
+</center>
+</div>
+
+
+
+
+
+
+
+
+
+
 <br>
-<table border=1>
+<table border=1 class="data-table overflowy" >
 <tr>
-<td>Si No</td>
-<td>User ID</td>
-<td>Photo</td>
-<td>First Name</td>
-<td>Second Name</td>
-<td>Username</td>
-<td>Email</td>
-<td>Designation</td>
-<td></td>
+<th>Si No</th>
+<th>User ID</th>
+<th>Photo</th>
+<th>First Name</th>
+<th>Second Name</th>
+<th>Username</th>
+<th>Email</th>
+<th>Designation</th>
+<th>Edit</th>
 </tr>
 {% for user,userDetails in userlist %}
 <tr>
 <td>{{forloop.counter}}</td>
 <td>{{user.id}}</td>
 {% if user.username == userDetails.user %}
-<td><img src="{{userDetails.profile_photo.url}}" width="100px" height="100px" alt='{{user.first_name}} pic'>
-<img src="https://lh3.googleusercontent.com/VT-PqxMMsA2wPy7kzmuKGDIzaA3AGuXKExqnfOfwTEy5AvLIMTranbfNGheRr457RD4=w300" width="100px" height="100px" alt='{{user.first_name}} pic'></td>
+	<td>"img :{{userDetails.profile_photo.url}}"</td>
 {% endif %}
-<td>{{user.first_name}}</td>
-<td>{{user.last_name}}</td>
-<td>{{user.username}}</td>
-<td>{{user.email}}</td>
+	<td>{{user.first_name}}</td>
+	<td>{{user.last_name}}</td>
+	<td>{{user.username}}</td>
+	<td>{{user.email}}</td>
+
 {% if user.is_superuser %}
 	<td>Admin</td>
 {% elif user.is_staff %}
@@ -40,8 +147,24 @@ Staff Management
 {% else %}
 	<td></td>
 {% endif %}
-<td>edit</td>
+{% if user.id %}
+<td><a href="../{{user.id}}">edit</a></td>
+{% else %}
+<td><a href="{{user.id}}">edit</a></td>
+{% endif %}
 </tr>
 {% endfor %}
 </table>
+{% if form.errors %}
+	{% for field in form %}
+		{% for error in field.errors %}
+			<div class="page_title">{{field.id_for_label}} {{error|escape}}</div>
+		{% endfor %}	
+	{% endfor %}
+	{% for error in form.non_field_errors %}
+			<strong>{{error|escape}}</strong>
+	{% endfor %}	
+	
+{% endif %}
+
 {% endblock %}

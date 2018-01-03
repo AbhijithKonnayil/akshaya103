@@ -1,0 +1,297 @@
+{{static}}
+#header
+{
+	position: absolute;
+	top:0;
+	background-color: #fff;
+	padding: 0px;
+	
+}
+#logo
+{
+	background-image: url("../img/logo.png");
+	background-color: #ffffff;
+	background-size:contain;
+	width: 150px;
+	height:150px;
+}
+
+#company_name
+{	
+	background-color: #fff;
+	position: relative;
+	color: #0000ff;
+	text-align: left;
+	height: 150px;
+}
+#body-container
+{
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+#login-box
+{
+	vertical-align: middle;
+	width: 350px;
+	background-color: rgba(255,255,255,0.1);
+	text-align: center;
+	height : 300px;
+	color: ffffff;
+	margin-top: 100px;
+	padding-top: 100px;
+}
+#login-box input
+{
+	background-color: transparent;
+	color: #ffffff;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	border-color: #ffffff;
+}
+#footer
+{
+	position: absolute;
+	bottom: 0;
+	background-color: #333;
+	font-size: 20px;
+	color: #aaa;
+	height: 150;
+	text-align: center;
+	padding-top: 20px;
+	vertical-align: baseline;
+}
+#data_form
+{
+	background-color: rgba(21,125,236,0.3);
+	height: inherit;
+	width: inherit;
+	display: block;
+	overflow: auto;
+	padding: 15px 0px;
+}
+#date
+{
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #fff;
+}
+#profile
+{
+margin: 0px;
+float: left;
+display: inline;
+
+}
+#profile img
+{
+	float: right;
+}
+#profile h3
+
+{	
+	margin-top: 30px;
+	padding: 10px;
+	display: inline;
+	vertical-align: middle;
+}
+#profile h4
+{
+	padding: 10px;
+	display: inline;
+}
+#fees_associated_radio
+{
+list-style-type: none;
+}
+#fees_associated_radio li
+{
+	display: inline;
+	padding: 0px 30px;
+}
+
+.menu-item
+{
+	background-color: #ffffff;
+	text-align: center;
+	color:#ffffff;
+	margin-left: 0px;
+	font-size: 20px;
+	height: 150px;
+	float: right;
+}
+.menu-item a
+{	padding: 120px 1px 0px;
+	text-decoration: none;
+	color: #0000ff;
+	display: block;
+	
+}
+.menu-item:hover
+{
+	background-color: #0000ff;
+
+
+}
+.menu-item:hover a
+{
+	color: #ffffff;
+	text-decoration: none;
+}
+.dashboard-item
+{
+	margin: 10px;
+	width: 250px;
+	float: left;
+	
+}
+.dashboard-item a
+{
+	display: block;
+	background-color: #36c;
+	color: #FFF;
+	text-decoration: none;
+	padding: 75px 0px;
+	font-size: 25px;
+}
+.dashboard-item a:hover
+{
+	background-color: #FFF;
+	color: #36c;
+}
+.body-content
+{
+	width:100%;
+	margin-top: 150px;
+}
+.close_account
+{
+	color: #fff;
+	padding: 30px;
+	font-size: 20px;
+}
+.display-none
+{
+	display: none;
+}
+div.data-table
+{
+	border: 1;
+	background-color: #transparent;
+	height:100px;
+	width: 100%;
+}
+
+.data-table table
+{
+	width:100%;
+	text-align: center;
+}
+.data-table tr
+{
+	height: 30px;
+}
+
+.data-table tr:nth-child(even)
+{
+	background-color: #aaaaaa;
+}
+.data-table tr:nth-child(odd)
+{
+	background-color: #bbbbbb;
+}
+.overflowy
+{
+	overflow-y:scroll;
+}
+.form_element
+{
+	height: 100px;
+	padding: 10px;
+	
+}
+.form_element_fixed
+{
+	display: inline;
+	color: #fff;
+	float: right;
+	height: 100px;
+	padding: 10px;
+}
+
+.form_element_fixed div
+{
+	display: inline-table;
+	float: right;
+	line-height: inherit;
+	vertical-align: middle;
+	
+}
+.page_title{
+	font-size: 30px;
+	color: #fff;
+}
+.close_account a
+{
+	color:#ED8515;
+}
+.close_account a:hover
+{
+	text-decoration: none;
+	color: 	#C64E00;
+}
+.credit-table table
+{
+	width:100%
+	text-align: center;
+}
+.credit-table td
+{
+
+	padding: 5px 15px; 
+}
+.credit-table th
+{
+
+	padding: 10px 20px; 
+}
+.credit-table tr:nth-child(even)
+{
+	background-color: #fff;
+}
+.credit-table tr:nth-child(odd)
+{
+	background-color: #aaa;
+}
+th
+{
+	text-align: center;
+	background-color: #333;
+	color: #fff;
+}
+body
+{
+	background-image: url("../img/bg.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	margin: 0px;
+	padding: 0px;
+}
+form 
+{
+	color: #DDD;
+	font-size: 20px;
+
+}
+form input 
+{
+	color: #333;
+	font-size: 18px;
+}
+form select 
+{
+	color: #333;
+	font-size: 18px;
+}

@@ -3,36 +3,72 @@
 {% block body %}
 
 <br>
+{% if user.is_staff %}
 <div class="page_title">DASH BOARD</div>
 <br>
-{% if user.is_superuser %}
 
-<center>
-<div class="dashboard-item">
-<a href="/accounts/entry/{{date}}">Income Accounts</a>
-</div>
+<br>
+<div class="container-fluid">
+	<center>
+		<div class="row">
+			<div class="col-sm-12">
+				<div id="" class="panel panel-primary">
+			    	<div class="panel-heading">Accounts Managements</div>       
+			        	<div class="row ">
+			        		<center>
+			        		
+				        		<div class="dashboard-item col-sm-2">
+				      	 			<a href="/accounts/entry/{{date}}">Receipt Entry<br>Modules</a>
+				        		</div><!--dashboard item-->
+				        
+				        		<div class="dashboard-item col-sm-2">
+				        			<a href="/accounts/outentry/{{date}}">Payment<br>Entry</a>
+				        		</div><!--dashboard item-->
+						        
 
-<div class="dashboard-item" >	
-<a href="/accounts/outentry/{{date}}">Expense Accounts </a>
-</div>
-<div class="dashboard-item" >
-<a href="/accounts/bankDetails/add/{{date}}">Bank Details </a>
-</div>
-<div class="dashboard-item" >
-<a href="/accounts/recieptDetails/add/{{date}}">Reciept Details </a>
-</div>
-<div class="dashboard-item" >
-<a href="/staffmanagement/staffs/add/{{date}}">Staff Management </a>
-</div>
-{% elif user.is_staff %}
-<div class="col-sm-1 dashboard-item" >
-<a href="/accounts/entry/{{date}}">Income Accounts </a>
-</div>
+						        <div class="dashboard-item col-sm-2">
+						        	<a href="/accounts/{{date}}">View<br>Reports</a>
+						        </div><!--dashboard item-->
+						        {% if user.is_superuser%}
+						        <div class="dashboard-item col-sm-2">
+						        	<a href="/accounts/bankDetails/add/{{date}}">Manage<br>Bank Accounts</a>
+						        </div><!--dashboard item-->
+						        
+						        <div class="dashboard-item col-sm-2">
+						        	<a href="/accounts/recieptDetails/add/{{date}}">Manage<br>Receipts</a>
+						        </div><!--dashboard item-->
+						        {%endif%}
 
-<div class="dashboard-item" >	
-<a href="/accounts/outentry/{{date}}">Expense Accounts </a>
-</div>
-</center>
+			        		</center>
+			        	</div><!--row2-->
+				</div><!--form box-->
+			</div>
+
+			{%if user.is_superuser%}
+			<div class="col-sm-12">
+				<div id="" class="panel panel-danger">
+			    	<div class="panel-heading  bg-danger">Staff Management</div>              
+			        	<div class="row">
+			       			<center>
+			       			
+				       			<div class="dashboard-item col-sm-2">
+				      				<a href="/staffmanagement/staffs/add/{{date}}">Staff<br>Management </a>
+				        		</div><!--dashboard item-->
+				        
+				        		<div class="dashboard-item col-sm-2">
+				         			<a href="">Expence</a>
+				        		</div><!--dashboard item-->
+				        	</center>
+			        	</div>        
+			     </div><!--form box-->
+			</div>
+			{%endif%}
+
+
+		</div><!--row-->
+	</center>
+</div><!--conatiner-->
+
 {% endif %}
 
 {% endblock %}

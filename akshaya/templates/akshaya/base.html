@@ -1,10 +1,27 @@
-	{% load static %}
+{% load static %}
+
+<!doctype html>
 <html>
-	<head>
+<head>
+	<!--fonts-->
+	<link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Great+Vibes|Prompt" rel="stylesheet">
+
+	<!-- CSS Stylesheets-->
+	<link rel="stylesheet" type="text/css" href ="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href ="{% static 'css/bootstrap/css/bootstrap.css' %}">
+	
+
+	<!-- Javascript files-->
+	<script type="text/javascript" src="{% static 'js/script.js' %}"> </script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
-		
+
 	function checkDate()
 	{
+
 	alert("Select Date");
 	}
 
@@ -56,123 +73,80 @@
 					break;
 			case 11 : month="December";
 					break;
-
 		}
 
-		document.getElementById('date').innerHTML=(month+" "+ date.getDate() +"," +date.getFullYear()+ "<br>"+ day  );
+document.getElementById('date').innerHTML=("<span class='glyphicon glyphicon-calendar'></span><p>" + month + " " + date.getDate() + "," +date.getFullYear() + "<br>"+ day +" </p>");
 	}
-	displayDate();
-
 	</script>
-	<link rel="stylesheet" type="text/css" href ="{% static 'css/bootstrap/css/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href ="{% static 'css/style.css' %}">
-	<title>Akshaya KL103</title>
+	<meta charset="utf-8">
+
+	<title>Akshaya KL 103</title>
+
 	{% block head %}
 	{% endblock %}
-	</head>
-<body onload="displayDate(); set_trans_id();">
-	<!--Header Section -->
-	<div id="header" class="col-sm-12">
-		
-		<div id="logo"  class="col-sm-1">
-
-		</div>
-
-	{% if user.is_authenticated %}
-
-<!-- Displays the menu items for the admin -->
-					
-		<div id="company_name"  class="col-sm-8">
-			<br>
-			<div class="col-sm-3">
-				<h1>Akshaya KL103</h1>
-				<h4>Database Management System</h4>
-				
-					
-		</div>
-		<div class="col-sm-9">
-				<div id="date" >
-
-				</div>
-				<div id="profile" class="col-sm-12">
-					<div class="col-sm-4">
-						<img src="{{userDetails.profile_photo.url}} width="80 px" height="80 px" ">
-					</div>
-					<div class="col-sm-4">
-					<br>
-						<h3>{{user.first_name}} {{user.last_name}}</h3>
-						<br>
-						{% if user.is_superuser%}
-						<h4>Admin</h4>
-						{% elif user.is_staff %}
-						<h4>Staff</h4>
-						{% else %}
-						<h4></h4>
-						{% endif %}
-					</div>
-				</div>
-		</div>
-			
-		</div>
-		<div class="col-sm-1 menu-item">
-			<a href="/staffmanagement/logout">Logout</a>
-		</div>	
-
-
-		<div class="col-sm-1  menu-item">
-			<a href="/admin" target="blank">Admin Panel</a>
-		</div>
-
-		<div class="col-sm-1  menu-item">
-		{% if date is None %}
-				
-			<a href="" onclick="checkDate()" >Dashboard</a>
-		{% else %}					
-			<a href="/staffmanagement/staffs/{{date}}">Dashboard</a>
-		{% endif %}
-		</div>
-
-
-		
-
-		
-<!-- if staff is not logged in (no menu items)-->
-	{% else %}
-		
-		<div id="company_name"  class="col-sm-11">
-			<div class="col-sm-3">
-			<h1>Akshaya KL103</h1>
-			<h4>Database Management System</h4>
-			</div>
-
-			<div class="col-sm-1 menu-item	">
-			<a href="/">Login</a>
-			</div>
-
-		</div>
-
-<!-- end of if in menu item -->		
-	{% endif %}
-
-	</div>
-	<br>
-	<div class="body-content col-sm-12">
-	<center>
 	
-		{% block body %}
-		{% endblock %}
-		
+</head>
+	
+<body onload="displayDate();">
+<div class="container-fluid">
+	<div class="row">
+    	<div class="header col-sm-3 " >
+        	<div id="logo">
+        
+       		</div>
 
+            <div id="user-details">
+            	{% if user.is_authenticated %}
+		        <p><b>{{user.first_name}} {{user.last_name}}</b></p>
 
-	</center>
-	</div>
+		        	{% if user.is_superuser%}
+						<p>Admin</p>
+					{% elif user.is_staff %}
+						<p>Staff</p>
+					{% endif %}
 
+                {% endif %}
+            </div>
+        </div>
+        
+        
+        <div class="header col-sm-4" id="title">
+			<h1>Akshaya KL103</h1>
+       		Database Management System  
+        </div>
+        
+        <div id="date" class="header col-sm-1">
+        	<span class="glyphicon glyphicon-calendar"></span>
+        	
+        </div>
+
+        <div class="header col-sm-4"> 
+        	<ul>
+        		{% if user.is_authenticated %}
+        		<li><a href="/staffmanagement/logout">Logout</a></li>
+        		<li><a href="/admin">Admin Panel</a></li>
+        		<li>
+        			{% if date is None %}				
+						<a href="" onClick="checkDate();" >Dashboard</a>
+					{% else %}					
+						<a href="/staffmanagement/staffs/{{date}}">Dashboard</a>
+					{% endif%}
+        		</li>
+        		{% else %}
+        		<li><a href="/">Login</a></li>
+        		{% endif %}
+        	</ul>
+        </div>
+    </div><!--row-->
+</div><!--container-->
+
+{% block body %}
+{% endblock %}
 
 	<!--Footer Section -->
-	<div id="footer" class="col-sm-12">
-			Designed & Developed by
-			<br>
-			Aeon Innovative Wings
-	</div>
+<div id="aeon" class="container">
+       <h4> Designed & Developed by<br></h4>
+        Aeon Creative Wings
+ </div>
 </body>
 </html>

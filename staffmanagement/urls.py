@@ -5,8 +5,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+
 	#/staff/add
-	url(r'^staffs/add/(?P<date>\d{4}-\d{2}-\d{2})$', views.staffManagement, name='staffManagement'),
+	url(r'^staffs/add/(?P<date>\d{4}-\d{2}-\d{2})/$', views.staffManagement, name='staffManagement'),
+
+	#/staff/add
+	url(r'^staffs/add/(?P<date>\d{4}-\d{2}-\d{2})/(?P<user_id>\d+)/$', views.staffManagementEdit, name='staffManagementEdit'),
 	#/login
 	url(r'^login/$',login, {'template_name':'staffmanagement/login.html'}),
 	#/logout

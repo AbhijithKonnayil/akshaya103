@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 {% block head %}
 <script type="text/javascript">
-
 function myFunction()
 {   
 
     var js_selected_reciept = document.getElementById('{{form.reciept.id_for_label}}').options[document.getElementById('{{form.reciept.id_for_label}}').selectedIndex].text;
-
     var js_reciept_title = [""];
     var js_reciept_service_fees = [""];
     var js_reciept_ass_bank_acc = [""];
     var js_reciept_ass_fees = [""];
+    var js_reciept_id
 
     {% for r in recieptDetail %}
 
@@ -21,8 +20,10 @@ function myFunction()
    
     {% endfor %} 
     var js_bank_list =[""]
+    var js_bank_id_list=[""]
     {% for s in bankDetails %}
         js_bank_list.push('{{s.bank_name}}')
+        js_bank_id_list.push('{{s.id}}')
     {% endfor %}
 
     var i;
@@ -33,25 +34,30 @@ function myFunction()
             
             if(js_reciept_ass_bank_acc[i] == 'None')
             {
-            document.getElementById('hide').style.display='none';
+            document.getElementById('hide_bank').style.display='none';
+            document.getElementById('hide_payment').style.display='none';
             }
             else
             {
-            document.getElementById('hide').style.display='block';
+            document.getElementById('hide_bank').style.display='inline-table';
+            document.getElementById('hide_payment').style.display='inline-table';
+
             }
             
             document.getElementById('{{form.service_fees.id_for_label}}').value = js_reciept_service_fees[i];
             document.getElementById('{{form.payment_fees.id_for_label}}').value = js_reciept_ass_fees[i];  
-            document.getElementById('{{form.bank_acc.id_for_label}}').value=js_bank_list.indexOf(js_reciept_ass_bank_acc[i]);
+            
+            document.getElementById('{{form.bank_acc.id_for_label}}').value=js_bank_id_list[js_bank_list.indexOf(js_reciept_ass_bank_acc[i])];
         }
     }
 }
 
 function findTotal()
 {
-	var x = parseFloat(document.getElementById('{{form.payment_fees.id_for_label}}').value);	
-	var y = parseFloat(document.getElementById('{{form.service_fees.id_for_label}}').value);	
-	document.getElementById('form_total').innerHTML = "Rs. " + (x+y) ;
+
+    var x = parseFloat(document.getElementById('{{form.payment_fees.id_for_label}}').value);    
+    var y = parseFloat(document.getElementById('{{form.service_fees.id_for_label}}').value);
+    document.getElementById('form_total').innerHTML = "Rs. " + (x+y) ;
     return x+y;
 }
 
@@ -59,13 +65,15 @@ function creditField()
 { 
     if(document.getElementById('{{form.service_on_credit.id_for_label}}').checked==true)
     {
-        document.getElementById('amount_paid').classList.remove('display-none');
+        alert("credit true " + document.getElementById('{{form.rec_amount.id_for_label}}').value);
+        document.getElementById('amount_paid').style.display='inline-table';
         document.getElementById('{{form.rec_amount.id_for_label}}').value=0;
     }
     else
    {    
+        alert("credit false:"+document.getElementById('{{form.rec_amount.id_for_label}}').value);
         document.getElementById('{{form.rec_amount.id_for_label}}').value=findTotal();
-        document.getElementById('amount_paid').classList.add('display-none');     
+        document.getElementById('amount_paid').style.display='none';     
    }
 }
 
@@ -93,92 +101,92 @@ function creditValidation()
 
 <div class="page_title">Income Accounts Entry</div>
 <br>
-<div id="data_form">
-    <form action='' method='post'>
+
+
+<div class="container-fluid">
+<center>
+    <div id="form-box" class="panel panel-primary">
+        <div class="panel-heading">Reciepts</div>
+        <br>
+        <div class="row">
+        <form action="" method="POST" class="form-inline">
         {% csrf_token %}
-        <div class="col-sm-2 form_element">
-            Reciept Type
-            <br>
-            {{form.reciept}}
-        </div>
-        <div id='hide'>
-            <div class="col-sm-2 form_element" >
-                Bank Account
-                <br>
+            
+
+
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">Reciept Title </span>
+                {{form.reciept}}
+            </div>
+
+        
+            <div id="hide_bank" class="input-group col-sm-2 hid">
+                <span class=" input-group-addon">Bank</span>
                 {{form.bank_acc}}
             </div>
-            <div class="col-sm-2 form_element">
-                Payment Fees
-                <br>
+
+            <div id="hide_payment" class="input-group col-sm-2 hid">
+                <span class=" input-group-addon">Payment Fees</span>
                 {{form.payment_fees}}
             </div>
-        </div>
-        <div class="col-sm-2 form_element">
-            Service Fees
-            <br>
+          
+
+
+            <div class="input-group col-sm-2">
+            <span class=" input-group-addon">Service Fees
+            </span>
             {{form.service_fees}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Name
-            <br>
+            </div>
+            <div class="input-group col-sm-3">
+            <span class=" input-group-addon">Customer Name
+            </span>
             {{form.customer_name}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Username
-            <br>
-            {{form.username}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Password
-            <br>
-            {{form.password}}
-        </div>
-        <div class="col-sm-2 form_element">
-            Customer's Contact No.
-            <br>
-            {{form.contact_no}}
-        </div>
-        
-        <div class="col-sm-2 form_element">
-            Remark
-            <br>
-            {{form.remark}}
-        </div>
-        <div class="col-sm-2 form_element ">
-        Service on Credit
-        <br>
-        {{form.service_on_credit}}
-
+            </div>
+         
             
-        </div>
-        <div id ="amount_paid" class="col-sm-2 form_element display-none">
-        Amount Paid
-        <br>
-        {{form.rec_amount}}
-        {{form.trans_id}}
+        
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">User Name
+                 </span>
+                 {{form.username.error}}
+                {{form.username}}
+            </div>
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">Password Name
+                </span>
+                {{form.password}}
+            </div>
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">Contact No
+                </span>
+                {{form.contact_no}}
+            </div>
             
-        </div>
-    
-        <div class="col-sm-1 form_element_fixed close_account">
-        
-            <a href="/accounts/close/{{date}}"><b>Close Accounts</b></a>
-        </div> 
-        <div class="col-sm-1 form_element_fixed">
-             <br>
-            <input type="submit">
-        </div> 
+            <div class="input-group col-sm-1">
+                <span class=" input-group-addon">Service on Credit</span>
+                <div class="form-control">
+                    {{form.service_on_credit}}
+                </div>
+            </div>
+            
+            <div id="amount_paid" class="input-group col-sm-2" style="display:none;">
+                <span class=" input-group-addon">Amount Paid
+                </span>
+                {{form.rec_amount}}
+                 {{form.trans_id}}
+            </div>
 
-
-    <div class="col-sm-12 form_element_fixed">
-        
-
-        <div class="col-sm-1 form_element">
-            Total Amount 
-            <br>
-            <h3 id='form_total'class="form_element_fixed">Rs. 0.00</h3>
-        </div>
-
-         <div class="col-sm-10 credit-table">
+            <div class="input-group col-sm-2">
+                <span class=" input-group-addon">Remark
+                </span>
+                {{form.remark}}
+            </div>
+          
+          
+          <div class="col-sm-8">
+          <div id="creditors-table" class="panel panel-danger ">
+        <div class="panel-heading ">Creditors</div>
+          <div class="panel-body">
          <table>
                 <tr>
                     <th>Si No</th>
@@ -193,9 +201,10 @@ function creditValidation()
                     
                 </tr>
                 {% for credit in credit_list %}
-                <tr>
+                
+                <tr onclick="location.href='../{{date}}/{{credit.id}}'" style="cursor:pointer;">
                     <td>{{forloop.revcounter}}</td>
-                    <td><a href="../{{date}}/{{credit.id}}">{{credit.id}}</a></td>
+                    <td>{{credit.id}}</td>
                     <td>{{credit.date}}</td>
                     <td>{{credit.reciept}}</td>
                     <td>{{credit.customer_name}}</td>
@@ -204,63 +213,115 @@ function creditValidation()
                     <td>{{credit.amount_to_pay}}</td>
                     <td>{{credit.remark}}</td>
                 </tr>
+                
                 {% endfor %}
          </table>
-         </div>
-       
 
+
+
+
+          </div>
+          </div>
+         </div>
+         
+         <div id="btn-grp" class="col-sm-2">
+            <div class="panel panel-info">
+                <div class="panel-heading"><p>Total</p></div>
+                <h4 id="form_total">Rs 0.00</h4>
+            </div>
+            </div>
+         
+         
+         
+         <div id="btn-grp"  class="col-sm-2">
+         <center>
+         <input type="submit" class="btn btn-success">
+        </form>
+            <a href="/accounts/close/{{date}}">
+                <button class="btn btn-danger" type="button">Close Accounts</button>
+            </a>
+             </center>
+         </div> 
         
-    </div>
-    </form>
+        
+       
+    </div><!--form box-->
+    
+    
+    
+</center>
 </div>
 
-<br>
-<br>
-<br>
-{% if allReciept.count > 6 %}
-<div class="data-table overflowy">
-{% else %}
-<div class="data-table">
-{% endif %}
-<table border=1>
-<tr>
-<th>Si No</th>
-<th>Transation ID</th>
-<th>Date</th>
-<th>Time</th>
-<th>Reciept</th>
-<th>Bank Account</th>
-<th>Payment Fees</th>
-<th>Service Fees</th>
-<th>Customer Name</th>
-<th>Username</th>
-<th>Password</th>
-<th>Contact No</th>
-<th>Total Fees</th>
-<th>Remark</th>
-<th>Amount to Pay</th>
-</tr>
-{% for reciept in allReciept.reverse %}
-<tr>
-<td>{{forloop.revcounter}}</td>
-<td>{{reciept.id}}</td>
-<td>{{reciept.date}}</td>
-<td>{{reciept.time}}</td>
-<td>{{reciept.reciept}}</td>
-<td>{{reciept.bank_acc}}</td>
-<td>{{reciept.payment_fees}}</td>
-<td>{{reciept.service_fees}}</td>
-<td>{{reciept.customer_name}}</td>
-<td>{{reciept.username}}</td>
-<td>{{reciept.password}}</td>
-<td>{{reciept.contact_no}}</td>
-<td>{{reciept.total_fees}}</td>
-<td>{{reciept.remark}}</td>
-<td>{{reciept.amount_to_pay}}</td>
-</tr>
 
-{% endfor %}
+<br>
+
+<div class="container-fluid">
+<div class="row">
+    <br>
+    {% if allReciept.count > 15 %}
+        <div class="col-sm-12 overflowy">  
+    {% else %}
+        <div class="col-sm-12">
+    {% endif %}
+    <table border=1>
+        <tr>
+            <th>Si No</th>
+            <th>Transation ID</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reciept</th>
+            <th>Bank Account</th>
+            <th>Payment Fees</th>
+            <th>Service Fees</th>
+            <th>Customer Name</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Contact No</th>
+            <th>Total Fees</th>
+            <th>Remark</th>
+            <th>Amount to Pay</th>
+        </tr>
+        {% for reciept in allReciept.reverse %}
+        <tr>
+            <td>{{forloop.revcounter}}</td>
+            <td>{{reciept.id}}</td>
+            <td>{{reciept.date}}</td>
+            <td>{{reciept.time}}</td>
+            <td>{{reciept.reciept}}</td>
+            <td>{{reciept.bank_acc}}</td>
+            <td>{{reciept.payment_fees}}</td>
+            <td>{{reciept.service_fees}}</td>
+            <td>{{reciept.customer_name}}</td>
+            <td>{{reciept.username}}</td>
+            <td>{{reciept.password}}</td>
+            <td>{{reciept.contact_no}}</td>
+            <td>{{reciept.total_fees}}</td>
+            <td>{{reciept.remark}}</td>
+            <td>{{reciept.amount_to_pay}}</td>
+        </tr>
+
+        {% endfor %}
 </table>
 </div>
+{% endif %}
+
+
+
+    
+    </div>    
+</div>
+</div>
+
+
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="page_title">{{field.id_for_label}} {{error|escape}}</div>
+        {% endfor %}    
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+            <strong>{{error|escape}}</strong>
+    {% endfor %}    
+    
 {% endif %}
 {% endblock %}
