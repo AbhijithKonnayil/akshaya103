@@ -284,6 +284,33 @@ def accountsView(request,date):
 
 def recieptDetailsEntry(request,date):
 	if userValidation(request.user):
+		try:
+			receiptin=recieptDetail.objects.all().get(id=1)
+			receiptin.reciept_title="Suspense Amount"
+			receiptin.service_fees=0
+			receiptin.ass_fees=0
+			receiptin.save()
+		except recieptDetail.DoesNotExist:
+			receiptin=recieptDetail()
+			receiptin.id=1
+			receiptin.reciept_title="Suspense Amount"
+			receiptin.service_fees=0
+			receiptin.ass_fees=0
+			receiptin.save()
+		try:
+			receiptout=recieptDetailsOut.objects.all().get(id=1)
+			receiptout.reciept_title="Suspense Amount"
+			receiptout.service_fees=0
+			receiptout.ass_fees=0
+			receiptout.save()
+		except recieptDetailsOut.DoesNotExist:
+			receiptout=recieptDetailsOut()
+			receiptout.id=1
+			receiptout.reciept_title="Suspense Amount"
+			receiptout.service_fees=0
+			receiptout.ass_fees=0
+			receiptout.save()
+
 		if request.method == 'POST':
 			formin = recieptDetailsForm(request.POST)
 			formout = recieptDetailsOutForm(request.POST)
@@ -515,7 +542,7 @@ def closeAccounts(request,date):
 					'netTotal':accountsin_sum['total_fees__sum']-accountsout_sum['charge__sum'],
 					'form':form,'formout':formout,
 					'date': date,
-					'ind':True,
+					'gen':True,
 				}
 					
 		return render(request,'accounts/closeaccounts.html',context)	

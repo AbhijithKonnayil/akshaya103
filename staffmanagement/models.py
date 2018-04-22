@@ -9,7 +9,7 @@ designation_choice = (('admin','Admmin'),('operator','Operator'))
 # Create your models here.
 
 class staffDetails(models.Model):
-	user = models.OneToOneField(User)
+	user = models.OneToOneField(User,unique=True)
 	mob = models.CharField(max_length=10,)
 	address = models.CharField(max_length=100)
 

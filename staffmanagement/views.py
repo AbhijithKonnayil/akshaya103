@@ -68,7 +68,7 @@ def staffManagement(request,date):
 				elif user_id>0:
 					print user_id,"  id \n\n"
 					staff=User.objects.get(id=user_id)
-					staffD = staffDetails.objects.get(user=staff.username)
+					staffD = staffDetails.objects.get(user=staff)
 					print staffD
 					staff.first_name = form.cleaned_data['first_name']
 					staff.last_name = form.cleaned_data['last_name']
@@ -77,7 +77,7 @@ def staffManagement(request,date):
 					staff.email = form.cleaned_data['email']
 					staffD.mob = form.cleaned_data['mob']
 					staffD.address = form.cleaned_data['address']
-					staffD.user = staff.username
+					staffD.user = staff
 
 
 					if form.cleaned_data['designation'] == 'admin':
@@ -98,7 +98,7 @@ def staffManagement(request,date):
 		else:
 			form = staffRegForm()
 			
-			if allUsers_count==1:
+			if allUsers_count==1 and staffDetails.objects.all().first().user!=User.objects.all().first():
 						print "single user \n \n"
 						staffD=staffDetails()
 						staffD.user=User.objects.all().first()
@@ -117,8 +117,11 @@ def staffManagementEdit(request,date,user_id):
 		allUserDetails = staffDetails.objects.all()
 		userlist=zip(allUsers,allUserDetails)
 		usr = User.objects.get(id=user_id)
+		print "\n\n usr object ",usr
 		username = usr.username
-		usr_details = staffDetails.objects.get(user=username)
+
+		usr_details = staffDetails.objects.get(user=usr)
+		
 		print user_id, "\n\n"
 		if usr.is_superuser:
 			designation = 'admin'
@@ -132,7 +135,7 @@ def staffManagementEdit(request,date,user_id):
 					'designation': designation,
 					'address': usr_details.address,
 					'email': usr.email,
-					'profile_photo':usr_details.profile_photo,
+					
 					'user_id':usr.id,
 					}
 		form = staffRegForm(user_data)

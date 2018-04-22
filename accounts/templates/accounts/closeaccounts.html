@@ -18,31 +18,25 @@ Date :  {{date}}
 
 <ul class="nav nav-tabs">
 
-	{% if ind %}
-		<li class="active">
-	{% else %}
-		<li>
-	{% endif %}
-			<a data-toggle="tab" href="#individual">Individual</a>
-		</li>	
-
-	{% if dbout or payments %}
+	{% if gen %}
 		<li class="active">
 	{% else %}
 		<li>
 	{% endif %}
 			<a data-toggle="tab" href="#general">General</a>
-		</li>
+		</li>	
+
+	
 </ul>
 
 
 
 <div class="tab-content">
 
-{% if ind %}
-	<div id="individual" class="tab-pane fade in active">
+{% if gen %}
+	<div id="general" class="tab-pane fade in active">
 {% else %}
-	<div id="individual" class="tab-pane fade">
+	<div id="general" class="tab-pane fade">
 {% endif %}
 	
 	<!--content-->
