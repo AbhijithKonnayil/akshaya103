@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from accounts.models import accountsIn, accountsOut, bankAccountDetails, recieptDetail, recieptDetailsOut, bankBalanceDetails, bankRechargeDetails
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.shortcuts import redirect
 from .forms import accountsInForm,accountsEditForm, accountsOutForm, recieptDetailsForm, recieptDetailsOutForm, bankAccountDetailsForm, reportTypeForm, bankRechargeForm
 from staffmanagement.forms import dateSelectionForm
 from django.db.models import F

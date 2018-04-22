@@ -19,6 +19,7 @@ def userValidation(user):
 	else:
 		return False
 
+
 def staffManagement(request,date):
 	if userValidation(request.user):
 		allUsers = User.objects.all()
@@ -110,6 +111,7 @@ def staffManagement(request,date):
 			allUserDetails = staffDetails.objects.all()
 			userlist=zip(allUsers,allUserDetails)
 		return render(request,'staffmanagement/staffDetailsEntry.html',{'userlist':userlist,'form':form,'allUsers':allUsers,'date':date,'root':settings.BASE_DIR})
+	return HttpResponseRedirect('/')		
 
 def staffManagementEdit(request,date,user_id):
 	if userValidation(request.user):
@@ -140,6 +142,7 @@ def staffManagementEdit(request,date,user_id):
 					}
 		form = staffRegForm(user_data)
 		return render (request,'staffmanagement/staffDetailsEntry.html',{'userlist':userlist,'form':form,'allUsers':allUsers,'user_id':user_id,'password':usr.password,'date':date})
+	return HttpResponseRedirect('/')	
 
 def staffManagementDelete(request,date,user_id):
 	if userValidation(request.user):
@@ -154,6 +157,7 @@ def staffManagementDelete(request,date,user_id):
 		usr_details.delete()
 		print "usr details delete"
 		return HttpResponseRedirect('../../../add/'+date)
+	return HttpResponseRedirect('/')	
 
 
 
@@ -173,4 +177,5 @@ def selectDate(request):
 		else:
 			form = dateSelectionForm()
 			return render(request,'staffmanagement/dateselect.html',{'form':form,})
+	return HttpResponseRedirect('/')	
 

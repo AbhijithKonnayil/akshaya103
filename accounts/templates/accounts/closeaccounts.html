@@ -9,10 +9,11 @@
 {% block body %}
 {% if user.is_authenticated %}
 <br>
-<div class="page_title">Close Accouonts</div>
+<div class="page_title">Close Accounts</div>
 <br>
 <div class="col-sm-12 close_account">
-Date :  {{date}}  
+<h4>Date : {{date}}  </h4>
+<br>
 </div>
 
 
@@ -42,7 +43,8 @@ Date :  {{date}}
 	<!--content-->
 	<div class="container-fluid">
 		<div class="col-sm-6">
-		Total Fees Collected
+		<br>
+		<h4>Fees Collected</h4>
 
 			<table class="close_acct_table" border=1>
 				<th>Receipt</th>
@@ -74,7 +76,8 @@ Date :  {{date}}
 				</tr>
 			</table>
 
-			Service Fees Collected
+			<br>
+			<h4>Service Fees Collected</h4>
 			<table class="close_acct_table" border="1">
 				<th>Receipt</th>
 				<th>Service Fees</th>
@@ -109,7 +112,8 @@ Date :  {{date}}
 
 
 		<div class="col-sm-6">
-		Total Fees Collected
+		<br>
+		<h4>Expense Details</h4>
 			<table class="close_acct_table" border=1>
 				<th>Receipt</th>
 				<th>Fees</th>
@@ -150,9 +154,9 @@ Date :  {{date}}
 		<div class="row">
 			<div class="col-sm-6 suspence-total"> Rs.{{accountsin_sum.2}}</div>
 			{% if netTotal < 0 %}
-				<div class="col-sm-6 suspence-total "><b>Grand Total : Rs. {{netTotal}}</b></div>
+				<div class="col-sm-6 suspence-total bg-success" style="color: green"><b>Grand Total : Rs. {{netTotal}}</b></div>
 			{% else %}
-				<div class="col-sm-6 suspence-total "><b>Grand Total : Rs. {{netTotal}}</b></div>
+				<div class="col-sm-6 suspence-total bg-success" style="color: green"><b>Grand Total : Rs. {{netTotal}}</b></div>
 			{% endif %}
 		</div>
 		<div class="row">

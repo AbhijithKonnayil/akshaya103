@@ -29,6 +29,7 @@ td
 {
 	text-align:center;
 	font-size: 14px;
+	padding-right: 10px;
 }
 tr:nth-child(odd)
 {
@@ -339,9 +340,10 @@ float: right;
 
 }
 .suspence-total{
-	background-c0;
+	background-color: #fff;
 	height: 75px;
 	text-align: right;
 	padding: 40px 100px 15px 30px;
 	font-size: 24px;
+	z-index: 100;
 }
