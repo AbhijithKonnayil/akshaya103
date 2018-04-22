@@ -1,38 +1,34 @@
 {{static}}
+
+
+
 body
 {
 	margin:0;
 	padding:0;
 	background-color: linear-gradient(to bottom right,f2f2f2,dcdcdf);
 }
-report
+table
 {
-	height: 300px;
-	padding: 10px 4% 10px 4%;
-}
-gftable
-{
-	
-	
-	text-align:center;
-	margin:-15px 0px 0px;
-	height: px;
-
+	width: 100%;
 }
 tr
 {
-	margin:0px;
+	height:10px;
 }
 th
 {
 	text-align:center;
 	background-color: #4f4f4f;
 	color:#e3e3ed;
-	padding:5px 0 5px;
+	font-size: 15px;
+	padding: 5px 0 5px;
+	height: 10px;
 }
 td
 {
 	text-align:center;
+	font-size: 14px;
 }
 tr:nth-child(odd)
 {
@@ -49,7 +45,53 @@ tr:hover
 }
 
 }
+#creditors-table
+{
+	margin:10px 0px 10px 40px;
+}
+#creditors-table .panel-heading
+{
+	padding:5px  0 5px;;
+	margin:0px;
+}
+#creditors-table .panel-body
+{
+	padding: 0px;
+	height: 100px;
+	overflow: auto;
+}
+#creditors-table .panel-body th
+{
+}
+#creditors-table table
+{
+	width: 100%;
+	margin: 0px;
+	
+	height: 100px;
+ 
+}
+#data-table
+{
+	height: 300px;
+	overflow: auto;
 
+}
+#data-table table
+{
+	width: 100%;
+}
+#view-report
+{
+	height: 500px;
+	overflow: auto;
+	margin: 0px 0px 0px;
+	padding: 0px 20px 0px;
+}
+#view-report table
+{
+
+}
 .dashboard-item
 {
 
@@ -187,17 +229,7 @@ tr:hover
 	padding:0;
 	color:#FFF;
 }
-#creditors-table
-{
-	margin:10px 0px 10px 40px;
-}
-#creditors-table .panel-heading
-{
-	
-	padding:5px  0 5px;;
-	margin:0px;
-	
-}
+
 #form-box .input-group
 {
 	padding:10px 10px 10px;
@@ -209,6 +241,7 @@ tr:hover
 #form-box #btn-grp
 {	
 margin:10px 0px 10px 0px;
+float: right;
 }
 #form-box #btn-grp .btn
 {	
@@ -222,6 +255,22 @@ margin:10px 0px 10px 0px;
 	font-size:15px;
 	padding:5px 0 5px 0;
 
+}
+#fees_associated_radio
+{
+	//display: inline-table;
+	list-style-type: none;
+}
+#fees_associated_radio li
+{
+	display: inline;
+	padding: 0px 10px 0px;
+	margin:  0px;
+	font-size: 10px;
+}
+#fees_associated_radio input
+{
+	display: inline;
 }
 
 
@@ -269,4 +318,30 @@ margin:10px 0px 10px 0px;
 	text-align: center;
 	font-size: 30px;
 	color: #1e1d44;
+}
+
+.close_acct_table{
+
+}
+
+.close_acct_table tr{
+	background-color: #eee;
+
+
+}
+
+.close_acct_table tr:hover {
+	color: #000;
+}
+.close_acct_table .suspense{
+	background-color: #fff;
+	
+
+}
+.suspence-total{
+	background-c0;
+	height: 75px;
+	text-align: right;
+	padding: 40px 100px 15px 30px;
+	font-size: 24px;
 }

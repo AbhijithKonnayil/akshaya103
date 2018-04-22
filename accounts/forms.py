@@ -1,5 +1,5 @@
 from django import forms
-from accounts.models import  bankAccountDetails, recieptDetail
+from accounts.models import  bankAccountDetails, recieptDetail, recieptDetailsOut
 import datetime
 
 #set the choices (select options) of the reciept
@@ -19,27 +19,37 @@ class accountsInForm(forms.Form):
 	rec_amount = forms.FloatField(initial=0,required=False,widget = forms.TextInput(attrs={'class':"form-control",'onblur': "fillDummyValue();" "creditValidation();"}))
 	trans_id = forms.CharField(widget=forms.HiddenInput(),required=False,initial=-1)
 
+class accountsOutForm(forms.Form):
+	reciept=forms.ModelChoiceField(queryset=recieptDetailsOut.objects.all(), widget = forms.Select(attrs = {'class':"form-control",'onchange' : "assDetails();" "findTotal();",}),required=True)
+	bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(),widget = forms.Select(attrs = {'class':"form-control",}),required=False)
+	charge=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'class':"form-control",'onblur' : "findTotal();",}),required=True)
+	remark=forms.CharField(max_length=200,widget = forms.TextInput(attrs = {'class':"form-control"}),required=False)
+
 class accountsEditForm(forms.Form):
 	rec_amount = forms.FloatField(initial=0,required=False,widget = forms.TextInput(attrs={'onblur':"creditValidation()"}))
 	trans_id = forms.CharField(widget=forms.HiddenInput())
 
 class recieptDetailsForm(forms.Form):
-	reciept_title=forms.CharField(max_length=50,required=True)
-	service_fees=forms.FloatField(required=True)
-	fees_associated = forms.ChoiceField(required=True, initial='yes' ,choices=[('yes','Yes'),('no','No')], widget=forms.RadioSelect(attrs ={'onchange':"printAssBanks();",'id':"fees_associated_radio"}))
-	ass_bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(), widget = forms.Select(attrs={}),required=False)
-	ass_fees = forms.FloatField(required=False)
+	reciept_title=forms.CharField(max_length=50,required=True,widget=forms.TextInput(attrs={'class':"form-control"}))
+	service_fees=forms.FloatField(required=True,widget=forms.TextInput(attrs={'class':"form-control"}))
+	fees_associated = forms.BooleanField(required=False,initial=False,widget=forms.CheckboxInput(attrs={'onchange':"printAssBanks()"}))
+	ass_bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(), widget = forms.Select(attrs={'class':"form-control"}),required=False)
+	ass_fees = forms.FloatField(required=False,widget=forms.TextInput(attrs={'class':"form-control"}))
+
+class recieptDetailsOutForm(forms.Form):
+	reciept_title=forms.CharField(max_length=50,required=True,widget=forms.TextInput(attrs={'class':"form-control"}))
+	charge=forms.FloatField(required=True,widget=forms.TextInput(attrs={'class':"form-control"}))
+	ass_bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(), widget = forms.Select(attrs={'class':"form-control"}),required=False)
 
 class bankAccountDetailsForm(forms.Form):
-	bank_name = forms.CharField(max_length=50,required=True)
-	opening_balance = forms.FloatField(required=True)
-	opening_balance_date = forms.DateField(widget=forms.SelectDateWidget(),initial=datetime.date.today,required=True)
+	bank_name = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':"form-control"}),required=True)
+	opening_balance = forms.FloatField(widget=forms.TextInput(attrs={'class':"form-control"}),required=True)
+	opening_balance_date = forms.DateField(widget=forms.DateInput(attrs={'type':"date"}),initial=datetime.date.today,required=True)
 
-class accountsOutForm(forms.Form):
-	reciept=forms.CharField(max_length=50,required=True)
-	bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(),required=False)
-	charge=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'onblur' : "findTotal();",}),required=True)
-	remark=forms.CharField(max_length=200,required=False)	
+class bankRechargeForm(forms.Form):
+	bank=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(), widget = forms.Select(attrs={'class':"form-control"}),required=True)
+	amount=forms.FloatField(widget=forms.TextInput(attrs={'class':"form-control"}),required=True)
+				
 
 report_type_options=(('monthwise','Month wise'),('receiptwise','Receipt wise'))
 class reportTypeForm(forms.Form):

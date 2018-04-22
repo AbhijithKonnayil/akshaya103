@@ -3,16 +3,21 @@
 <script type="text/javascript">
 	function printAssBanks()
 	{
-		//document.getElementsByName('{{form.fees_associated.html_name}}')[0].checked.value;
-		var fees_associated = document.querySelector('input[name="{{form.fees_associated.html_name}}"]:checked').value;
-		if(fees_associated=="yes")
-		{
-		document.getElementById('ass_banks').style.display='block';
-		}
-		if(fees_associated=="no")
-		{
-		document.getElementById('ass_banks').style.display='none';
-		}
+
+
+		 if(document.getElementById('{{formin.fees_associated.id_for_label}}').checked==true)
+		    {
+		        document.getElementById('ass_banks').style.display='inline-table';
+		        document.getElementById('{{formin.ass_fees.id_for_label}}').value=0;
+		        document.getElementById('fees_associated').style.display="inline-table";
+		    }
+    else
+		   { 
+		        document.getElementById('fees_associated').style.display='none';
+		        document.getElementById('ass_banks').style.display='none';     
+		   }
+
+		
 	}
 </script>
 {% endblock %}
@@ -22,35 +27,146 @@
 
 	<div class="page_title">Receipt Details Entry</div>
 	<br>
-	<div id="data_form">
-		<form action="" method = "POST">
-		{% csrf_token %}
-		<div class="col-sm-2">
-		Reciept Title
-		{{form.reciept_title}}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div  id="form-box" class="panel panel-primary">
+					<div class="panel-heading">Receipts </div>
+					<div class="panel-body">
+						<div class="row">
+							<form action="" method = "POST" class="form-inline">
+							{% csrf_token %}
+								<div class="input-group col-sm-6">
+									<span class="input-group-addon">Receipt Title</span>
+									{{formin.reciept_title}}
+								</div>
+								<div class="input-group col-sm-5">
+									<span class="input-group-addon">Serice Fees</span>
+									{{formin.service_fees}}
+								</div>
+								<div class="input-group col-sm-1" id="fees_associated_radio">
+									<span class="input-group-addon">Fees Associated</span>
+									<div class="form-control">
+									{{formin.fees_associated}}
+									</div>
+								</div>
+								<div id="ass_banks" class="input-group col-sm-5" style="display:none;">
+									<span class="input-group-addon">Associated Bank Account</span>
+									{{formin.ass_bank_acc}}
+								</div>
+								<div  id="fees_associated" class="input-group col-sm-4" style="display:none;">
+									<span class="input-group-addon">Associated Fees</span>
+									{{formin.ass_fees}}
+								</div>
+								<div class="col-sm-10"></div>
+								<div class="btn-grp col-sm-2">
+								<input type="submit" class="btn btn-success">
+								</div>
+								</form>
+						</div>
+						
+					</div>	
+				</div>
+
+				<div class="col-sm-12">
+							<table>
+								<tr>
+									<th>
+										Receipt Title
+									</th>
+									<th>
+										Ass Bank
+									</th>
+									<th>
+										Fees
+									</th>
+									<th>
+										Service Fees
+									</th>
+								</tr>
+								{% for each in receiptin %}
+								<tr>
+									<td>
+										{{each.reciept_title}}
+									</td>
+									<td>
+										{{each.ass_bank_acc}}
+									</td>
+									<td class="text-right">
+										{{each.ass_fees}}
+									</td>
+									<td class="text-right">
+										{{each.service_fees}}
+									</td>
+								</tr>
+								{% endfor %}
+							</table>							
+						</div>
+
+
+			</div>
+
+
+
+			<div class="col-sm-6">
+				<div  id="form-box" class="panel panel-danger">
+					<div class="panel-heading">Expence Receipt </div>
+					<div class="panel-body">
+						<div class="row">
+							<form action="" method = "POST" class="form-inline">
+							{% csrf_token %}
+								<div class="input-group col-sm-6">
+									<span class="input-group-addon">Receipt Title</span>
+									{{formout.reciept_title}}
+								</div>
+								<div class="input-group col-sm-5">
+									<span class="input-group-addon">Charge</span>
+									{{formout.charge}}
+								</div>
+								<div id="ass_banks" class="input-group col-sm-5" >
+									<span class="input-group-addon">Associated Bank Account</span>
+									{{formout.ass_bank_acc}}
+								</div>
+								<div class="col-sm-10"></div>
+								<div class="btn-grp col-sm-2">
+								<input type="submit" class="btn btn-success">
+								</div>
+								</form>
+						</div>
+					</div>	
+				</div>
+				<div class="col-sm-12">
+							<table>
+								<tr>
+									<th>
+										Receipt Title
+									</th>
+									<th>
+										Ass Bank
+									</th>
+									<th>
+										Charge
+									</th>
+								</tr>
+								{% for each in receiptout %}
+								<tr>
+									<td>
+										{{each.reciept_title}}
+									</td>
+									<td>
+										{{each.ass_bank_acc}}
+									</td>
+									<td class="text-right">
+										{{each.charge}}
+									</td>
+								</tr>
+								{% endfor %}
+							</table>							
+						</div>
+			</div>
+
 		</div>
-		<div class="col-sm-2">
-		Service Fees
-		{{form.service_fees}}
-		</div>
-		<div class="col-sm-2">
-		Fees Associated
-		{{form.fees_associated}}
-		</div>
-		<div id="ass_banks" class="col-sm-2">
-		Associated Bank
-		<br>
-		{{form.ass_bank_acc}}
-		</div>
-		<div class="col-sm-2" id="fees_associated_radio">
-		Associated Fees
-		{{form.ass_fees}}
-		</div>
-		<div class="col-sm-2"> 
-		<br>
-		<input type ="submit">
-		</div>
-		</form>
 	</div>
+	
 {% endif %}
 {% endblock %}

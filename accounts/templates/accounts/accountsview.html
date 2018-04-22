@@ -1,23 +1,48 @@
 {% extends 'base.html' %}
+{% load tags %}
 {% block head %}
 {% endblock %}
 
 {% block body %}
+
 <div class="page_title">Account Details</div>
 
 <ul class="nav nav-tabs">
-<li class="active">
-<a data-toggle="tab" href="#receipts">Receipts</a>
-</li>	
-<li><a data-toggle="tab" href="#payments">Payments</a>
-</li>
+
+{% if dbin or reciepts %}
+	<li class="active">
+{% else %}
+	<li>
+{% endif %}
+		<a data-toggle="tab" href="#receipts">Receipts</a>
+	</li>	
+
+{% if dbout or payments %}
+	<li class="active">
+{% else %}
+	<li>
+{% endif %}
+		<a data-toggle="tab" href="#payments">Payments</a>
+	</li>
+
+{% if dbbank or bankbalance %}
+	<li class="active">
+{% else %}
+	<li>
+{% endif %}
+		<a data-toggle="tab" href="#bankbalance">Bank Balance</a>
+	</li>
+
 </ul>
 
 
 <div class="tab-content">
 
-
+{% if dbin or reciepts %}
 	<div id="receipts" class="tab-pane fade in active">
+{% else %}
+	<div id="receipts" class="tab-pane fade">
+{% endif %}
 		<div class="container-fluid">
 			<div cass="row">
 				<div class="col-sm-6"><!-- left side div-->
@@ -31,15 +56,15 @@
 											<div class="input-group col-sm-3">
 												<span class="input-group-addon">Date</span>
 												{{form.report_type}}
-												<input type="hidden" name="db" value="accountsin" id="id_db" />			
+													<input type="hidden" name="db" value="accountsin" id="id_db" />			
 											</div>
 											<input type="submit" class="btn btn-success">
 										</form>
 									</center>				
 								</div><!--view report form-->
 							</div>
-							<div class="col-sm-11" id="view-report">
-								{% if monthwise %}
+							<div class="col-sm-12" id="view-report">
+								{% if monthwise and reciepts %}
 
 <table>
 	<tr>
@@ -62,13 +87,13 @@
 				<td>
 					{{m}}
 				</td>
-				<td>
+				<td class="text-right">
 					{{s}}
 				</td>
-				<td>
+				<td class="text-right">
 					{{p}}
 				</td>
-				<td>
+				<td class="text-right">
 					{{t}}
 				</td>
 			</tr>
@@ -77,37 +102,33 @@
 
 </table>
 
-								{% elif receiptwise %}
+								{% elif receiptwise and reciepts%}
 
 <table>
 	<tr>
 		<th>
+			Month
+		</th>
+		<th>
 			Receipt
 		</th>
+		<th>
+			Service Fees
+		</th>
 	</tr>
-
-{% for r,s in report_list %}
-<tr>
-	<td rowspan="14">	{{r}}		</td>
-	<td></td>
-	<td></td>
-</tr>
-	{% for m,i in months_list %}
-		
-		<tr> 
-			
-			<td> {{m}} </td>
-			
-			<td>{{s[i]}}</td>
-
-		</tr>
-
-	{% endfor %}
-	
-	
-
+{% for m in month_list %}
+	<tr>
+		<td rowspan="{{reciept_list_count}}">{{m}}</td>
+	</tr>
+		{% for r,s in report_list %}
+			<tr>
+				<td>{{r}}</td>
+				<td class="text-right">{{s|arrayEltByIndex:forloop.parentloop.counter}}</td>
+			</tr>
+		{% endfor %}
 
 {% endfor %}
+
 
 </table>
 
@@ -138,9 +159,60 @@
 								</div>	
 							</div>	
 
-							<div class="col-sm-11" id="report">
-
-
+							<div class="col-sm-12" id="view-report">
+							{% if dbin %}
+							
+<table>
+	<tr>
+		<th>
+			SiNo
+		</th>
+		<th>
+			Time
+		</th>
+		<th>
+			Receipt
+		</th>
+		<th>
+			Payment Fees
+		</th>
+		<th>
+			Service Fees
+		</th>
+		<th>
+			Total
+		</th>
+		<th>
+			Remark
+		</th>
+	</tr>
+	{% for eachdb in dbin %}
+	<tr>
+		<td>
+			{{forloop.counter}}
+		</td>		
+		<td>
+			{{eachdb.time}}
+		</td>
+		<td>
+			{{eachdb.reciept}}
+		</td>
+		<td class="text-right">
+			{{eachdb.payment_fees}}
+		</td>
+		<td class="text-right">
+			{{eachdb.service_fees}}
+		</td>
+		<td class="text-right">
+			{{eachdb.total_fees}}
+		</td>
+		<td>
+			{{eachdb.remark}}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+							{% endif%}
 							</div>
 						</div><!--row-->
 					</div><!--container-->
@@ -149,107 +221,224 @@
 		</div><!--container-->
 	</div><!--reciepts-->
 
-
+{% if dbout or payments %}
+	<div id="payments" class="tab-pane fade in active">
+{% else %}
 	<div id="payments" class="tab-pane fade">
+{% endif %}
+	
+
+			<div class="container-fluid">
+			<div cass="row">
+				<div class="col-sm-6"><!-- left side div-->
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="view-report-form bg-primary"><!--view report form-->
+									<center>
+										<form action="" method="POST" class="form-inline">
+											{% csrf_token %}
+											<div class="input-group col-sm-3">
+												<span class="input-group-addon">Date</span>
+												{{form.report_type}}
+												<input type="hidden" name="db" value="accountsout" id="id_db" />			
+											</div>
+											<input type="submit" class="btn btn-success">
+										</form>
+									</center>				
+								</div><!--view report form-->
+							</div>
+							<div class="col-sm-12" id="view-report">
+								{% if monthwise and payments %}
+
+<table>
+	<tr>
+		<th>
+			Month
+		</th>
+		<th>
+			Grand Total
+		</th>
+	</tr>
+	{% for m,t in list %}
+		{% if t != -1 %}
+			<tr>
+				<td>
+					{{m}}
+				</td>
+				<td class="text-right">
+					{{t}}
+				</td>
+			</tr>
+		{% endif %}
+	{% endfor %}
+
+</table>
+
+								{% elif receiptwise and payments %}
+
+<table>
+	<tr>
+		<th>
+			Receipt
+		</th>
+		<th>
+			Month
+		</th>
+		<th>
+			Service Fees
+		</th>
+	</tr>
+
+{% for m in month_list %}
+	<tr>
+		<td rowspan="{{reciept_list_count}}">{{m}}</td>
+	</tr>
+		{% for r,s in report_list %}
+			<tr>
+				<td>{{r}}</td>
+				<td class="text-right">{{s|arrayEltByIndex:forloop.parentloop.counter}}</td>
+			</tr>
+		{% endfor %}
+
+{% endfor %}
+
+
+</table>
+
+
+								{% endif %}
+							</div><!--view-report-->
+						</div>
+					</div>
+				</div><!-- left side div-->
+
+
+				<div class="col-sm-6"><!-- right side div-->
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="view-report-form bg-danger text-white">
+									<center>
+										<form action="" method="POST" class="form-inline">
+											{% csrf_token %}
+											<div class="input-group col-sm-3">
+												<span class="input-group-addon">Date</span>
+												{{form_date.date}}
+												<input type="hidden" name="db" value="accountsout" id="id_db" />			
+											</div>
+											<input type="submit" class="btn btn-success">
+										</form>
+									</center>					
+								</div>	
+							</div>	
+							<center>
+							<div class="col-sm-12" id="view-report">
+
+{% if dbout %}
+<table>
+	<tr>
+		<th>
+		Si No
+		</th>
+		<th>
+		Reciept
+		</th>
+		<th>
+			Charge
+		</th>
+		<th>
+			Remark
+		</th>
+	</tr>
+	{% for eachdb in dbout %}
+	<tr>
+		<td>
+			{{forloop.counter}}
+		</td>
+		<td>
+			{{eachdb.reciept}}
+		</td>
+		<td class="text-right">
+			{{eachdb.charge}}
+		</td>
+		<td>
+		{{eachdb.remark}}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endif %}
+							</div>
+							</center>
+						</div><!--row-->
+					</div><!--container-->
+				</div><!-- right side div-->
+			</div><!--row-->
+		</div><!--container-->
 
 	</div><!--payment-->
+
+
+{% if dbbank or bankbalance %}
+	<div id="bankbalance" class="tab-pane fade in active">
+{% else %}
+	<div id="bankbalance" class="tab-pane fade">
+{% endif %}
+	
+	<div class="container-fluid">
+			<div cass="row">
+				<div class="col-sm-6"><!-- left side div-->
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="view-report-form bg-danger text-white">
+									<center>
+										<form action="" method="POST" class="form-inline">
+											{% csrf_token %}
+											<div class="input-group col-sm-2">
+												<span class="input-group-addon">Date</span>
+												{{form_date.date}}
+												<input type="hidden" name="db" value="bankbalance" id="id_db" />			
+											</div>
+											<input type="submit" class="btn btn-success">
+										</form>
+									</center>					
+								</div>	
+							</div>	
+
+							<div class="col-sm-12" id="view-report">
+							{% if dbbank %}
+								<center>
+								<table class="col-sm-12">
+									<tr>
+										<th class="col-sm-2">Bank</th>
+										<th class="col-sm-2">Opening Balance</th>
+										<th class="col-sm-2">Closing Balance</th>
+									</tr>
+									{% for each in dbbank %}
+									<tr>
+										<td class="col-sm-2 text-right"> {{each.bank}}</td>
+										<td class="col-sm-2 text-right"> {{each.opening_balance}}</td>
+										<td class="col-sm-2 text-right"> {{each.closing_balance}}</td>
+									</tr>
+									{% endfor %}
+								</table>
+								</center>							
+							{% endif%}
+							</div>
+						</div><!--row-->
+					</div><!--container-->
+				</div><!-- LEFT side div-->
+			</div><!--row-->
+		</div><!--container-->
+	</div><!--reciepts-->
+
+
+	</div>
 	
 </div><!--tab content-->
 
 
-
-
-<!--
-<form action="" method="post">
-{% csrf_token %}
-	{{form}}
-	<br>
-	<input type = "submit">
-</form>
-
-
-{% if accountsin %}
-<table border=1 class="data-table">
-<tr>
-<th>Si No</th>
-<th>Transation ID</th>
-<th>Date</th>
-<th>Time</th>
-<th>Reciept</th>
-<th>Bank Account</th>
-<th>Payment Fees</th>
-<th>Service Fees</th>
-<th>Customer Name</th>
-<th>Username</th>
-<th>Password</th>
-<th>Contact No</th>
-<th>Total Fees</th>
-<th>Remark</th>
-<th>Amount to Pay</th>
-</tr>
-{% for reciept in accountsin.reverse %}
-<tr>
-<td>{{forloop.revcounter}}</td>
-<td>{{reciept.id}}</td>
-<td>{{reciept.date}}</td>
-<td>{{reciept.time}}</td>
-<td>{{reciept.reciept}}</td>
-<td>{{reciept.bank_acc}}</td>
-<td>{{reciept.payment_fees}}</td>
-<td>{{reciept.service_fees}}</td>
-<td>{{reciept.customer_name}}</td>
-<td>{{reciept.username}}</td>
-<td>{{reciept.password}}</td>
-<td>{{reciept.contact_no}}</td>
-<td>{{reciept.total_fees}}</td>
-<td>{{reciept.remark}}</td>
-<td>{{reciept.amount_to_pay}}</td>
-</tr>
-
-{% endfor %}
-</table>
-{% endif %}
-<br>
-{% if accountsout %}
-<table border=1 class = "data-table">
-<tr>
-<th>Si No</th>
-<th>Transation ID</th>
-<th>Date</th>
-<th>Time</th>
-<th>Reciept</th>
-<th>Bank Account</th>
-<th>Payment Fees</th>
-<th>Service Fees</th>
-<th>Customer Name</th>
-<th>Username</th>
-<th>Password</th>
-<th>Contact No</th>
-<th>Total Fees</th>
-<th>Remark</th>
-<th>Amount to Pay</th>
-</tr>
-{% for reciept in accountsout.reverse %}
-<tr>
-<td>{{forloop.revcounter}}</td>
-<td>{{reciept.id}}</td>
-<td>{{reciept.date}}</td>
-<td>{{reciept.time}}</td>
-<td>{{reciept.reciept}}</td>
-<td>{{reciept.bank_acc}}</td>
-<td>{{reciept.payment_fees}}</td>
-<td>{{reciept.service_fees}}</td>
-<td>{{reciept.customer_name}}</td>
-<td>{{reciept.username}}</td>
-<td>{{reciept.password}}</td>
-<td>{{reciept.contact_no}}</td>
-<td>{{reciept.total_fees}}</td>
-<td>{{reciept.remark}}</td>
-<td>{{reciept.amount_to_pay}}</td>
-</tr>
-
-{% endfor %}
-</table>-->
-{% endif %}
 
 {% endblock %}

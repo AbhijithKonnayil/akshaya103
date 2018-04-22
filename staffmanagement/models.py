@@ -9,13 +9,12 @@ designation_choice = (('admin','Admmin'),('operator','Operator'))
 # Create your models here.
 
 class staffDetails(models.Model):
-	user = models.CharField(max_length=50,null=True)
+	user = models.OneToOneField(User)
 	mob = models.CharField(max_length=10,)
 	address = models.CharField(max_length=100)
-	profile_photo = models.ImageField(upload_to='',)
 
 	def __str__(self):
-		return self.user
+		return str(self.user)
 """
 class staffDetailsForm(ModelForm):
 	class Meta:

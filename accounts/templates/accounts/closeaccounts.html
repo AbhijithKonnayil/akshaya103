@@ -11,45 +11,177 @@
 <br>
 <div class="page_title">Close Accouonts</div>
 <br>
-<div class="col-sm-4 close_account">
-Total Collection of {{date}} is <h1>Rs. {{all_staff_accountsin_sum}}</h1>
-</div>
-<div class="col-sm-4 close_account">
-Total Expendeture of {{date}} is <h1>Rs. {{all_staff_accountsout_sum}}</h1>
-</div>
-<div class="col-sm-4 close_account">
-Net Collection is 	<h1>Rs. 
-						<script type="text/javascript">
-							document.write(allstaffNet);
-						</script>
-	
-				</h1>
+<div class="col-sm-12 close_account">
+Date :  {{date}}  
 </div>
 
-<div class="col-sm-4 close_account"> 
-Amount Collected by {{user.first_name}} : <h3>Rs. {{individual_accountsin_sum}}</h3>
-</div>
-<div  class="col-sm-4 close_account">
-Amount Spend by {{user.first_name}} : <h3>Rs. {{individual_accountsout_sum}}</h3>
-</div>
-<div class="col-sm-4 close_account">
-Net Collection by {{user.first_name}} is 	<h3>Rs. 
-												<script type="text/javascript">
-													document.write(individualstaffNet);
-												</script>
-											</h3>
-</div>
 
-<div class="col-sm-6 close_account">
-Opening Balance
+<ul class="nav nav-tabs">
 
-{{openingBalance}}
+	{% if ind %}
+		<li class="active">
+	{% else %}
+		<li>
+	{% endif %}
+			<a data-toggle="tab" href="#individual">Individual</a>
+		</li>	
+
+	{% if dbout or payments %}
+		<li class="active">
+	{% else %}
+		<li>
+	{% endif %}
+			<a data-toggle="tab" href="#general">General</a>
+		</li>
+</ul>
+
+
+
+<div class="tab-content">
+
+{% if ind %}
+	<div id="individual" class="tab-pane fade in active">
+{% else %}
+	<div id="individual" class="tab-pane fade">
+{% endif %}
 	
-</div>
-<div class="col-sm-6 close_account">
-Closing Balance
-{{closingBalance}}
+	<!--content-->
+	<div class="container-fluid">
+		<div class="col-sm-6">
+		Total Fees Collected
+
+			<table class="close_acct_table" border=1>
+				<th>Receipt</th>
+				<th>Fees</th>
+				{% for account in accountsin %}
+					{% for reciept in recieptin %}
+						{% if account.reciept == reciept.id %}
+							<tr>
+								<td class="col-sm-2">{{reciept.reciept_title}}</td>
+								<td class="col-sm-2 text-right">{{account.sum_payment_fees}}</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+				<tr class="suspense">
+					<td class="col-sm-2"><h3>Suspence</h3></td>
+					<td class="col-sm-2">
+						<form action="" method="POST" class="form-inline">
+	    			    	{% csrf_token %}
+							{{form.payment_fees}}
+							<select name="reciept" id="id_reciept" required hidden>
+  								<option value="1" selected>Suspense</option>
+  							</select>
+							<input type="hidden" name="service_fees" value="0" required id="id_service_fees" />
+							<input type="submit" class="btn btn-success">
+						</form>
+					</td>
+					<td class="col-sm-2">Total<br><h3>{{accountsin_sum.0}}</h3></td>
+				</tr>
+			</table>
+
+			Service Fees Collected
+			<table class="close_acct_table" border="1">
+				<th>Receipt</th>
+				<th>Service Fees</th>
+				{% for account in accountsin %}
+					{% for reciept in recieptin %}
+						{% if account.reciept == reciept.id %}
+							<tr>
+								<td class="col-sm-2">{{reciept.reciept_title}}</td>
+								<td class="col-sm-2 text-right">{{account.sum_service_fees}}</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+				<tr class="suspense">
+				<td class="col-sm-2"><h3>Suspense</h3></td>
+				<td class="col-sm-2">
+						<form action="" method="POST" class="form-inline">
+	    			    	{% csrf_token %}
+							{{form.service_fees}}
+							<select name="reciept" id="id_reciept" required hidden>
+  								<option value="1" selected>Suspense</option>
+  							</select>
+							<input type="hidden" name="payment_fees" value="0" required id="id_payment_fees" />
+							<input type="submit" class="btn btn-success">
+						</form>
+					</td>
+				<td class="col-sm-2" >Total<br><h3>{{accountsin_sum.1}}</h3></td>
+				</tr>
+
+			</table>
+		</div>		
+
+
+		<div class="col-sm-6">
+		Total Fees Collected
+			<table class="close_acct_table" border=1>
+				<th>Receipt</th>
+				<th>Fees</th>
+				{% for account in accountsout %}
+					{% for reciept in recieptout %}
+						{% if account.reciept == reciept.id %}
+							<tr>
+								<td class="col-sm-2">{{reciept.reciept_title}}</td>
+								<td class="col-sm-2 text-right">{{account.sum_charge}}</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+				<tr class="suspense">
+					<td class="col-sm-2"><h3>Suspense</h3></td>
+					<td class="col-sm-2">
+						<form action="" method="POST" class="form-inline">
+	    			    	{% csrf_token %}
+							{{formout.charge}}
+
+							<select name="reciept" id="id_reciept" required hidden>
+  								<option value="1" selected>Suspense</option>
+  							</select>
+							<input type="hidden" name="out" value="0" required id="id_out" />
+							<input type="submit" class="btn btn-success">
+						</form>
+					</td>
+					<td class="col-sm-2">Total<br><h3>{{accountsout_sum}}</h3></td>
+				</tr>
+			</table>
+
+			
+		</div>		
+
+	</div>
+	<!--end-content-->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6 suspence-total"> Rs.{{accountsin_sum.2}}</div>
+			{% if netTotal < 0 %}
+				<div class="col-sm-6 suspence-total "><b>Grand Total : Rs. {{netTotal}}</b></div>
+			{% else %}
+				<div class="col-sm-6 suspence-total "><b>Grand Total : Rs. {{netTotal}}</b></div>
+			{% endif %}
+		</div>
+		<div class="row">
+			<div class="col-sm-12 suspence-total">Rs. {{accountsin_sum.2}} </div>
+		</div>
+	</div>
+		
+	</div><!--reciepts-->
+
+{% if dbout or payments %}
+	<div id="general" class="tab-pane fade in active">
+{% else %}
+	<div id="general" class="tab-pane fade">
+{% endif %}
+	<!--content-->
 	
-</div>
+	<!--end-content-->
+
+			
+	</div><!--payment-->
+	
+</div><!--tab content-->
+
+
 {% endif %}
 {% endblock %}

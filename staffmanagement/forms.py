@@ -13,11 +13,12 @@ class staffRegForm(forms.Form):
 	email = forms.CharField(max_length=50,widget = forms.TextInput(attrs = {'class':"form-control"}))
 	mob = forms.CharField(max_length=10,widget = forms.TextInput(attrs = {'class':"form-control"}))
 	address = forms.CharField(max_length=100,widget = forms.TextInput(attrs = {'class':"form-control"}))
-	profile_photo = forms.ImageField(required=False,widget=forms.FileInput(attrs={'class':"form-control"}))
+	#profile_photo = forms.ImageField(required=False,widget=forms.FileInput(attrs={'class':"form-control"}))
 	user_id = forms.IntegerField(widget=forms.HiddenInput(),required=False,initial=-1)
 
 class dateSelectionForm(forms.Form):
-	date = forms.DateField(widget=forms.DateInput(attrs={'type':"date",'class':"form-control"}),initial=datetime.date.today,)
+	date = forms.DateField(widget=forms.DateInput(attrs={'type':"date",'class':"form-control",'data-date-format':"DD MMMM YYYY"}),initial=datetime.date.today,)
 	db =  forms.CharField(widget=forms.HiddenInput(),required=False,initial='accountsin')
+
 
 	

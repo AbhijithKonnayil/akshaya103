@@ -3,20 +3,23 @@
 <!doctype html>
 <html>
 <head>
+	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
 	<!--fonts-->
 	<link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Great+Vibes|Prompt" rel="stylesheet">
 
 	<!-- CSS Stylesheets-->
-	<link rel="stylesheet" type="text/css" href ="{% static 'css/style.css' %}">
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href ="{% static 'css/bootstrap/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href ="{% static 'css/style.css' %}">
 	
 
 	<!-- Javascript files-->
 	<script type="text/javascript" src="{% static 'js/script.js' %}"> </script>
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	<script type="text/javascript">
 
 	function checkDate()
@@ -138,6 +141,13 @@ document.getElementById('date').innerHTML=("<span class='glyphicon glyphicon-cal
         	</ul>
         </div>
     </div><!--row-->
+    <div class="row " style="background-color:#63B8FF; color:#fff; font-size:18px;">
+    	<center>
+    	{% if date %}
+    		Selected Date : {{date}}
+    	{% endif %}
+    	</center>
+    </div>
 </div><!--container-->
 
 {% block body %}

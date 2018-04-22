@@ -7,8 +7,45 @@ function findTotal()
 	{
 	
 	var x = parseFloat(document.getElementById('{{form.charge.id_for_label}}').value);	
-	document.getElementById('form_total').innerHTML = "Total Amount<br>Rs: " + (x) ;	
+	document.getElementById('form_total').innerHTML = "Rs: " + (x) ;	
 	}
+function assDetails()
+{   
+
+    var js_selected_reciept = document.getElementById('{{form.reciept.id_for_label}}').options[document.getElementById('{{form.reciept.id_for_label}}').selectedIndex].text;
+    
+    var js_reciept_title = [""];
+    var js_reciept_charge = [""];
+    var js_reciept_ass_bank_acc = [""];
+    var js_reciept_id;
+
+    {% for r in recieptout %}
+        js_reciept_title.push('{{r.reciept_title}}');
+        js_reciept_charge.push({{r.charge}});
+        js_reciept_ass_bank_acc.push('{{r.ass_bank_acc}}');
+    {% endfor %} 
+
+    var js_bank_list =[""];
+    var js_bank_id_list=[""];
+
+    {% for s in bankDetails %}
+        js_bank_list.push('{{s.bank_name}}');
+        js_bank_id_list.push('{{s.id}}');
+    {% endfor %}
+    
+    var i;
+    for(i=1;i<=js_reciept_title.length;i++)
+    {
+
+        if(js_selected_reciept == js_reciept_title[i])
+        {   
+          
+            
+            document.getElementById('{{form.charge.id_for_label}}').value = js_reciept_charge[i];
+            document.getElementById('{{form.bank_acc.id_for_label}}').value=js_bank_id_list[js_bank_list.indexOf(js_reciept_ass_bank_acc[i])];
+        }
+    }
+}
 
 </script>
 {%endblock %}
@@ -16,80 +53,111 @@ function findTotal()
 
 
 {% block body %}
-<div class="page_title">Accounts Entry Form</div>
-<br>
-<div id="data_form">
-	<form action='' method='post'>
-	{% csrf_token %}
-		<div class="col-sm-2 form_element">
-			Reciept Title
-			<br>
-			{{form.reciept}}
-		</div>
-		<div class="col-sm-2 form_element ">
-			Bank Account
-			<br>
-			{{form.bank_acc}}
-		</div>
-		<div class="col-sm-2 form_element">
-			Charge
-			<br>
-			{{form.charge}}
-		</div>
-		<div class="col-sm-2 form_element" id='form_total'>
-			Total Amount<br>Rs: 0.00
-		</div>
-		<div class="col-sm-2 form_element">
-			<input type="submit">
-		</div>
-		<div class="col-sm-2 close_account form_element">
-			<a href="/accounts/close/{{date}}">Close Accounts</a>
-		</div>
-	</form>
+<div class="page_title">Payment Entry Module</div>
+
+<div class="container-fluid">
+	<center>
+	 <div id="form-box" class="panel panel-primary">
+        <div class="panel-heading">Payment</div>
+        <br>
+        <div class="row">
+        	<form class="form-inline" action="" method="POST">
+        	{% csrf_token %}
+        		<div class="input-group col-sm-2">
+        			<span class="input-group-addon">Receipt</span>
+        			{{form.reciept}}
+        		</div> 
+        		<div class="input-group col-sm-2">
+        			<span class="input-group-addon">Bank Account</span>
+        			{{form.bank_acc}}
+        		</div> 
+        		<div class="input-group col-sm-1">
+        			<span class="input-group-addon">Charge</span>
+        			{{form.charge}}
+        		</div> 
+        		<div class="input-group col-sm-2">
+        			<span class="input-group-addon">Remark</span>
+        			{{form.remark}}
+        		</div>
+
+        		<div id="btn-grp"  class="col-sm-2">
+         			<input type="submit" class="btn btn-success">
+            		<a href="/accounts/close/{{date}}">
+                		<button class="btn btn-danger" type="button">Close Accounts</button>
+            		</a>  
+         		</div>
+         		<div id="btn-grp" class="col-sm-2">
+            		<div class="panel panel-info">
+            		    <div class="panel-heading"><p>Total</p></div>
+            		    <h4 id="form_total">Rs 0.00</h4>
+           			 </div>
+           		 </div>
+
+         	</form> 		
+        </div>
+     </div>
+    </center>
 </div>
-<br>
-<br>
-{% if allReciept.count > 6%}
-<div class="data-table overflowy">
-{% else %}
-<div class="data-table">
-{% endif %}
-<table border =1>
-<tr>
-<th>Si No</th>
-<th>Transation ID</th>
-<th>Date</th>
-<th>Time</th>
-<th>Reciept</th>
-<th>Bank Account</th>
-<th>Charge</th>
-<th>Remark</th>
-<th>Staff</th>
-</tr>
-{% for reciept in allReciept.reverse %}
-<tr>
-<td>{{forloop.revcounter}}</td>
-<td>{{reciept.id}}</td>
-<td>{{reciept.date}}</td>
-<td>{{reciept.time}}</td>
-<td>{{reciept.reciept}}</td>
-<td>{{reciept.bank_acc}}</td>
-<td>{{reciept.charge}}</td>
-<td>{{reciept.remark}}</td>
-<td>{{reciept.staff}}</td>
-</tr>
-{% endfor %}
-</table>
-<br>
-<table border =1> 
-{% for q in recieptDetails %}
-<tr>
-<td>{{q.id}}</td>
-<td>{{q.reciept_title}}</td>
-<td>{{q.service_fees}}</td>
-<td>{{q.ass_bank_acc}}</td>
-</tr>
-{% endfor %}
-</table>
+<div class="container-fluid">
+	<div class="row">
+        <div id="data-table" class="col-sm-12"> 
+		<table>
+			<tr>
+                <th>
+                    Si No
+                </th>
+                <th>
+                    Transation ID
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Time
+                </th>
+				<th>
+					Receipt Title
+				</th>
+				<th>
+					Bank
+				</th>
+				<th>
+					Charge
+				</th>
+				<th>
+					Remark
+				</th>
+			</tr>
+			{% for each in allReciept.reverse %}
+			<tr>
+                <td>
+                    {{forloop.revcounter}}
+                </td>
+                <td>
+                    {{each.id}}
+                </td>
+				<td>
+					{{each.date}}
+				</td>
+                <td>
+                    {{each.time}}
+                </td>
+				<td>
+					{{each.reciept}}
+				</td>
+                <td>
+                    {{each.bank_acc}}
+                </td>
+				<td class="text-right">
+					{{each.charge}}
+				</td>
+				<td>
+					{{each.remark}}
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+        </div>
+	</div>	
 </div>
 {% endblock %}

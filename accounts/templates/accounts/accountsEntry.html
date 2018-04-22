@@ -65,13 +65,11 @@ function creditField()
 { 
     if(document.getElementById('{{form.service_on_credit.id_for_label}}').checked==true)
     {
-        alert("credit true " + document.getElementById('{{form.rec_amount.id_for_label}}').value);
         document.getElementById('amount_paid').style.display='inline-table';
         document.getElementById('{{form.rec_amount.id_for_label}}').value=0;
     }
     else
    {    
-        alert("credit false:"+document.getElementById('{{form.rec_amount.id_for_label}}').value);
         document.getElementById('{{form.rec_amount.id_for_label}}').value=findTotal();
         document.getElementById('amount_paid').style.display='none';     
    }
@@ -183,56 +181,47 @@ function creditValidation()
             </div>
           
           
-          <div class="col-sm-8">
-          <div id="creditors-table" class="panel panel-danger ">
-        <div class="panel-heading ">Creditors</div>
-          <div class="panel-body">
-         <table>
-                <tr>
-                    <th>Si No</th>
-                    <th>Transation ID</th>
-                    <th>Date</th>
-                    <th>Reciept</th>
-                    <th>Customer Name</th>
-                    <th>Contact No</th>
-                    <th>Total Fees</th>
-                    <th>Amount to Pay</th>
-                    <th>Remark</th>
+        <div class="col-sm-8">
+            <div id="creditors-table" class="panel panel-danger ">
+                <div class="panel-heading ">Creditors</div>
                     
-                </tr>
-                {% for credit in credit_list %}
-                
-                <tr onclick="location.href='../{{date}}/{{credit.id}}'" style="cursor:pointer;">
-                    <td>{{forloop.revcounter}}</td>
-                    <td>{{credit.id}}</td>
-                    <td>{{credit.date}}</td>
-                    <td>{{credit.reciept}}</td>
-                    <td>{{credit.customer_name}}</td>
-                    <td>{{credit.contact_no}}</td>
-                    <td>{{credit.total_fees}}</td>
-                    <td>{{credit.amount_to_pay}}</td>
-                    <td>{{credit.remark}}</td>
-                </tr>
-                
-                {% endfor %}
-         </table>
-
-
-
-
-          </div>
-          </div>
-         </div>
-         
-         <div id="btn-grp" class="col-sm-2">
-            <div class="panel panel-info">
-                <div class="panel-heading"><p>Total</p></div>
-                <h4 id="form_total">Rs 0.00</h4>
+                    <div class="panel-body">
+                    {% if credit_list.count > 0 %}
+                            <table>
+                                <tr>
+                                    <th>Si No</th>
+                                    <th>Transation ID</th>
+                                    <th>Date</th>
+                                    <th>Reciept</th>
+                                    <th>Customer Name</th>
+                                    <th>Contact No</th>
+                                    <th>Total Fees</th>
+                                    <th>Amount to Pay</th>
+                                    <th>Remark</th>
+                                    
+                                </tr>
+                                {% for credit in credit_list %}
+                                
+                                <tr onclick="location.href='../{{date}}/{{credit.id}}'" style="cursor:pointer;">
+                                    <td>{{forloop.revcounter}}</td>
+                                    <td>{{credit.id}}</td>
+                                    <td>{{credit.date}}</td>
+                                    <td>{{credit.reciept}}</td>
+                                    <td>{{credit.customer_name}}</td>
+                                    <td>{{credit.contact_no}}</td>
+                                    <td class="text-right">{{credit.total_fees}}</td>
+                                    <td class="text-right">{{credit.amount_to_pay}}</td>
+                                    <td>{{credit.remark}}</td>
+                                </tr>
+                                
+                                {% endfor %}
+                         </table>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            </div>
          
-         
-         
+
          <div id="btn-grp"  class="col-sm-2">
          <center>
          <input type="submit" class="btn btn-success">
@@ -243,6 +232,17 @@ function creditValidation()
              </center>
          </div> 
         
+
+         <div id="btn-grp" class="col-sm-2">
+            <div class="panel panel-info">
+                <div class="panel-heading"><p>Total</p></div>
+                <h4 id="form_total">Rs 0.00</h4>
+            </div>
+            </div>
+         
+         
+         
+         
         
        
     </div><!--form box-->
@@ -257,11 +257,12 @@ function creditValidation()
 
 <div class="container-fluid">
 <div class="row">
+    <div id="data-table" class="col-sm-12"> 
     <br>
     {% if allReciept.count > 15 %}
-        <div class="col-sm-12 overflowy">  
+         
     {% else %}
-        <div class="col-sm-12">
+       
     {% endif %}
     <table border=1>
         <tr>
@@ -289,15 +290,15 @@ function creditValidation()
             <td>{{reciept.time}}</td>
             <td>{{reciept.reciept}}</td>
             <td>{{reciept.bank_acc}}</td>
-            <td>{{reciept.payment_fees}}</td>
-            <td>{{reciept.service_fees}}</td>
+            <td class="text-right">{{reciept.payment_fees}}</td>
+            <td class="text-right">{{reciept.service_fees}}</td>
             <td>{{reciept.customer_name}}</td>
             <td>{{reciept.username}}</td>
             <td>{{reciept.password}}</td>
             <td>{{reciept.contact_no}}</td>
-            <td>{{reciept.total_fees}}</td>
+            <td class="text-right">{{reciept.total_fees}}</td>
             <td>{{reciept.remark}}</td>
-            <td>{{reciept.amount_to_pay}}</td>
+            <td class="text-right">{{reciept.amount_to_pay}}</td>
         </tr>
 
         {% endfor %}
