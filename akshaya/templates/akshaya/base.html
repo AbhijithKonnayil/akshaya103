@@ -142,11 +142,13 @@ document.getElementById('date').innerHTML=("<span class='glyphicon glyphicon-cal
         </div>
     </div><!--row-->
     <div class="row " style="background-color:#63B8FF; color:#fff; font-size:18px;">
+    	{% if user.is_authenticated %}
     	<center>
     	{% if date %}
     		Selected Date : {{date}}
     	{% endif %}
     	</center>
+    	{% endif %}
     </div>
 </div><!--container-->
 
