@@ -37,7 +37,25 @@ def accountsInEntry(request,date):
 					data.reciept = form.cleaned_data['reciept']
 					print form.cleaned_data['reciept']
 					data.bank_acc = form.cleaned_data['bank_acc']
+					print type(data.bank_acc.id)
 					data.payment_fees = form.cleaned_data['payment_fees']
+					bank_acc = bankAccountDetails.objects.all().get(id=data.bank_acc.id)
+					bank_acc.current_balance = bank_acc.current_balance - data.payment_fees
+					
+					if bank_acc.current_balance<0:
+						form = accountsInForm()
+						negative_balance = bank_acc.bank_name
+						context ={'form':form, 'recieptDetail' : reciept,'allReciept':allReciept,
+						'date':date,'bankDetails':bankAccDetails, 'credit_list':credit_l,
+						'negative_balance':negative_balance}
+						
+						return render(request, 'accounts/accountsEntry.html',context)
+
+					if bank_acc.current_balance < bank_acc.margin_amount:
+						below_margin_amount = bank_acc.bank_name
+					else:
+						below_margin_amount = False
+					bank_acc.save()
 					data.service_fees = form.cleaned_data['service_fees']
 					data.customer_name = form.cleaned_data['customer_name']
 					data.username = form.cleaned_data['username']
@@ -55,12 +73,16 @@ def accountsInEntry(request,date):
 					data = accountsIn.objects.get(id=trans_id)
 					data.amount_to_pay = data.amount_to_pay - form.cleaned_data['rec_amount']
 					data.save()
+					below_margin_amount =False
 
 				return HttpResponseRedirect('./')
 
 		else:
 			form = accountsInForm()
-		context ={'form':form, 'recieptDetail' : reciept,'allReciept':allReciept,'date':date,'bankDetails':bankAccDetails, 'credit_list':credit_l,}
+			below_margin_amount =False
+		context ={'form':form, 'recieptDetail' : reciept,'allReciept':allReciept,
+					'date':date,'bankDetails':bankAccDetails, 'credit_list':credit_l,
+					'below_margin_amount':below_margin_amount}
 		return render(request, 'accounts/accountsEntry.html',context)
 	return HttpResponseRedirect('/')	
 
@@ -88,14 +110,35 @@ def accountsOutEntry(request,date):
 				data.reciept = form.cleaned_data['reciept']
 				data.bank_acc = form.cleaned_data['bank_acc']
 				data.charge = form.cleaned_data['charge']
+				bank_acc = bankAccountDetails.objects.get(id=data.bank_acc.id)
+				bank_acc.current_balance = bank_acc.current_balance - data.charge
+				bank_acc.save()
+				if bank_acc.current_balance<0:
+					form = accountsOutForm()
+					negative_balance = bank_acc.bank_name
+					print negative_balance
+					context={'form':form, 'allReciept':allReciept,'bankDetails':bankAccDetails,'recieptout':reciept,
+							 'date':date,'negative_balance':negative_balance}
+					return render(request, 'accounts/accountsoutEntry.html',context)
+
+
+				if bank_acc.current_balance < bank_acc.margin_amount:
+					print "below "
+					below_margin_amount = bank_acc.bank_name
+					print below_margin_amount
+				else:
+					below_margin_amount = False
+				
 				data.remark = form.cleaned_data['remark']
 				data.staff = request.user
 				data.save()
-				return HttpResponseRedirect('./')
+				
 
 		else:
-			form = accountsOutForm()
-		return render(request, 'accounts/accountsoutEntry.html',{'form':form, 'allReciept':allReciept,'bankDetails':bankAccDetails,'recieptout':reciept, 'date':date})
+			below_margin_amount = False
+		form = accountsOutForm()
+		print below_margin_amount
+		return render(request, 'accounts/accountsoutEntry.html',{'form':form, 'allReciept':allReciept,'bankDetails':bankAccDetails,'recieptout':reciept, 'date':date,'below_margin_amount':below_margin_amount})
 	return HttpResponseRedirect('/')	
 
 def accountsView(request,date):
@@ -355,6 +398,8 @@ def bankAccountDetailsEntry(request,date):
 				data.bank_name = form.cleaned_data['bank_name']
 				data.opening_balance = form.cleaned_data['opening_balance']
 				data.opening_balance_date = form.cleaned_data['opening_balance_date']
+				data.margin_amount = form.cleaned_data['margin_amount']
+				data.current_balance = data.opening_balance 
 				data.save()
 				bank_pointer=bankAccountDetails.objects.all().last()
 				bank.bank=bank_pointer
@@ -369,8 +414,12 @@ def bankAccountDetailsEntry(request,date):
 				print "\n\n form_rechanre valid"
 				data = bankRechargeDetails()
 				data.bank = form_recharge.cleaned_data['bank']
+				print type(data.bank), data.bank, data.bank.id
 				data.amount=form_recharge.cleaned_data['amount']
 				data.save()
+				bank = bankAccountDetails.objects.get(id=data.bank.id)
+				bank.current_balance=bank.current_balance+data.amount
+				bank.save()
 
 				
 			

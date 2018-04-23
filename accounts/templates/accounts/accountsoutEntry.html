@@ -47,7 +47,15 @@ function assDetails()
     }
 }
 
+{% if below_margin_amount %}
+    alert("Recharge bank account {{below_margin_amount}} immediately");
+{% endif %}
+
+{% if negative_balance %}
+    alert("Recharge bank account {{negative_balance}} immediately \n Cant use this account without recharge");
+{% endif %}
 </script>
+
 {%endblock %}
 
 

@@ -45,7 +45,7 @@ class bankAccountDetailsForm(forms.Form):
 	bank_name = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':"form-control"}),required=True)
 	opening_balance = forms.FloatField(widget=forms.TextInput(attrs={'class':"form-control"}),required=True)
 	opening_balance_date = forms.DateField(widget=forms.DateInput(attrs={'type':"date"}),initial=datetime.date.today,required=True)
-
+	margin_amount = forms.FloatField(widget=forms.TextInput(attrs={'class':"form-control"}),required=True)
 class bankRechargeForm(forms.Form):
 	bank=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(), widget = forms.Select(attrs={'class':"form-control"}),required=True)
 	amount=forms.FloatField(widget=forms.TextInput(attrs={'class':"form-control"}),required=True)

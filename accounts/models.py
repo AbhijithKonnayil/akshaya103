@@ -9,7 +9,8 @@ class bankAccountDetails(models.Model):
 	bank_name = models.CharField(max_length=50,null=False,unique=True)
 	opening_balance = models.FloatField(max_length=10, blank=False,null=False, default=0)
 	opening_balance_date = models.DateField(default=datetime.date.today,null=False, blank=False)
-
+	current_balance = models.FloatField(max_length=10, blank=False,null=False, default=0)
+	margin_amount = models.FloatField(max_length=10, blank=False,null=False, default=0)
 	def __str__(self):
 		return self.bank_name
 
@@ -21,6 +22,7 @@ class bankBalanceDetails(models.Model):
 	date=models.DateField(default=datetime.date.today)
 	opening_balance = models.FloatField(max_length=10, blank=False,null=False, default=0)
 	closing_balance = models.FloatField(max_length=10, blank=False,null=False, default=0)
+	
 
 	def __str__(self):
 		return str(self.bank) + "  " + str(self.id)
