@@ -96,13 +96,13 @@ def staffManagement(request,date):
 			return render(request,'staffmanagement/staffDetailsEntry.html',context)
 		else:
 			form = staffRegForm()
-			
-			if allUsers_count==1 and staffDetails.objects.all().first().user!=User.objects.all().first():
+
+			if allUsers_count==1 and staffDetails.objects.all().first()== None:
 						
 						staffD=staffDetails()
 						staffD.user=User.objects.all().first()
 						staffD.address="Default User"
-						staffD.mob="Default User"
+						staffD.mob="Defaultmob"
 						staffD.save()
 		
 			allUsers = User.objects.all()

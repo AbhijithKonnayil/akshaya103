@@ -25,7 +25,7 @@ SECRET_KEY = '595$n%r5&ir+w7!)n@v6)2il=7z&&%=)+c7-nn%(l_p4r^ye3d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.2',]
+ALLOWED_HOSTS = ['127.0.0.1','localhost','0.0.0.0']
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'staffmanagement.apps.StaffmanagementConfig',
     ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,7 +74,7 @@ WSGI_APPLICATION = 'akshaya.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -83,16 +83,16 @@ DATABASES = {
 """
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django',
-        'USER':'postgres',
-        'PASSWORD':'wordpass',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'akshayakl103_db',
+        'USER':'adminkl103',
+        'PASSWORD':'301password',
         'HOST':'localhost',
-        'PORT':'5432',
+        'PORT':'5433',
 
     }
 }
-"""
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

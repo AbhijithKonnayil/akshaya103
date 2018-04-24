@@ -6,7 +6,7 @@ import datetime
 
 
 class accountsInForm(forms.Form):
-	reciept=forms.ModelChoiceField(queryset=recieptDetail.objects.all(), widget = forms.Select(attrs = {'class':"form-control",'onchange' : "myFunction();" "findTotal();" "creditField();",}),required=True)
+	reciept=forms.ModelChoiceField(queryset=recieptDetail.objects.all().order_by('-id'), widget = forms.Select(attrs = {'class':"form-control",'onchange' : "myFunction();" "findTotal();" "creditField();",}),required=True)
 	bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(),widget = forms.Select(attrs = {'class':"form-control",}),required=False)
 	payment_fees=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'class':"form-control",'onblur' : "findTotal();""creditField();",}),required=False)
 	service_fees=forms.FloatField(initial=0, widget = forms.TextInput(attrs = {'class':"form-control",'onblur' : "findTotal();""creditField();",}),required=True)
@@ -20,7 +20,7 @@ class accountsInForm(forms.Form):
 	trans_id = forms.CharField(widget=forms.HiddenInput(),required=False,initial=-1)
 
 class accountsOutForm(forms.Form):
-	reciept=forms.ModelChoiceField(queryset=recieptDetailsOut.objects.all(), widget = forms.Select(attrs = {'class':"form-control",'onchange' : "assDetails();" "findTotal();",}),required=True)
+	reciept=forms.ModelChoiceField(queryset=recieptDetailsOut.objects.all().order_by('-id'), widget = forms.Select(attrs = {'class':"form-control",'onchange' : "assDetails();" "findTotal();",}),required=True)
 	bank_acc=forms.ModelChoiceField(queryset=bankAccountDetails.objects.all(),widget = forms.Select(attrs = {'class':"form-control",}),required=False)
 	charge=forms.FloatField(initial=0,widget = forms.TextInput(attrs = {'class':"form-control",'onblur' : "findTotal();",}),required=True)
 	remark=forms.CharField(max_length=200,widget = forms.TextInput(attrs = {'class':"form-control"}),required=False)

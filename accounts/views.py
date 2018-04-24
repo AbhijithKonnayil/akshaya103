@@ -6,7 +6,7 @@ from .forms import accountsInForm,accountsEditForm, accountsOutForm, recieptDeta
 from staffmanagement.forms import dateSelectionForm
 from django.db.models import F
 from django.contrib.auth.models import User
-from django.db.models.functions import TruncMonth
+
 from django.db.models import Sum
 import datetime
 #from django.conf.urls import media
@@ -331,31 +331,38 @@ def accountsView(request,date):
 def recieptDetailsEntry(request,date):
 	if userValidation(request.user):
 		try:
-			receiptin=recieptDetail.objects.all().get(id=1)
-			receiptin.reciept_title="Suspense Amount"
-			receiptin.service_fees=0
-			receiptin.ass_fees=0
-			receiptin.save()
-		except recieptDetail.DoesNotExist:
-			receiptin=recieptDetail()
-			receiptin.id=1
-			receiptin.reciept_title="Suspense Amount"
-			receiptin.service_fees=0
-			receiptin.ass_fees=0
-			receiptin.save()
+			receiptin=recieptDetail.objects.all().get(reciept_title="Suspense Amount")
+		except recieptDetail.DoesNotExist:	
+			try:
+				receiptin=recieptDetail.objects.all().get(id=1)
+				receiptin.reciept_title="Suspense Amount"
+				receiptin.service_fees=0
+				receiptin.ass_fees=0
+				receiptin.save()
+				print "problem"
+			except recieptDetail.DoesNotExist:
+				receiptin=recieptDetail()
+				receiptin.id=1
+				receiptin.reciept_title="Suspense Amount"
+				receiptin.service_fees=0
+				receiptin.ass_fees=0
+				receiptin.save()
 		try:
-			receiptout=recieptDetailsOut.objects.all().get(id=1)
-			receiptout.reciept_title="Suspense Amount"
-			receiptout.service_fees=0
-			receiptout.ass_fees=0
-			receiptout.save()
-		except recieptDetailsOut.DoesNotExist:
-			receiptout=recieptDetailsOut()
-			receiptout.id=1
-			receiptout.reciept_title="Suspense Amount"
-			receiptout.service_fees=0
-			receiptout.ass_fees=0
-			receiptout.save()
+			receiptout=recieptDetailsOut.objects.all().get(reciept_title="Suspense Amount")
+		except recieptDetailsOut.DoesNotExist:	
+			try:
+				receiptout=recieptDetailsOut.objects.all().get(id=1)
+				receiptout.reciept_title="Suspense Amount"
+				receiptout.service_fees=0
+				receiptout.ass_fees=0
+				receiptout.save()
+			except recieptDetailsOut.DoesNotExist:
+				receiptout=recieptDetailsOut()
+				receiptout.id=1
+				receiptout.reciept_title="Suspense Amount"
+				receiptout.service_fees=0
+				receiptout.ass_fees=0
+				receiptout.save()
 
 		if request.method == 'POST':
 			formin = recieptDetailsForm(request.POST)
@@ -569,9 +576,9 @@ def closeAccounts(request,date):
 				data.payment_fees = form.cleaned_data['payment_fees']
 				data.service_fees = form.cleaned_data['service_fees']
 				data.customer_name = "Suspence amount"
-				data.username = "Suspence amount"
-				data.password = "Suspence amount"
-				data.contact_no = "Suspence amount"
+				data.username = "Suspense amount"
+				data.password = "Suspense amount"
+				data.contact_no = "Suspense"
 				data.total_fees = data.payment_fees+data.service_fees
 				data.remark = "Suspence amount"
 				data.amount_to_pay = 0

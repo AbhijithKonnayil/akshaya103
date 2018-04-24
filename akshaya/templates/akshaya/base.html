@@ -129,10 +129,11 @@ document.getElementById('date').innerHTML=("<span class='glyphicon glyphicon-cal
         		<li><a href="/staffmanagement/logout">Logout</a></li>
         		<li><a href="/admin">Admin Panel</a></li>
         		<li>
-        			{% if date is None %}				
-						<a href="" onClick="checkDate();" >Dashboard</a>
-					{% else %}					
+        			{% if date %}				
 						<a href="/staffmanagement/staffs/{{date}}">Dashboard</a>
+					{% else %}	
+						<a href="" onClick="checkDate();" >Dashboard</a>				
+						
 					{% endif%}
         		</li>
         		{% else %}
