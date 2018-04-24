@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig', 
     'staffmanagement.apps.StaffmanagementConfig',
-    'django.contrib.postgres',
     ]
 
 MIDDLEWARE = [

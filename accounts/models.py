@@ -3,7 +3,7 @@ from django.forms import ModelForm
 import datetime
 from django.utils.timezone import now
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import JSONField, HStoreField
+
 
 class bankAccountDetails(models.Model):
 	bank_name = models.CharField(max_length=50,null=False,unique=True)
@@ -80,13 +80,6 @@ class accountsOut(models.Model):
 	staff=models.CharField(max_length=50)
 	def __str__(self):
 		return "Transation ID : "+ str(self.id)
-
-
-
-class json(models.Model):
-	field=JSONField(null=True)
-	hsfield=HStoreField(null=True)
-
 
 ## << MODEL FORMS >>##
 """

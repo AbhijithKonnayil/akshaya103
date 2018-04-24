@@ -25,19 +25,17 @@ def staffManagement(request,date):
 		allUsers = User.objects.all()
 		allUsers_count = User.objects.all().count()
 		allUserDetails = staffDetails.objects.all()
-		print allUsers
-		print allUserDetails
-
+		
 		userlist=zip(allUsers,allUserDetails)
 		if request.method == 'POST':
-			print "\n post recived \n"
+			
 			form = staffRegForm(request.POST)
 			if form.is_valid():
-				print "\n valid form  \n"
+				
 				user_id = form.cleaned_data['user_id']
-				print user_id
+			
 				if user_id == -1:
-					print "\n id  \n", user_id
+					
 					first_name = form.cleaned_data['first_name']
 					last_name = form.cleaned_data['last_name']
 					username = form.cleaned_data['username']
@@ -67,10 +65,10 @@ def staffManagement(request,date):
 					staffD.save()
 
 				elif user_id>0:
-					print user_id,"  id \n\n"
+					
 					staff=User.objects.get(id=user_id)
 					staffD = staffDetails.objects.get(user=staff)
-					print staffD
+					
 					staff.first_name = form.cleaned_data['first_name']
 					staff.last_name = form.cleaned_data['last_name']
 					staff.username = form.cleaned_data['username']
@@ -92,7 +90,7 @@ def staffManagement(request,date):
 				form=staffRegForm()
 				allUsers = User.objects.all()
 				allUserDetails = staffDetails.objects.all()
-				print "user DEtsila\n",allUserDetails
+				
 				userlist=zip(allUsers,allUserDetails)
 	        	context={'form':form,'userlist':userlist,'allUsers':allUsers,'date':date,'root':settings.BASE_DIR}
 			return render(request,'staffmanagement/staffDetailsEntry.html',context)
@@ -100,13 +98,13 @@ def staffManagement(request,date):
 			form = staffRegForm()
 			
 			if allUsers_count==1 and staffDetails.objects.all().first().user!=User.objects.all().first():
-						print "single user \n \n"
+						
 						staffD=staffDetails()
 						staffD.user=User.objects.all().first()
 						staffD.address="Default User"
 						staffD.mob="Default User"
 						staffD.save()
-			print "user DEtsila\n",allUserDetails
+		
 			allUsers = User.objects.all()
 			allUserDetails = staffDetails.objects.all()
 			userlist=zip(allUsers,allUserDetails)
@@ -119,12 +117,12 @@ def staffManagementEdit(request,date,user_id):
 		allUserDetails = staffDetails.objects.all()
 		userlist=zip(allUsers,allUserDetails)
 		usr = User.objects.get(id=user_id)
-		print "\n\n usr object ",usr
+		
 		username = usr.username
 
 		usr_details = staffDetails.objects.get(user=usr)
 		
-		print user_id, "\n\n"
+		
 		if usr.is_superuser:
 			designation = 'admin'
 		elif usr.is_staff:
@@ -147,15 +145,15 @@ def staffManagementEdit(request,date,user_id):
 def staffManagementDelete(request,date,user_id):
 	if userValidation(request.user):
 		usr = User.objects.get(id=user_id)
-		print usr
+		
 		username = usr.username
-		print username
+		
 		usr_details = staffDetails.objects.get(user=usr)
-		print usr_details
+		
 		usr.delete()
-		print "usr details delete"
+		
 		usr_details.delete()
-		print "usr details delete"
+		
 		return HttpResponseRedirect('../../../add/'+date)
 	return HttpResponseRedirect('/')	
 

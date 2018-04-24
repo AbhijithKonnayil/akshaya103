@@ -24,38 +24,39 @@ def accountsInEntry(request,date):
 		reciept = recieptDetail.objects.all()
 		credit_l = accountsIn.objects.filter(amount_to_pay__gt=0).order_by('-amount_to_pay')
 		if request.method =='POST':
-			print("\n post recived \n")
+			
 			form = accountsInForm(request.POST)
 			if form.is_valid():
-				print("\n valid form \n")
+				
 				trans_id=int(form.cleaned_data['trans_id'])
-				print "\n", trans_id, "\n"
+				
 				if trans_id == -1:
-					print "\n in if ", trans_id, "\n"
+					
 					data = accountsIn()
 					data.date = date
 					data.reciept = form.cleaned_data['reciept']
-					print form.cleaned_data['reciept']
-					data.bank_acc = form.cleaned_data['bank_acc']
-					print type(data.bank_acc.id)
-					data.payment_fees = form.cleaned_data['payment_fees']
-					bank_acc = bankAccountDetails.objects.all().get(id=data.bank_acc.id)
-					bank_acc.current_balance = bank_acc.current_balance - data.payment_fees
 					
-					if bank_acc.current_balance<0:
-						form = accountsInForm()
-						negative_balance = bank_acc.bank_name
-						context ={'form':form, 'recieptDetail' : reciept,'allReciept':allReciept,
-						'date':date,'bankDetails':bankAccDetails, 'credit_list':credit_l,
-						'negative_balance':negative_balance}
-						
-						return render(request, 'accounts/accountsEntry.html',context)
+					data.bank_acc = form.cleaned_data['bank_acc']
+					
+					data.payment_fees = form.cleaned_data['payment_fees']
+					if data.bank_acc:
+						bank_acc = bankAccountDetails.objects.all().get(id=data.bank_acc.id)
+						bank_acc.current_balance = bank_acc.current_balance - data.payment_fees
+					
+						if bank_acc.current_balance<0:
+							form = accountsInForm()
+							negative_balance = bank_acc.bank_name
+							context ={'form':form, 'recieptDetail' : reciept,'allReciept':allReciept,
+							'date':date,'bankDetails':bankAccDetails, 'credit_list':credit_l,
+							'negative_balance':negative_balance}
+							
+							return render(request, 'accounts/accountsEntry.html',context)
 
-					if bank_acc.current_balance < bank_acc.margin_amount:
-						below_margin_amount = bank_acc.bank_name
-					else:
-						below_margin_amount = False
-					bank_acc.save()
+						if bank_acc.current_balance < bank_acc.margin_amount:
+							below_margin_amount = bank_acc.bank_name
+						else:
+							below_margin_amount = False
+						bank_acc.save()
 					data.service_fees = form.cleaned_data['service_fees']
 					data.customer_name = form.cleaned_data['customer_name']
 					data.username = form.cleaned_data['username']
@@ -66,6 +67,7 @@ def accountsInEntry(request,date):
 					data.amount_to_pay = data.total_fees - form.cleaned_data['rec_amount']
 					data.staff = request.user
 					data.save()
+					below_margin_amount = False
 					form = accountsInForm()
 			else:
 				trans_id=int(form.cleaned_data['trans_id'])
@@ -116,16 +118,16 @@ def accountsOutEntry(request,date):
 				if bank_acc.current_balance<0:
 					form = accountsOutForm()
 					negative_balance = bank_acc.bank_name
-					print negative_balance
+					
 					context={'form':form, 'allReciept':allReciept,'bankDetails':bankAccDetails,'recieptout':reciept,
 							 'date':date,'negative_balance':negative_balance}
 					return render(request, 'accounts/accountsoutEntry.html',context)
 
 
 				if bank_acc.current_balance < bank_acc.margin_amount:
-					print "below "
+					
 					below_margin_amount = bank_acc.bank_name
-					print below_margin_amount
+					
 				else:
 					below_margin_amount = False
 				
@@ -137,28 +139,28 @@ def accountsOutEntry(request,date):
 		else:
 			below_margin_amount = False
 		form = accountsOutForm()
-		print below_margin_amount
+		
 		return render(request, 'accounts/accountsoutEntry.html',{'form':form, 'allReciept':allReciept,'bankDetails':bankAccDetails,'recieptout':reciept, 'date':date,'below_margin_amount':below_margin_amount})
 	return HttpResponseRedirect('/')	
 
 def accountsView(request,date):
 	if userValidation(request.user):
-		print "valid useer\n"
+		
 		if request.method == 'POST':
-			print "post recived\n" 
+			
 			form_date=dateSelectionForm(request.POST)
 			if form_date.is_valid():
-				print "valid formr\n"
+				
 				req_date = form_date.cleaned_data['date']
 				req_db = form_date.cleaned_data['db']
-				print req_db , "\n", req_date, "\n"
+				
 				form = reportTypeForm()
 				if req_db=="accountsin":
 					db = accountsIn.objects.all().filter(date=req_date).order_by('id')
 					context={'form':form,'form_date':form_date,'dbin':db, 'date':date,'reciepts':True}
 				elif req_db == "accountsout":
 					db = accountsOut.objects.all().filter(date=req_date).order_by('id')
-					print db
+					
 					context={'form':form,'form_date':form_date,'dbout':db, 'date':date,'payments':True}
 				elif req_db == "bankbalance":
 					db = bankBalanceDetails.objects.all().filter(date=req_date).order_by('id')
@@ -174,8 +176,8 @@ def accountsView(request,date):
 			service_fees_sum=[0,0,0,0,0,0,0,0,0,0,0,0]
 			payment_fees_sum=[0,0,0,0,0,0,0,0,0,0,0,0]
 			total_sum=[0,0,0,0,0,0,0,0,0,0,0,0]
-			if form.is_valid:
-				print form,"\n\n\n"
+			if form.is_valid():
+				
 				report_type=form.cleaned_data['report_type']
 				req_db=form.cleaned_data['db']
 				if req_db=="accountsin":
@@ -206,34 +208,34 @@ def accountsView(request,date):
 							reciept_list.append(each_receipt.id)
 							reciept_title.append(each_receipt.reciept_title)
 
-						print "Reciept List id ",reciept_title,"\n", 
+						
 						import sys
 						#sys.exit(1)
 						
 						for each_receipt in reciept_list:
 							service_fees_sum=[0,0,0,0,0,0,0,0,0,0,0,0]
-							print "-------------------------------------------------------"
-							print "Reciept id : ", each_receipt 
+							
+							
 							db = accountsIn.objects.all().filter(reciept=each_receipt)
-							print db
+							
 							for each_ob in db:
 								ob_date=each_ob.date
 								month=ob_date.strftime("%B")
 								
 								for each_month in months_list:
 									i = months_list.index(each_month)
-									print"\t",each_month
+									
 									if month ==each_month:
-										print "\t\tservice fees sum : ",service_fees_sum[i],"\n\t\tservice fees : ",each_ob.service_fees
+										
 										service_fees_sum[i]=service_fees_sum[i]+each_ob.service_fees
-										print "\t\tservice fees sum : " ,service_fees_sum
-										print "\t\treciept_sum : " ,reciept_sum
+										
+										
 										break
 							
 
 
 							reciept_sum.append(service_fees_sum)
-							print "reciept sum:",reciept_sum
+							
 
 						form = reportTypeForm(request.POST)
 						form_date=dateSelectionForm()
@@ -249,14 +251,14 @@ def accountsView(request,date):
 
 
 
-					print "\n"
+					
 
 				elif req_db == "accountsout":
-					print "accountsOut"
+					
 					charge_sum=[0,0,0,0,0,0,0,0,0,0,0,0]
 					db = accountsOut.objects.all()
 					if report_type=="monthwise":
-						print "monthwise"
+						
 						for each_ob in db:
 							ob_date=each_ob.date
 							month=ob_date.strftime("%B")
@@ -274,7 +276,7 @@ def accountsView(request,date):
 
 
 					elif report_type=="receiptwise":
-						print "receiptwise"
+						
 						reciept=recieptDetailsOut.objects.all()
 						reciept_list=[]
 						reciept_sum=[]
@@ -283,45 +285,45 @@ def accountsView(request,date):
 							reciept_list.append(each_receipt.id)
 							reciept_title.append(each_receipt.reciept_title)
 
-						print "Reciept List id ",reciept_list,"\n"
+						
 
 						for each_receipt in reciept_list:
 							charge_sum=[0,0,0,0,0,0,0,0,0,0,0,0]
-							print "-------------------------------------------------------"
-							print "Reciept id : ", each_receipt 
+							
+							
 							db = accountsOut.objects.all().filter(reciept=each_receipt)
-							print db
+							
 							for each_ob in db:
 								ob_date=each_ob.date
 								month=ob_date.strftime("%B")
 								
 								for each_month in months_list:
 									i = months_list.index(each_month)
-									print"\t",each_month
+									
 									if month ==each_month:
-										print "\t\tcharge sum : ",charge_sum[i],"\n\t\tservice fees : ",each_ob.charge
+										
 										charge_sum[i]=charge_sum[i]+each_ob.charge
-										print "\t\treciept_sum : " ,reciept_sum
+										
 										break
 							
 
 
 							reciept_sum.append(charge_sum)
-							print "reciept sum:",reciept_sum
+							
 							
 						form = reportTypeForm(request.POST)
 						form_date=dateSelectionForm()
 						report_list=zip(reciept_title,reciept_sum)
 						context={'form':form,'form_date':form_date,'date':date,'receiptwise':True,'report_list':report_list,'month_list':months_list,'payments':True,
 									'reciept_list_count':len(reciept_list)+1,}
-						print "\n \n \n context passed"
+						
 					return render(request,'accounts/accountsview.html',context)
 
 		else:
 			form = reportTypeForm()
 			form_date=dateSelectionForm()
 			context={'form':form,'form_date':form_date,'date':date,'reciepts':True}
-			print "post not\n"
+			
 			return render(request,'accounts/accountsview.html',context)
 	return HttpResponseRedirect('/')
 
@@ -362,8 +364,8 @@ def recieptDetailsEntry(request,date):
 				data = recieptDetail()
 				data.reciept_title = formin.cleaned_data['reciept_title']
 				data.service_fees = formin.cleaned_data['service_fees']
-				print formin.cleaned_data['fees_associated']
-				print formin.cleaned_data['ass_bank_acc']
+				
+				
 				if formin.cleaned_data['fees_associated']==True:
 					data.ass_bank_acc = formin.cleaned_data['ass_bank_acc']
 					data.ass_fees = formin.cleaned_data['ass_fees']
@@ -392,7 +394,7 @@ def bankAccountDetailsEntry(request,date):
 			form_recharge = bankRechargeForm(request.POST)
 			
 			if form.is_valid():
-				print "\n\nform valid"
+				
 				bank = bankBalanceDetails()
 				data = bankAccountDetails()
 				data.bank_name = form.cleaned_data['bank_name']
@@ -404,17 +406,17 @@ def bankAccountDetailsEntry(request,date):
 				bank_pointer=bankAccountDetails.objects.all().last()
 				bank.bank=bank_pointer
 				bank.date=date
-				print date
+				
 				bank.opening_balance=data.opening_balance
 				bank.closing_balance=bank.opening_balance
 				bank.save()
 
 				return HttpResponseRedirect('./')
 			if form_recharge.is_valid():
-				print "\n\n form_rechanre valid"
+				
 				data = bankRechargeDetails()
 				data.bank = form_recharge.cleaned_data['bank']
-				print type(data.bank), data.bank, data.bank.id
+				
 				data.amount=form_recharge.cleaned_data['amount']
 				data.save()
 				bank = bankAccountDetails.objects.get(id=data.bank.id)
@@ -428,7 +430,7 @@ def bankAccountDetailsEntry(request,date):
 					bank_ob_data.closing_balance = bank_ob_data.closing_balance + data.amount
 					bank_ob_data.date=date
 					bank_ob_data.save()
-					print "bank_ob_data  try: ", bank_ob_data
+					
 
 				except bankBalanceDetails.DoesNotExist:
 					bank_ob_data = bankBalanceDetails.objects.filter(bank=data.bank).last()
@@ -436,27 +438,27 @@ def bankAccountDetailsEntry(request,date):
 					if bank_ob_data:
 						bank = bankBalanceDetails()
 						bank.bank= data.bank
-						print bank.bank
+						
 						bank.date=date
-						print bank.date
+						
 						bank.opening_balance = bank_ob_data.closing_balance
-						print "bank_ob_data except try: ", bank_ob_data, data.bank
+						
 						bank.closing_balance = bank.opening_balance + data.amount
 						bank.save()
 					else:
-						print "Nnnnn",form_recharge.cleaned_data['bank']
+						
 						bank = bankBalanceDetails()
 						bank.bank= data.bank
 						bank.date=date
 						bank_ob_data=bankAccountDetails.objects.get(data.bank)
 						bank.opening_balance = bank_ob_data.opening_balance
-						print "bank_ob_data  except except: ", bank_ob_data
+						
 						bank.closing_balance = bank.opening_balance + data.amount
 						bank.save()
 				"""		
 					except bankBalanceDetails.DoesNotExist:
 						bank_ob_data=bankAccountDetails.objects.get(id=bank.bank)
-						print "bank_ob_data  except except: ", bank_ob_data
+						
 				"""
 				
 				
@@ -471,7 +473,7 @@ def bankAccountDetailsEntry(request,date):
 
 def closeAccounts(request,date):
 	if userValidation(request.user):
-		print date,"hai \n\n",datetime.date.today(),"\n"
+		
 		recieptin=recieptDetail.objects.values('id','reciept_title')
 		accountsin=accountsIn.objects.values('reciept').annotate(sum_payment_fees=Sum('payment_fees'),sum_service_fees=Sum('service_fees')).filter(date=date)
 		accountsin_sum = accountsIn.objects.all().filter(date=date).aggregate(Sum('payment_fees'),Sum('service_fees'),Sum('total_fees'))
@@ -484,13 +486,13 @@ def closeAccounts(request,date):
 
 		
 		for each in accountsin_bank:
-			print "each \t : " , each
+			
 			if each['bank_acc']> 0:
-				print "\n each ", each['bank_acc']
+				
 				try:
 					bankRecharge = bankRechargeDetails.objects.values('bank').annotate(sum_amount=Sum('amount')).filter(date=date,bank=each['bank_acc'])
 					#bankRecharge_sum = bankRechargeDetails.objects.values('bank').annotate(sum_amount=Sum('amount')).filter(date=date,bank=each['bank_acc'])
-					print bankRecharge
+					
 					if bankRecharge:
 						bankRecharge_sum=bankRecharge[0]
 						bankRechargeAmount_sum=bankRecharge_sum['sum_amount']
@@ -500,15 +502,15 @@ def closeAccounts(request,date):
 					bankRechargeAmount_sum=0
 
 
-				print "hahajhjahjhjdhjfhdf",bankRechargeAmount_sum
+				
 				try:
-					print "try"
+					
 					bank=bankBalanceDetails.objects.get(date=date,bank=each['bank_acc'])
 					bank.closing_balance=bank.opening_balance-each['sum_payment_fees'] + bankRechargeAmount_sum
 					bank.save()
 					
 				except bankBalanceDetails.DoesNotExist:
-					print "except"
+					
 					data = bankBalanceDetails()
 					try:
 						bank = bankBalanceDetails.objects.filter(bank=each['bank_acc']).last()
@@ -525,7 +527,7 @@ def closeAccounts(request,date):
 						data.closing_balance=  data.opening_balance - each['sum_payment_fees'] + bankRechargeAmount_sum
 						data.save()
 
-		print "acc", accountsin_bank
+		
 
 		if accountsout_sum['charge__sum']:
 			pass;
@@ -539,10 +541,10 @@ def closeAccounts(request,date):
 
 
 		if request.method =='POST':
-			print "post"
+			
 			formout=accountsOutForm(request.POST)
 			form = accountsInForm(request.POST)
-			print form.errors
+			
 
 			if formout.is_valid():
 				data = accountsOut()
@@ -559,7 +561,7 @@ def closeAccounts(request,date):
 				formout=accountsOutForm()
 
 			if form.is_valid():
-				print("\n valid form \n")
+				
 				data = accountsIn()
 				data.date = date
 				data.reciept = form.cleaned_data['reciept']
@@ -580,7 +582,7 @@ def closeAccounts(request,date):
 
 			else:
 
-				print "not valid"
+				
 				form = accountsInForm()
 
 		form = accountsInForm()
@@ -597,25 +599,3 @@ def closeAccounts(request,date):
 					
 		return render(request,'accounts/closeaccounts.html',context)	
 	return HttpResponseRedirect('/')	
-
-def closingBalance(date):
-	print "\n closing : ", date 
-	accountsin = accountsIn.objects.all().filter(date=date)
-	accountsout = accountsOut.objects.all().filter(date=date)
-	sum_accountsin=0
-	sum_accountsout=0
-	for account in accountsin:
-		sum_accountsin+=account.total_fees
-	for account in accountsout:
-		sum_accountsout+=account.charge
-	net=sum_accountsin-sum_accountsout
-	cb=openingBalance(date)-net
-	return cb
-
-def openingBalance(date):
-	print "\n opening : ", date 
-	if date==bankAccountDetails.objects.get(id=9).opening_balance_date:
-		return bankAccountDetails.objects.get(id=9).opening_balance
-	ob=closingBalance(datetime.date.today()-datetime.timedelta(1))
-	return ob
-	

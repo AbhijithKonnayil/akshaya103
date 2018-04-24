@@ -52,6 +52,7 @@ class bankRechargeForm(forms.Form):
 				
 
 report_type_options=(('monthwise','Month wise'),('receiptwise','Receipt wise'))
+
 class reportTypeForm(forms.Form):
 	report_type=forms.ChoiceField(report_type_options, widget=forms.Select(attrs={'class':"form-control"}))
 	db =  forms.CharField(widget=forms.HiddenInput(),required=False,initial='accountsin')
